@@ -1,1392 +1,1241 @@
 <!DOCTYPE html>
 <html lang="pl">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Pranie Tapicerki i Kanap Warszawa, Brwinów, Pruszków | MobiWash</title>
-    <meta name="description" content="Profesjonalne pranie tapicerki meblowej, kanap, narożników i materacy u klienta. Głębokie czyszczenie ekstrakcyjne Santoemma. Usuwanie plam i zapachów. Darmowy dojazd Warszawa, Brwinów, Pruszków i okolice!">
-    
-    <!-- Open Graph / Facebook -->
-    <meta property="og:type" content="website">
-    <meta property="og:title" content="Pranie Tapicerki i Kanap Warszawa, Brwinów | MobiWash">
-    <meta property="og:description" content="Usuwanie najgłębszego brudu, zacieków i zapachów z mebli tapicerowanych. Gwarancja satysfakcji i darmowy dojazd!">
-    <meta property="og:image" content="https://mobiwash.pl/og-image.jpg"> <!-- ZASTĄP WŁASNYM GRAPH IMAGE -->
-
-    <!-- Google Fonts -->
-    <link rel="preconnect" href="https://fonts.googleapis.com">
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap" rel="stylesheet">
-
-    <style>
-        :root {
-            --bg-primary: #0F172A;
-            --bg-secondary: #1E293B;
-            --bg-tertiary: #090D16;
-            --accent: #D97706;
-            --accent-hover: #B45309;
-            --success: #10B981;
-            --success-hover: #059669;
-            --text-main: #F8FAFC;
-            --text-muted: #94A3B8;
-            --text-dark: #0F172A;
-            --font-main: 'Plus Jakarta Sans', sans-serif;
-            --transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
-        }
-
-        /* Reset & Base Styles */
-        * {
-            box-sizing: border-box;
-            margin: 0;
-            padding: 0;
-        }
-
-        html {
-            scroll-behavior: smooth;
-            font-family: var(--font-main);
-            background-color: var(--bg-primary);
-            color: var(--text-main);
-        }
-
-        body {
-            overflow-x: hidden;
-            line-height: 1.6;
-            -webkit-font-smoothing: antialiased;
-            padding-bottom: 0;
-        }
-
-        @media (max-width: 768px) {
-            body {
-                padding-bottom: 64px; /* Przestrzeń pod sticky mobile bar */
-            }
-        }
-
-        .container {
-            width: 100%;
-            max-width: 1140px;
-            margin: 0 auto;
-            padding: 0 24px;
-        }
-
-        h1, h2, h3, h4 {
-            font-weight: 800;
-            line-height: 1.2;
-            tracking-tight: -0.02em;
-        }
-
-        a {
-            color: inherit;
-            text-decoration: none;
-        }
-
-        img {
-            max-width: 100%;
-            height: auto;
-            display: block;
-        }
-
-        /* Utility Classes for Animations */
-        .reveal {
-            opacity: 0;
-            transform: translateY(30px);
-            transition: opacity 0.8s ease, transform 0.8s ease;
-        }
-
-        .reveal.active {
-            opacity: 1;
-            transform: translateY(0);
-        }
-
-        /* Buttons & CTA */
-        .btn {
-            display: inline-flex;
-            align-items: center;
-            justify-content: center;
-            gap: 10px;
-            font-weight: 700;
-            font-size: 14px;
-            text-transform: uppercase;
-            letter-spacing: 0.05em;
-            padding: 16px 32px;
-            border-radius: 12px;
-            border: none;
-            cursor: pointer;
-            transition: var(--transition);
-            width: 100%;
-        }
-
-        @media (min-width: 640px) {
-            .btn {
-                width: auto;
-            }
-        }
-
-        .btn-accent {
-            background-color: var(--accent);
-            color: white;
-            box-shadow: 0 10px 25px -5px rgba(217, 119, 6, 0.3);
-        }
-
-        .btn-accent:hover {
-            background-color: var(--accent-hover);
-            transform: translateY(-2px);
-        }
-
-        .btn-success {
-            background-color: var(--success);
-            color: white;
-            box-shadow: 0 10px 25px -5px rgba(16, 185, 129, 0.3);
-        }
-
-        .btn-success:hover {
-            background-color: var(--success-hover);
-            transform: translateY(-2px);
-        }
-
-        .btn-outline {
-            background-color: transparent;
-            border: 2px solid var(--text-muted);
-            color: var(--text-main);
-        }
-
-        .btn-outline:hover {
-            border-color: var(--text-main);
-            background-color: rgba(255, 255, 255, 0.05);
-        }
-
-        /* 1. Top Announcement Bar */
-        #top-bar {
-            background-color: var(--accent);
-            color: white;
-            padding: 10px 24px;
-            font-size: 13px;
-            font-weight: 700;
-            text-align: center;
-            position: relative;
-            z-index: 1001;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-        }
-
-        #top-bar .close-btn {
-            position: absolute;
-            right: 24px;
-            background: none;
-            border: none;
-            color: white;
-            font-size: 20px;
-            font-weight: 900;
-            cursor: pointer;
-            line-height: 1;
-        }
-
-        /* 2. Sticky Header */
-        header {
-            position: sticky;
-            top: 0;
-            z-index: 1000;
-            background-color: rgba(15, 23, 42, 0.9);
-            backdrop-filter: blur(12px);
-            border-bottom: 1px solid rgba(255, 255, 255, 0.05);
-            height: 80px;
-            display: flex;
-            align-items: center;
-        }
-
-        .nav-container {
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            width: 100%;
-        }
-
-        .logo {
-            font-size: 22px;
-            font-weight: 900;
-            letter-spacing: -0.03em;
-        }
-
-        .logo span {
-            color: var(--accent);
-        }
-
-        .nav-menu {
-            display: none;
-            gap: 32px;
-            align-items: center;
-        }
-
-        @media (min-width: 1024px) {
-            .nav-menu {
-                display: flex;
-            }
-        }
-
-        .nav-link {
-            font-size: 14px;
-            font-weight: 600;
-            color: var(--text-muted);
-            transition: var(--transition);
-        }
-
-        .nav-link:hover {
-            color: var(--text-main);
-        }
-
-        .nav-cta {
-            padding: 10px 20px;
-            font-size: 12px;
-        }
-
-        /* Hamburger */
-        .hamburger {
-            display: flex;
-            flex-direction: column;
-            gap: 6px;
-            background: none;
-            border: none;
-            cursor: pointer;
-            z-index: 1002;
-        }
-
-        @media (min-width: 1024px) {
-            .hamburger {
-                display: none;
-            }
-        }
-
-        .hamburger span {
-            display: block;
-            width: 28px;
-            height: 3px;
-            background-color: var(--text-main);
-            border-radius: 2px;
-            transition: var(--transition);
-        }
-
-        /* Mobile Menu Overlay */
-        .mobile-overlay {
-            position: fixed;
-            top: 0;
-            left: 0;
-            width: 100vw;
-            height: 100vh;
-            background-color: var(--bg-tertiary);
-            z-index: 999;
-            display: flex;
-            flex-direction: column;
-            justify-content: center;
-            align-items: center;
-            gap: 24px;
-            transform: translateX(100%);
-            transition: transform 0.4s cubic-bezier(0.4, 0, 0.2, 1);
-        }
-
-        .mobile-overlay.open {
-            transform: translateX(0);
-        }
-
-        .mobile-overlay .nav-link {
-            font-size: 22px;
-        }
-
-        /* 3. Hero Section */
-        .hero {
-            min-height: calc(100vh - 80px);
-            display: flex;
-            align-items: center;
-            position: relative;
-            overflow: hidden;
-            padding: 60px 0;
-            background: radial-gradient(circle at 80% 20%, rgba(217, 119, 6, 0.08), transparent 50%), 
-                        radial-gradient(circle at 10% 80%, rgba(16, 185, 129, 0.04), transparent 50%);
-        }
-
-        .hero-content {
-            max-width: 800px;
-            margin: 0 auto;
-            text-align: center;
-        }
-
-        .trust-badge {
-            display: inline-flex;
-            align-items: center;
-            gap: 8px;
-            background-color: var(--bg-secondary);
-            border: 1px solid rgba(255, 255, 255, 0.08);
-            padding: 8px 16px;
-            border-radius: 100px;
-            font-size: 13px;
-            font-weight: 600;
-            margin-bottom: 24px;
-            color: var(--text-muted);
-        }
-
-        .trust-badge strong {
-            color: #FBBF24;
-        }
-
-        .hero h1 {
-            font-size: 38px;
-            letter-spacing: -0.03em;
-            margin-bottom: 24px;
-            color: white;
-        }
-
-        @media (min-width: 768px) {
-            .hero h1 {
-                font-size: 56px;
-            }
-        }
-
-        .hero p {
-            font-size: 16px;
-            color: var(--text-muted);
-            max-width: 680px;
-            margin: 0 auto 40px auto;
-        }
-
-        @media (min-width: 768px) {
-            .hero p {
-                font-size: 19px;
-            }
-        }
-
-        .hero-actions {
-            display: flex;
-            flex-direction: column;
-            gap: 16px;
-            justify-content: center;
-            align-items: center;
-            margin-bottom: 24px;
-        }
-
-        @media (min-width: 640px) {
-            .hero-actions {
-                flex-direction: row;
-            }
-        }
-
-        .promo-badge {
-            font-size: 13px;
-            font-weight: 700;
-            color: var(--success);
-            background-color: rgba(16, 185, 129, 0.1);
-            border: 1px dashed rgba(16, 185, 129, 0.3);
-            display: inline-block;
-            padding: 8px 20px;
-            border-radius: 8px;
-        }
-
-        /* Section Setup */
-        section {
-            padding: 100px 0;
-        }
-
-        .section-header {
-            text-align: center;
-            max-width: 600px;
-            margin: 0 auto 60px auto;
-        }
-
-        .section-header h2 {
-            font-size: 32px;
-            color: white;
-            margin-bottom: 16px;
-        }
-
-        .section-header p {
-            color: var(--text-muted);
-            font-size: 16px;
-        }
-
-        /* 4. Services Grid */
-        .services-grid {
-            display: grid;
-            grid-template-columns: 1fr;
-            gap: 24px;
-        }
-
-        @media (min-width: 640px) {
-            .services-grid {
-                grid-template-columns: repeat(2, 1fr);
-            }
-        }
-
-        @media (min-width: 1024px) {
-            .services-grid {
-                grid-template-columns: repeat(4, 1fr);
-            }
-        }
-
-        .service-card {
-            background-color: var(--bg-secondary);
-            border: 1px solid rgba(255, 255, 255, 0.03);
-            padding: 32px;
-            border-radius: 20px;
-            transition: var(--transition);
-        }
-
-        .service-card:hover {
-            transform: translateY(-4px);
-            border-color: rgba(217, 119, 6, 0.2);
-        }
-
-        .service-icon {
-            font-size: 36px;
-            margin-bottom: 20px;
-        }
-
-        .service-card h3 {
-            font-size: 18px;
-            color: white;
-            margin-bottom: 12px;
-        }
-
-        .service-card p {
-            font-size: 14px;
-            color: var(--text-muted);
-        }
-
-        /* 5. Process / How it works */
-        .process-bg {
-            background-color: var(--bg-secondary);
-        }
-
-        .process-steps {
-            display: grid;
-            grid-template-columns: 1fr;
-            gap: 32px;
-        }
-
-        @media (min-width: 768px) {
-            .process-steps {
-                grid-template-columns: repeat(4, 1fr);
-            }
-        }
-
-        .step-card {
-            text-align: center;
-            position: relative;
-        }
-
-        .step-num {
-            width: 50px;
-            height: 50px;
-            background-color: var(--accent);
-            color: white;
-            border-radius: 50%;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            font-weight: 800;
-            font-size: 18px;
-            margin: 0 auto 20px auto;
-            box-shadow: 0 0 20px rgba(217, 119, 6, 0.3);
-        }
-
-        .step-card h3 {
-            font-size: 18px;
-            color: white;
-            margin-bottom: 8px;
-        }
-
-        .step-card p {
-            font-size: 14px;
-            color: var(--text-muted);
-        }
-
-        /* 6. Interaktywny Slider Przed/Po (Responsive Kinematic Model) */
-        .slider-wrapper {
-            max-width: 800px;
-            margin: 0 auto;
-        }
-
-        .comparison-container {
-            position: relative;
-            width: 100%;
-            height: 450px;
-            border-radius: 24px;
-            overflow: hidden;
-            box-shadow: 0 25px 50px -12px rgba(0,0,0,0.5);
-            background-color: #000;
-            user-select: none;
-        }
-
-        @media (max-width: 640px) {
-            .comparison-container {
-                height: 300px;
-            }
-        }
-
-        .image-frame {
-            position: absolute;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-        }
-
-        .image-frame img {
-            width: 100%;
-            height: 100%;
-            object-fit: cover;
-        }
-
-        .img-before {
-            z-index: 1;
-        }
-
-        .img-after {
-            z-index: 2;
-            width: 50%;
-        }
-
-        /* Wrapper do prawidłowego skalowania zawartości pod cięciem */
-        .img-after .after-wrap {
-            position: absolute;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-        }
-
-        .img-after .after-wrap img {
-            width: 100%;
-            height: 100%;
-        }
-
-        .slider-label {
-            position: absolute;
-            bottom: 20px;
-            padding: 6px 14px;
-            border-radius: 6px;
-            font-size: 11px;
-            font-weight: 700;
-            text-transform: uppercase;
-            letter-spacing: 0.05em;
-            z-index: 10;
-        }
-
-        .label-before {
-            left: 20px;
-            background-color: rgba(15, 23, 42, 0.8);
-            color: white;
-        }
-
-        .label-after {
-            right: 20px;
-            background-color: var(--success);
-            color: white;
-        }
-
-        .drag-handle {
-            position: absolute;
-            top: 0;
-            bottom: 0;
-            width: 4px;
-            background-color: white;
-            left: 50%;
-            z-index: 20;
-            cursor: ew-resize;
-            box-shadow: 0 0 10px rgba(0,0,0,0.5);
-        }
-
-        .handle-button {
-            position: absolute;
-            top: 50%;
-            left: 50%;
-            transform: translate(-100%, -50%);
-            width: 44px;
-            height: 44px;
-            background-color: white;
-            border-radius: 50%;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            color: var(--text-dark);
-            font-weight: 800;
-            box-shadow: 0 4px 10px rgba(0,0,0,0.3);
-            font-size: 16px;
-        }
-
-        /* Tag Grid under Slider */
-        .tag-container {
-            display: flex;
-            flex-wrap: wrap;
-            gap: 12px;
-            justify-content: center;
-            margin-top: 32px;
-        }
-
-        .case-tag {
-            background-color: var(--bg-secondary);
-            border: 1px solid rgba(255, 255, 255, 0.05);
-            padding: 8px 18px;
-            border-radius: 100px;
-            font-size: 13px;
-            font-weight: 600;
-            color: var(--text-muted);
-        }
-
-        /* 7. Guarantee Box */
-        .guarantee-box {
-            max-width: 800px;
-            margin: 0 auto;
-            background: linear-gradient(135deg, var(--bg-secondary) 0%, #1E293B 100%);
-            border: 1px solid rgba(16, 185, 129, 0.2);
-            border-radius: 24px;
-            padding: 40px;
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-            text-align: center;
-            gap: 20px;
-            box-shadow: 0 20px 40px -15px rgba(0,0,0,0.3);
-        }
-
-        @media (min-width: 768px) {
-            .guarantee-box {
-                flex-direction: row;
-                text-align: left;
-                padding: 48px;
-                gap: 32px;
-            }
-        }
-
-        .guarantee-icon {
-            font-size: 48px;
-            color: var(--success);
-            background-color: rgba(16, 185, 129, 0.05);
-            padding: 20px;
-            border-radius: 20px;
-            border: 1px solid rgba(16, 185, 129, 0.1);
-        }
-
-        .guarantee-box h3 {
-            font-size: 20px;
-            color: white;
-            margin-bottom: 8px;
-        }
-
-        .guarantee-box p {
-            font-size: 15px;
-            color: var(--text-muted);
-            line-height: 1.6;
-        }
-
-        /* 8. Testimonials */
-        .testimonials-grid {
-            display: grid;
-            grid-template-columns: 1fr;
-            gap: 24px;
-        }
-
-        @media (min-width: 768px) {
-            .testimonials-grid {
-                grid-template-columns: repeat(3, 1fr);
-            }
-        }
-
-        .review-card {
-            background-color: var(--bg-secondary);
-            padding: 32px;
-            border-radius: 20px;
-            box-shadow: 0 10px 30px -10px rgba(0,0,0,0.2);
-            display: flex;
-            flex-direction: column;
-            justify-content: space-between;
-        }
-
-        .stars {
-            color: #FBBF24;
-            margin-bottom: 16px;
-            font-size: 14px;
-        }
-
-        .review-card p {
-            font-size: 14px;
-            color: var(--text-main);
-            font-style: italic;
-            margin-bottom: 24px;
-        }
-
-        .reviewer {
-            font-size: 12px;
-            font-weight: 700;
-            text-transform: uppercase;
-            letter-spacing: 0.05em;
-            color: var(--text-muted);
-            border-top: 1px solid rgba(255, 255, 255, 0.05);
-            padding-top: 16px;
-        }
-
-        /* 9. Contact Form & Lead System */
-        .contact-section {
-            background-color: var(--bg-tertiary);
-        }
-
-        .contact-layout {
-            display: grid;
-            grid-template-columns: 1fr;
-            gap: 48px;
-            align-items: center;
-        }
-
-        @media (min-width: 1024px) {
-            .contact-layout {
-                grid-template-columns: 1fr 1fr;
-            }
-        }
-
-        .contact-info h2 {
-            font-size: 36px;
-            color: white;
-            margin-bottom: 16px;
-        }
-
-        .contact-info p {
-            color: var(--text-muted);
-            margin-bottom: 32px;
-        }
-
-        .alternative-channels {
-            display: flex;
-            flex-direction: column;
-            gap: 16px;
-        }
-
-        .channel-box {
-            display: flex;
-            align-items: center;
-            gap: 16px;
-            background-color: var(--bg-secondary);
-            padding: 20px;
-            border-radius: 16px;
-            border: 1px solid rgba(255, 255, 255, 0.03);
-            transition: var(--transition);
-        }
-
-        .channel-box:hover {
-            border-color: rgba(255, 255, 255, 0.1);
-        }
-
-        .channel-icon {
-            font-size: 24px;
-        }
-
-        .channel-data div {
-            font-size: 11px;
-            font-weight: 700;
-            text-transform: uppercase;
-            color: var(--text-muted);
-        }
-
-        .channel-data a {
-            font-size: 18px;
-            font-weight: 800;
-            color: white;
-        }
-
-        .channel-data .wa-link {
-            color: #10B981;
-        }
-
-        /* Form Object */
-        .lead-form {
-            background-color: var(--bg-secondary);
-            padding: 40px;
-            border-radius: 24px;
-            box-shadow: 0 30px 60px -15px rgba(0,0,0,0.4);
-            border: 1px solid rgba(255, 255, 255, 0.02);
-        }
-
-        .form-group {
-            margin-bottom: 20px;
-        }
-
-        .form-group label {
-            display: block;
-            font-size: 11px;
-            font-weight: 700;
-            text-transform: uppercase;
-            color: var(--text-muted);
-            margin-bottom: 8px;
-            letter-spacing: 0.05em;
-        }
-
-        .form-group input, 
-        .form-group select, 
-        .form-group textarea {
-            width: 100%;
-            background-color: var(--bg-primary);
-            border: 1px solid rgba(255, 255, 255, 0.08);
-            border-radius: 12px;
-            padding: 14px 18px;
-            color: white;
-            font-family: var(--font-main);
-            font-size: 14px;
-            transition: var(--transition);
-        }
-
-        .form-group input:focus, 
-        .form-group select:focus, 
-        .form-group textarea:focus {
-            outline: none;
-            border-color: var(--accent);
-        }
-
-        .form-group select {
-            cursor: pointer;
-            appearance: none;
-        }
-
-        /* 10. Local SEO Block & Footer */
-        .seo-pack {
-            background-color: var(--bg-secondary);
-            border: 1px solid rgba(255, 255, 255, 0.03);
-            border-radius: 20px;
-            padding: 32px;
-            text-align: center;
-            margin-bottom: 60px;
-        }
-
-        .seo-pack p {
-            font-size: 14px;
-            color: var(--text-muted);
-            max-width: 900px;
-            margin: 0 auto;
-        }
-
-        .seo-pack strong {
-            color: white;
-        }
-
-        footer {
-            border-top: 1px solid rgba(255, 255, 255, 0.05);
-            padding-top: 60px;
-            padding-bottom: 40px;
-        }
-
-        .footer-grid {
-            display: grid;
-            grid-template-columns: 1fr;
-            gap: 40px;
-            margin-bottom: 40px;
-        }
-
-        @media (min-width: 768px) {
-            .footer-grid {
-                grid-template-columns: 2fr 1fr 1fr;
-            }
-        }
-
-        .footer-brand p {
-            font-size: 14px;
-            color: var(--text-muted);
-            margin-top: 12px;
-            max-width: 320px;
-        }
-
-        .footer-links h4 {
-            font-size: 14px;
-            color: white;
-            margin-bottom: 16px;
-            text-transform: uppercase;
-            letter-spacing: 0.05em;
-        }
-
-        .footer-links ul {
-            list-style: none;
-        }
-
-        .footer-links li {
-            margin-bottom: 10px;
-        }
-
-        .footer-links a {
-            font-size: 14px;
-            color: var(--text-muted);
-            transition: var(--transition);
-        }
-
-        .footer-links a:hover {
-            color: white;
-        }
-
-        .copyright {
-            border-top: 1px solid rgba(255, 255, 255, 0.05);
-            padding-top: 30px;
-            text-align: center;
-            font-size: 13px;
-            color: var(--text-muted);
-        }
-
-        /* 11. Sticky Mobile Contact Bar */
-        .mobile-contact-bar {
-            position: fixed;
-            bottom: 0;
-            left: 0;
-            right: 0;
-            height: 64px;
-            background-color: rgba(15, 23, 42, 0.95);
-            backdrop-filter: blur(10px);
-            border-top: 1px solid rgba(255, 255, 255, 0.08);
-            z-index: 1000;
-            display: flex;
-            padding: 8px;
-            gap: 8px;
-        }
-
-        @media (min-width: 769px) {
-            .mobile-contact-bar {
-                display: none;
-            }
-        }
-
-        .mobile-bar-btn {
-            flex: 1;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            gap: 8px;
-            color: white;
-            font-weight: 700;
-            font-size: 12px;
-            text-transform: uppercase;
-            letter-spacing: 0.03em;
-            border-radius: 10px;
-            text-decoration: none;
-        }
-
-        .mb-phone {
-            background-color: var(--success);
-        }
-
-        .mb-wa {
-            background-color: #1E293B;
-            border: 1px solid rgba(255, 255, 255, 0.1);
-            color: #10B981;
-        }
-    </style>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>MobiWash – Pranie Kanap, Materacy, Dywanów | Warszawa, Brwinów, Pruszków</title>
+  <meta name="description" content="MobiWash – profesjonalne pranie kanap, narożników, materacy, dywanów i krzeseł w Warszawie, Brwinowie, Pruszkowie i okolicach. Dojazd gratis od 150 zł. Zadzwoń: 690 000 386">
+  <meta name="keywords" content="pranie kanap Warszawa, pranie narożnika Warszawa, czyszczenie tapicerki meblowej Warszawa, pranie materacy Warszawa, pranie dywanów Warszawa, pranie krzeseł Warszawa, pranie kanap Brwinów, pranie kanap Pruszków, czyszczenie kanap Warszawa, pranie tapicerki Warszawa">
+  <meta name="robots" content="index, follow">
+  <link rel="canonical" href="https://mobiwash.pl/">
+
+  <!-- Open Graph -->
+  <meta property="og:title" content="MobiWash – Pranie Kanap, Materacy, Dywanów | Warszawa i okolice">
+  <meta property="og:description" content="Profesjonalne pranie tapicerki meblowej z dojazdem do klienta. Obsługujemy Warszawę, Brwinów, Pruszków, Grodzisk Mazowiecki. Tel: 690 000 386">
+  <meta property="og:type" content="website">
+  <meta property="og:url" content="https://mobiwash.pl/">
+  <meta property="og:locale" content="pl_PL">
+
+  <!-- Local Business Schema -->
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@type": "LocalBusiness",
+    "name": "MobiWash",
+    "description": "Profesjonalne pranie kanap, narożników, materacy, dywanów i krzeseł tapicerowanych w Warszawie i okolicach",
+    "telephone": "+48690000386",
+    "url": "https://mobiwash.pl",
+    "areaServed": [
+      "Warszawa", "Brwinów", "Pruszków", "Piastów", "Grodzisk Mazowiecki",
+      "Milanówek", "Podkowa Leśna", "Otrębusy", "Ożarów Mazowiecki",
+      "Błonie", "Żyrardów", "Komorów"
+    ],
+    "serviceType": [
+      "Pranie kanap", "Pranie narożników", "Pranie materacy",
+      "Pranie dywanów", "Pranie krzeseł", "Ozonowanie pomieszczeń"
+    ],
+    "openingHoursSpecification": {
+      "@type": "OpeningHoursSpecification",
+      "dayOfWeek": ["Monday","Tuesday","Wednesday","Thursday","Friday","Saturday"],
+      "opens": "08:00",
+      "closes": "20:00"
+    },
+    "priceRange": "zł zł"
+  }
+  </script>
+
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&family=Sora:wght@300;400;600;700&display=swap" rel="stylesheet">
+
+  <style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+    :root {
+      --navy: #0D1B2A;
+      --blue: #1A56DB;
+      --blue-light: #3B82F6;
+      --cyan: #06B6D4;
+      --foam: #E0F2FE;
+      --white: #FFFFFF;
+      --gray-50: #F8FAFC;
+      --gray-100: #F1F5F9;
+      --gray-200: #E2E8F0;
+      --gray-400: #94A3B8;
+      --gray-600: #475569;
+      --gray-800: #1E293B;
+      --green: #10B981;
+      --orange: #F97316;
+      --font-display: 'Sora', sans-serif;
+      --font-body: 'Plus Jakarta Sans', sans-serif;
+    }
+
+    html { scroll-behavior: smooth; }
+
+    body {
+      font-family: var(--font-body);
+      color: var(--navy);
+      background: var(--white);
+      line-height: 1.6;
+      overflow-x: hidden;
+    }
+
+    /* ── NAV ── */
+    .nav {
+      position: fixed; top: 0; left: 0; right: 0; z-index: 1000;
+      background: rgba(13,27,42,0.96);
+      backdrop-filter: blur(12px);
+      border-bottom: 1px solid rgba(255,255,255,0.08);
+      padding: 0 24px;
+    }
+    .nav-inner {
+      max-width: 1200px; margin: 0 auto;
+      display: flex; align-items: center; justify-content: space-between;
+      height: 68px; gap: 24px;
+    }
+    .nav-logo {
+      font-family: var(--font-display); font-size: 22px; font-weight: 700;
+      color: var(--white); text-decoration: none; letter-spacing: -0.5px;
+      display: flex; align-items: center; gap: 8px;
+    }
+    .nav-logo span { color: var(--cyan); }
+    .nav-links { display: flex; gap: 6px; list-style: none; }
+    .nav-links a {
+      color: rgba(255,255,255,0.75); text-decoration: none;
+      font-size: 14px; font-weight: 500; padding: 8px 12px; border-radius: 8px;
+      transition: all .2s;
+    }
+    .nav-links a:hover { color: var(--white); background: rgba(255,255,255,0.08); }
+    .nav-cta {
+      background: var(--cyan); color: var(--navy);
+      font-weight: 700; font-size: 14px; padding: 10px 20px;
+      border-radius: 10px; text-decoration: none; white-space: nowrap;
+      transition: all .2s; border: none; cursor: pointer;
+    }
+    .nav-cta:hover { background: #22D3EE; transform: translateY(-1px); }
+    .hamburger { display: none; flex-direction: column; gap: 5px; cursor: pointer; background: none; border: none; padding: 4px; }
+    .hamburger span { width: 24px; height: 2px; background: var(--white); border-radius: 2px; transition: .3s; display: block; }
+
+    /* ── HERO ── */
+    .hero {
+      min-height: 100vh;
+      background: linear-gradient(135deg, #0D1B2A 0%, #0F2942 50%, #0D1B2A 100%);
+      display: flex; align-items: center; position: relative; overflow: hidden;
+      padding-top: 68px;
+    }
+    .hero-bg-pattern {
+      position: absolute; inset: 0; opacity: 0.04;
+      background-image: radial-gradient(circle at 25% 25%, var(--cyan) 0%, transparent 50%),
+                        radial-gradient(circle at 75% 75%, var(--blue-light) 0%, transparent 50%);
+    }
+    .hero-bubbles {
+      position: absolute; inset: 0; overflow: hidden; pointer-events: none;
+    }
+    .bubble {
+      position: absolute; border-radius: 50%;
+      background: radial-gradient(circle, rgba(6,182,212,0.15), transparent);
+      animation: float 8s ease-in-out infinite;
+    }
+    .bubble:nth-child(1) { width: 400px; height: 400px; top: 10%; right: 5%; animation-delay: 0s; }
+    .bubble:nth-child(2) { width: 250px; height: 250px; top: 50%; right: 20%; animation-delay: 2s; }
+    .bubble:nth-child(3) { width: 150px; height: 150px; top: 20%; right: 35%; animation-delay: 4s; }
+    @keyframes float {
+      0%, 100% { transform: translateY(0px) scale(1); }
+      50% { transform: translateY(-20px) scale(1.05); }
+    }
+    .hero-inner {
+      max-width: 1200px; margin: 0 auto; padding: 80px 24px;
+      display: grid; grid-template-columns: 1fr 1fr; gap: 60px; align-items: center;
+      position: relative; z-index: 1;
+    }
+    .hero-badge {
+      display: inline-flex; align-items: center; gap: 8px;
+      background: rgba(6,182,212,0.15); border: 1px solid rgba(6,182,212,0.3);
+      color: var(--cyan); font-size: 13px; font-weight: 600; letter-spacing: 0.5px;
+      padding: 6px 14px; border-radius: 100px; margin-bottom: 20px;
+    }
+    .hero-badge::before { content: '●'; font-size: 8px; animation: pulse 2s infinite; }
+    @keyframes pulse { 0%,100% { opacity: 1; } 50% { opacity: 0.4; } }
+    .hero h1 {
+      font-family: var(--font-display); font-size: clamp(36px, 5vw, 58px);
+      font-weight: 700; color: var(--white); line-height: 1.12; letter-spacing: -1.5px;
+      margin-bottom: 20px;
+    }
+    .hero h1 em { color: var(--cyan); font-style: normal; }
+    .hero-sub {
+      font-size: 18px; color: rgba(255,255,255,0.65); line-height: 1.7;
+      margin-bottom: 32px; max-width: 520px;
+    }
+    .hero-actions { display: flex; gap: 14px; flex-wrap: wrap; margin-bottom: 40px; }
+    .btn-primary {
+      background: var(--cyan); color: var(--navy);
+      font-weight: 800; font-size: 16px; padding: 15px 28px;
+      border-radius: 12px; text-decoration: none; transition: all .25s;
+      display: inline-flex; align-items: center; gap: 8px; border: none; cursor: pointer;
+    }
+    .btn-primary:hover { background: #22D3EE; transform: translateY(-2px); box-shadow: 0 12px 32px rgba(6,182,212,0.35); }
+    .btn-secondary {
+      background: transparent; color: var(--white);
+      font-weight: 600; font-size: 16px; padding: 15px 28px;
+      border-radius: 12px; text-decoration: none; transition: all .25s;
+      display: inline-flex; align-items: center; gap: 8px;
+      border: 1.5px solid rgba(255,255,255,0.25);
+    }
+    .btn-secondary:hover { border-color: var(--cyan); color: var(--cyan); }
+    .hero-stats { display: flex; gap: 28px; flex-wrap: wrap; }
+    .hero-stat { display: flex; flex-direction: column; }
+    .hero-stat .num { font-family: var(--font-display); font-size: 28px; font-weight: 700; color: var(--white); }
+    .hero-stat .lbl { font-size: 12px; color: rgba(255,255,255,0.5); text-transform: uppercase; letter-spacing: 0.5px; }
+
+    /* Hero right – before/after slider */
+    .hero-visual { position: relative; }
+    .ba-slider {
+      position: relative; border-radius: 20px; overflow: hidden;
+      aspect-ratio: 4/3; box-shadow: 0 40px 80px rgba(0,0,0,0.5);
+      cursor: col-resize; user-select: none; touch-action: none;
+    }
+    .ba-after, .ba-before {
+      position: absolute; inset: 0;
+      display: flex; align-items: center; justify-content: center;
+    }
+    .ba-after img, .ba-before img {
+      width: 100%; height: 100%; object-fit: cover; display: block;
+    }
+    .ba-before { clip-path: inset(0 50% 0 0); }
+    .ba-handle {
+      position: absolute; top: 0; bottom: 0; left: 50%;
+      transform: translateX(-50%); width: 3px;
+      background: var(--white); z-index: 10;
+      display: flex; align-items: center; justify-content: center;
+    }
+    .ba-handle-circle {
+      width: 44px; height: 44px; border-radius: 50%;
+      background: var(--white); box-shadow: 0 4px 16px rgba(0,0,0,0.4);
+      display: flex; align-items: center; justify-content: center;
+      font-size: 18px; color: var(--navy); font-weight: 700;
+    }
+    .ba-label {
+      position: absolute; bottom: 14px;
+      font-size: 12px; font-weight: 700; letter-spacing: 1px;
+      padding: 4px 10px; border-radius: 6px; z-index: 10;
+      text-transform: uppercase;
+    }
+    .ba-label.before { left: 14px; background: rgba(0,0,0,0.6); color: var(--white); }
+    .ba-label.after { right: 14px; background: var(--cyan); color: var(--navy); }
+    .ba-caption {
+      margin-top: 14px; text-align: center;
+      font-size: 13px; color: rgba(255,255,255,0.5); font-style: italic;
+    }
+
+    /* ── TRUST STRIP ── */
+    .trust-strip {
+      background: var(--gray-50); border-bottom: 1px solid var(--gray-200);
+      padding: 20px 24px;
+    }
+    .trust-strip-inner {
+      max-width: 1200px; margin: 0 auto;
+      display: flex; align-items: center; justify-content: center;
+      gap: 48px; flex-wrap: wrap;
+    }
+    .trust-item {
+      display: flex; align-items: center; gap: 10px;
+      font-size: 14px; font-weight: 600; color: var(--gray-600);
+    }
+    .trust-item .icon { font-size: 22px; }
+
+    /* ── SECTIONS ── */
+    .section { padding: 96px 24px; }
+    .section-inner { max-width: 1200px; margin: 0 auto; }
+    .section-tag {
+      display: inline-block; font-size: 12px; font-weight: 700;
+      letter-spacing: 1.5px; text-transform: uppercase;
+      color: var(--blue); margin-bottom: 12px;
+    }
+    .section-title {
+      font-family: var(--font-display); font-size: clamp(28px, 4vw, 44px);
+      font-weight: 700; line-height: 1.15; letter-spacing: -0.8px;
+      color: var(--navy); margin-bottom: 16px;
+    }
+    .section-title em { color: var(--blue); font-style: normal; }
+    .section-sub {
+      font-size: 17px; color: var(--gray-600); max-width: 580px; line-height: 1.7;
+      margin-bottom: 56px;
+    }
+    .text-center { text-align: center; }
+    .text-center .section-sub { margin-left: auto; margin-right: auto; }
+
+    /* ── SERVICES GRID ── */
+    .services-grid {
+      display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); gap: 24px;
+    }
+    .service-card {
+      background: var(--white); border: 1.5px solid var(--gray-200);
+      border-radius: 20px; padding: 32px; transition: all .25s;
+      position: relative; overflow: hidden;
+    }
+    .service-card::before {
+      content: ''; position: absolute; top: 0; left: 0; right: 0; height: 3px;
+      background: linear-gradient(90deg, var(--blue), var(--cyan));
+      opacity: 0; transition: opacity .25s;
+    }
+    .service-card:hover { border-color: var(--blue-light); box-shadow: 0 16px 48px rgba(26,86,219,0.1); transform: translateY(-4px); }
+    .service-card:hover::before { opacity: 1; }
+    .service-icon { font-size: 44px; margin-bottom: 16px; display: block; }
+    .service-card h3 {
+      font-family: var(--font-display); font-size: 20px; font-weight: 700;
+      color: var(--navy); margin-bottom: 10px;
+    }
+    .service-card p { font-size: 15px; color: var(--gray-600); line-height: 1.65; margin-bottom: 20px; }
+    .service-price {
+      display: inline-block; font-weight: 800; font-size: 15px;
+      color: var(--blue); background: var(--foam); padding: 6px 14px; border-radius: 8px;
+    }
+    .service-list { list-style: none; margin-top: 16px; }
+    .service-list li {
+      font-size: 14px; color: var(--gray-600); padding: 5px 0;
+      display: flex; align-items: center; gap: 8px; border-bottom: 1px solid var(--gray-100);
+    }
+    .service-list li:last-child { border-bottom: none; }
+    .service-list li::before { content: '✓'; color: var(--green); font-weight: 700; flex-shrink: 0; }
+
+    /* ── BEFORE/AFTER GALLERY ── */
+    .gallery-section { background: var(--navy); padding: 96px 24px; }
+    .gallery-section .section-title { color: var(--white); }
+    .gallery-section .section-tag { color: var(--cyan); }
+    .gallery-section .section-sub { color: rgba(255,255,255,0.6); }
+    .ba-gallery {
+      display: grid; grid-template-columns: repeat(auto-fit, minmax(320px, 1fr)); gap: 24px;
+    }
+    .ba-card {
+      background: rgba(255,255,255,0.04); border: 1px solid rgba(255,255,255,0.08);
+      border-radius: 20px; overflow: hidden;
+    }
+    .ba-card-slider {
+      position: relative; aspect-ratio: 4/3; cursor: col-resize;
+      user-select: none; touch-action: none;
+    }
+    .ba-card-slider .ba-after,
+    .ba-card-slider .ba-before { position: absolute; inset: 0; }
+    .ba-card-slider .ba-after img,
+    .ba-card-slider .ba-before img { width: 100%; height: 100%; object-fit: cover; }
+    .ba-card-slider .ba-before { clip-path: inset(0 50% 0 0); }
+    .ba-card-slider .ba-handle {
+      position: absolute; top: 0; bottom: 0; left: 50%;
+      transform: translateX(-50%); width: 2px;
+      background: rgba(255,255,255,0.9); z-index: 5;
+      display: flex; align-items: center; justify-content: center;
+    }
+    .ba-card-slider .ba-handle-circle {
+      width: 36px; height: 36px; border-radius: 50%;
+      background: var(--white); display: flex; align-items: center; justify-content: center;
+      font-size: 14px; color: var(--navy); font-weight: 800; box-shadow: 0 2px 12px rgba(0,0,0,0.4);
+    }
+    .ba-card-info { padding: 20px 24px; }
+    .ba-card-info h4 { font-size: 16px; font-weight: 700; color: var(--white); margin-bottom: 6px; }
+    .ba-card-info p { font-size: 13px; color: rgba(255,255,255,0.5); }
+    .ba-fallback {
+      display: none;
+      position: absolute; inset: 0;
+      background: linear-gradient(135deg, #1a2a3a, #0d1b2a);
+      align-items: center; justify-content: center;
+      flex-direction: column; gap: 12px;
+    }
+    .ba-fallback-text { color: rgba(255,255,255,0.6); font-size: 14px; text-align: center; padding: 20px; }
+
+    /* ── PROCESS ── */
+    .process-section { background: var(--gray-50); }
+    .process-steps {
+      display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+      gap: 32px; position: relative;
+    }
+    .process-step { text-align: center; }
+    .step-num {
+      width: 56px; height: 56px; border-radius: 50%;
+      background: linear-gradient(135deg, var(--blue), var(--cyan));
+      color: var(--white); font-family: var(--font-display);
+      font-weight: 700; font-size: 20px;
+      display: flex; align-items: center; justify-content: center;
+      margin: 0 auto 16px; box-shadow: 0 8px 24px rgba(26,86,219,0.3);
+    }
+    .process-step h4 { font-size: 16px; font-weight: 700; color: var(--navy); margin-bottom: 8px; }
+    .process-step p { font-size: 14px; color: var(--gray-600); line-height: 1.6; }
+
+    /* ── PRICING ── */
+    .pricing-grid {
+      display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); gap: 24px;
+    }
+    .pricing-card {
+      background: var(--white); border: 1.5px solid var(--gray-200);
+      border-radius: 20px; padding: 32px; transition: all .25s;
+    }
+    .pricing-card.featured {
+      border-color: var(--blue); background: linear-gradient(135deg, #EFF6FF, #DBEAFE);
+      position: relative;
+    }
+    .pricing-card.featured::before {
+      content: 'NAJPOPULARNIEJSZE'; position: absolute; top: -12px; left: 50%; transform: translateX(-50%);
+      background: var(--blue); color: var(--white); font-size: 10px; font-weight: 700;
+      letter-spacing: 1px; padding: 4px 12px; border-radius: 100px;
+    }
+    .pricing-card h3 { font-size: 18px; font-weight: 700; color: var(--navy); margin-bottom: 20px; }
+    .price-row {
+      display: flex; align-items: baseline; justify-content: space-between;
+      padding: 10px 0; border-bottom: 1px solid var(--gray-200); gap: 12px;
+    }
+    .price-row:last-of-type { border-bottom: none; }
+    .price-name { font-size: 14px; color: var(--gray-600); flex: 1; }
+    .price-val { font-size: 15px; font-weight: 700; color: var(--navy); white-space: nowrap; }
+    .price-highlight { color: var(--blue); }
+    .pricing-note {
+      margin-top: 20px; padding: 14px; background: var(--foam); border-radius: 10px;
+      font-size: 13px; color: var(--blue); font-weight: 600; text-align: center;
+    }
+
+    /* ── AREAS ── */
+    .areas-section { background: linear-gradient(135deg, var(--navy), #0F2942); padding: 96px 24px; }
+    .areas-section .section-title { color: var(--white); }
+    .areas-section .section-tag { color: var(--cyan); }
+    .areas-section .section-sub { color: rgba(255,255,255,0.65); }
+    .areas-grid {
+      display: grid; grid-template-columns: repeat(auto-fill, minmax(180px, 1fr)); gap: 16px;
+    }
+    .area-chip {
+      background: rgba(255,255,255,0.06); border: 1px solid rgba(255,255,255,0.12);
+      border-radius: 12px; padding: 14px 18px; text-align: center;
+      color: rgba(255,255,255,0.85); font-size: 14px; font-weight: 500;
+      transition: all .2s;
+    }
+    .area-chip:hover { background: rgba(6,182,212,0.15); border-color: var(--cyan); color: var(--cyan); }
+    .area-chip.main { border-color: var(--cyan); color: var(--cyan); font-weight: 700; }
+
+    /* ── REVIEWS ── */
+    .reviews-grid {
+      display: grid; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); gap: 24px;
+    }
+    .review-card {
+      background: var(--white); border: 1.5px solid var(--gray-200);
+      border-radius: 20px; padding: 28px; transition: all .2s;
+    }
+    .review-card:hover { box-shadow: 0 8px 32px rgba(0,0,0,0.08); transform: translateY(-2px); }
+    .review-stars { color: #F59E0B; font-size: 18px; margin-bottom: 12px; }
+    .review-text { font-size: 15px; color: var(--gray-600); line-height: 1.7; margin-bottom: 16px; font-style: italic; }
+    .review-author { display: flex; align-items: center; gap: 12px; }
+    .review-avatar {
+      width: 40px; height: 40px; border-radius: 50%;
+      background: linear-gradient(135deg, var(--blue), var(--cyan));
+      display: flex; align-items: center; justify-content: center;
+      font-weight: 700; color: var(--white); font-size: 16px;
+    }
+    .review-name { font-weight: 700; font-size: 14px; color: var(--navy); }
+    .review-loc { font-size: 12px; color: var(--gray-400); }
+
+    /* ── FAQ ── */
+    .faq-section { background: var(--gray-50); }
+    .faq-list { max-width: 760px; margin: 0 auto; }
+    .faq-item {
+      background: var(--white); border: 1.5px solid var(--gray-200);
+      border-radius: 14px; margin-bottom: 12px; overflow: hidden;
+    }
+    .faq-q {
+      width: 100%; text-align: left; background: none; border: none;
+      padding: 20px 24px; font-size: 16px; font-weight: 600; color: var(--navy);
+      cursor: pointer; display: flex; justify-content: space-between; align-items: center; gap: 16px;
+      font-family: var(--font-body);
+    }
+    .faq-q .arrow { font-size: 20px; transition: transform .3s; flex-shrink: 0; color: var(--blue); }
+    .faq-item.open .faq-q .arrow { transform: rotate(45deg); }
+    .faq-a {
+      padding: 0 24px; max-height: 0; overflow: hidden; transition: all .35s ease;
+    }
+    .faq-item.open .faq-a { max-height: 400px; padding: 0 24px 20px; }
+    .faq-a p { font-size: 15px; color: var(--gray-600); line-height: 1.7; }
+
+    /* ── CONTACT ── */
+    .contact-section { background: var(--white); }
+    .contact-grid {
+      display: grid; grid-template-columns: 1fr 1fr; gap: 60px; align-items: start;
+    }
+    .contact-info h2 {
+      font-family: var(--font-display); font-size: 36px; font-weight: 700;
+      color: var(--navy); line-height: 1.2; margin-bottom: 16px; letter-spacing: -0.5px;
+    }
+    .contact-info p { font-size: 16px; color: var(--gray-600); line-height: 1.7; margin-bottom: 32px; }
+    .contact-detail {
+      display: flex; align-items: flex-start; gap: 16px; margin-bottom: 24px;
+    }
+    .contact-detail-icon {
+      width: 48px; height: 48px; border-radius: 12px;
+      background: var(--foam); display: flex; align-items: center; justify-content: center;
+      font-size: 22px; flex-shrink: 0;
+    }
+    .contact-detail-text .label { font-size: 12px; color: var(--gray-400); text-transform: uppercase; letter-spacing: 0.5px; font-weight: 600; margin-bottom: 4px; }
+    .contact-detail-text a { font-size: 20px; font-weight: 800; color: var(--navy); text-decoration: none; }
+    .contact-detail-text a:hover { color: var(--blue); }
+    .contact-detail-text span { font-size: 15px; color: var(--gray-600); }
+    .contact-form {
+      background: var(--gray-50); border-radius: 24px; padding: 36px;
+      border: 1.5px solid var(--gray-200);
+    }
+    .form-group { margin-bottom: 20px; }
+    .form-group label {
+      display: block; font-size: 14px; font-weight: 600; color: var(--navy);
+      margin-bottom: 6px;
+    }
+    .form-group input, .form-group select, .form-group textarea {
+      width: 100%; padding: 12px 16px; border: 1.5px solid var(--gray-200);
+      border-radius: 10px; font-size: 15px; font-family: var(--font-body);
+      color: var(--navy); background: var(--white); transition: border-color .2s;
+      outline: none;
+    }
+    .form-group input:focus, .form-group select:focus, .form-group textarea:focus { border-color: var(--blue); }
+    .form-group textarea { resize: vertical; min-height: 100px; }
+    .form-submit {
+      width: 100%; background: var(--blue); color: var(--white);
+      font-weight: 700; font-size: 16px; padding: 16px;
+      border-radius: 12px; border: none; cursor: pointer;
+      font-family: var(--font-body); transition: all .25s;
+    }
+    .form-submit:hover { background: #1D4ED8; transform: translateY(-1px); }
+    .form-note { font-size: 12px; color: var(--gray-400); text-align: center; margin-top: 12px; }
+
+    /* ── FOOTER ── */
+    .footer {
+      background: var(--navy); color: rgba(255,255,255,0.6);
+      padding: 60px 24px 32px; border-top: 1px solid rgba(255,255,255,0.06);
+    }
+    .footer-inner {
+      max-width: 1200px; margin: 0 auto;
+      display: grid; grid-template-columns: 2fr 1fr 1fr; gap: 48px;
+    }
+    .footer-brand { margin-bottom: 0; }
+    .footer-brand .logo {
+      font-family: var(--font-display); font-size: 22px; font-weight: 700;
+      color: var(--white); margin-bottom: 12px; display: block;
+    }
+    .footer-brand .logo span { color: var(--cyan); }
+    .footer-brand p { font-size: 14px; line-height: 1.7; max-width: 300px; }
+    .footer-col h5 { color: var(--white); font-size: 14px; font-weight: 700; margin-bottom: 16px; letter-spacing: 0.5px; }
+    .footer-col ul { list-style: none; }
+    .footer-col ul li { margin-bottom: 8px; }
+    .footer-col ul li a { color: rgba(255,255,255,0.55); text-decoration: none; font-size: 14px; transition: color .2s; }
+    .footer-col ul li a:hover { color: var(--cyan); }
+    .footer-col ul li span { color: rgba(255,255,255,0.55); font-size: 14px; }
+    .footer-bottom {
+      max-width: 1200px; margin: 48px auto 0;
+      padding-top: 24px; border-top: 1px solid rgba(255,255,255,0.08);
+      display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 12px;
+      font-size: 12px;
+    }
+    .footer-areas {
+      font-size: 12px; color: rgba(255,255,255,0.35); line-height: 1.8; margin-top: 32px;
+      max-width: 1200px; margin-left: auto; margin-right: auto; padding-top: 16px;
+      border-top: 1px solid rgba(255,255,255,0.06);
+    }
+
+    /* ── STICKY PHONE ── */
+    .sticky-phone {
+      position: fixed; bottom: 24px; right: 24px; z-index: 999;
+      background: var(--cyan); color: var(--navy);
+      width: 60px; height: 60px; border-radius: 50%;
+      display: flex; align-items: center; justify-content: center; font-size: 26px;
+      box-shadow: 0 8px 24px rgba(6,182,212,0.45);
+      text-decoration: none; transition: all .25s;
+    }
+    .sticky-phone:hover { transform: scale(1.1); box-shadow: 0 12px 32px rgba(6,182,212,0.6); }
+
+    /* ── MOBILE MENU ── */
+    @media (max-width: 768px) {
+      .nav-links { display: none; flex-direction: column; position: absolute; top: 68px; left: 0; right: 0; background: rgba(13,27,42,0.98); padding: 16px; gap: 4px; }
+      .nav-links.open { display: flex; }
+      .nav-links a { padding: 12px 16px; }
+      .hamburger { display: flex; }
+      .nav-cta { font-size: 13px; padding: 8px 14px; }
+      .hero-inner { grid-template-columns: 1fr; gap: 40px; padding: 48px 24px 64px; }
+      .hero-visual { order: -1; }
+      .contact-grid { grid-template-columns: 1fr; }
+      .footer-inner { grid-template-columns: 1fr; gap: 32px; }
+      .process-steps { grid-template-columns: 1fr 1fr; }
+    }
+
+    /* ── ANIMATIONS ── */
+    .reveal { opacity: 0; transform: translateY(24px); transition: all .6s ease; }
+    .reveal.visible { opacity: 1; transform: translateY(0); }
+  </style>
 </head>
 <body>
 
-    <!-- 1. Top Announcement Bar -->
-    <div id="top-bar">
-        <span>🔥 Ograniczona dostępność: Zostały tylko 3 wolne terminy na ten tydzień w Warszawie i Brwinowie!</span>
-        <button class="close-btn" onclick="document.getElementById('top-bar').style.display='none'">&times;</button>
+<!-- NAV -->
+<nav class="nav" role="navigation" aria-label="Główna nawigacja">
+  <div class="nav-inner">
+    <a href="#" class="nav-logo">Mobi<span>Wash</span></a>
+    <ul class="nav-links" id="nav-links">
+      <li><a href="#uslugi">Usługi</a></li>
+      <li><a href="#realizacje">Realizacje</a></li>
+      <li><a href="#cennik">Cennik</a></li>
+      <li><a href="#opinie">Opinie</a></li>
+      <li><a href="#faq">FAQ</a></li>
+      <li><a href="#kontakt">Kontakt</a></li>
+    </ul>
+    <a href="tel:690000386" class="nav-cta">📞 690 000 386</a>
+    <button class="hamburger" id="hamburger" aria-label="Menu">
+      <span></span><span></span><span></span>
+    </button>
+  </div>
+</nav>
+
+<!-- HERO -->
+<section class="hero" aria-label="Pranie kanap i tapicerki Warszawa">
+  <div class="hero-bg-pattern"></div>
+  <div class="hero-bubbles">
+    <div class="bubble"></div>
+    <div class="bubble"></div>
+    <div class="bubble"></div>
+  </div>
+  <div class="hero-inner">
+    <div class="hero-content">
+      <div class="hero-badge">Warszawa, Brwinów, Pruszków i okolice</div>
+      <h1>Czysta kanapa<br>w <em>Twoim domu</em> –<br>tego samego dnia</h1>
+      <p class="hero-sub">
+        Profesjonalne pranie kanap, materacy, dywanów i krzeseł metodą ekstrakcyjną.
+        Usuwamy plamy, zapachy i alergeny – przyjeżdżamy do Ciebie z własnym sprzętem.
+        <strong style="color: rgba(255,255,255,0.85);">Dojazd gratis od 150 zł.</strong>
+      </p>
+      <div class="hero-actions">
+        <a href="tel:690000386" class="btn-primary">📞 Zadzwoń: 690 000 386</a>
+        <a href="#cennik" class="btn-secondary">Sprawdź cennik →</a>
+      </div>
+      <div class="hero-stats">
+        <div class="hero-stat"><span class="num">10+</span><span class="lbl">Lat doświadczenia</span></div>
+        <div class="hero-stat"><span class="num">2000+</span><span class="lbl">Zadowolonych klientów</span></div>
+        <div class="hero-stat"><span class="num">⭐ 4.9</span><span class="lbl">Ocena Google</span></div>
+      </div>
     </div>
-
-    <!-- 2. Sticky Header -->
-    <header>
-        <div class="container nav-container">
-            <a href="#" class="logo" onclick="window.scrollTo({top:0, behavior:'smooth'}); return false;">MOBI<span>WASH</span></a>
-            
-            <nav class="nav-menu">
-                <a href="#oferta" class="nav-link">Oferta</a>
-                <a href="#proces" class="nav-link">Jak działamy</a>
-                <a href="#realizacje" class="nav-link">Realizacje</a>
-                <a href="#opinie" class="nav-link">Opinie</a>
-                <a href="#kontakt" class="btn btn-accent nav-cta">Zamów wycenę</a>
-            </nav>
-
-            <button class="hamburger" id="menu-toggle" aria-label="Otwórz menu">
-                <span></span>
-                <span></span>
-                <span></span>
-            </button>
+    <div class="hero-visual">
+      <div class="ba-slider" id="hero-slider" role="img" aria-label="Efekt prania kanapy - porównanie przed i po">
+        <div class="ba-after">
+          <img src="https://images.unsplash.com/photo-1555041469-a586c61ea9bc?w=800&q=80&auto=format" alt="Czysta kanapa po praniu przez MobiWash Warszawa" loading="eager">
         </div>
-    </header>
-
-    <!-- Mobile Navigation Overlay -->
-    <div class="mobile-overlay" id="mobile-menu">
-        <a href="#oferta" class="nav-link">Oferta</a>
-        <a href="#proces" class="nav-link">Jak działamy</a>
-        <a href="#realizacje" class="nav-link">Realizacje</a>
-        <a href="#opinie" class="nav-link">Opinie</a>
-        <a href="#kontakt" class="btn btn-accent" style="margin-top: 16px;">Zamów wycenę</a>
-    </div>
-
-    <main>
-        <!-- 3. Hero Section -->
-        <section class="hero">
-            <div class="container">
-                <div class="hero-content">
-                    <div class="trust-badge">
-                        <span>★ <strong>5.0</strong> | Ponad 150+ pozytywnych opinii w Google</span>
-                    </div>
-                    <h1>Profesjonalne Pranie Tapicerki i Kanap u Klienta</h1>
-                    <p>Skutecznie usuwamy głęboki brud, uciążliwe zacieki, plamy oraz nieprzyjemne zapachy. Pracujemy profesjonalnymi maszynami ekstrakcyjnymi i bezpieczną, certyfikowaną chemią. Bez bałaganu w Twoim domu!</p>
-                    
-                    <div class="hero-actions">
-                        <a href="tel:690000386" class="btn btn-success">📞 Zadzwoń teraz</a>
-                        <a href="#kontakt" class="btn btn-accent">📅 Bezpłatna wycena</a>
-                    </div>
-                    
-                    <div class="promo-badge">
-                        ⚡ Zamów przez formularz i odbierz 10% rabatu na pierwsze pranie!
-                    </div>
-                </div>
-            </div>
-        </section>
-
-        <!-- 4. Sekcja Usług -->
-        <section id="oferta" class="reveal">
-            <div class="container">
-                <div class="section-header">
-                    <h2>Co czyścimy? Kompleksowa oferta</h2>
-                    <p>Przywracamy higieniczną czystość i pierwotny wygląd Twoich mebli i tekstyliów domowych.</p>
-                </div>
-
-                <div class="services-grid">
-                    <div class="service-card">
-                        <div class="service-icon">🛋️</div>
-                        <h3>Kanapy i Sofy</h3>
-                        <p>Usuwamy zacieki, plamy z jedzenia oraz codzienne zanieczyszczenia z każdego rodzaju tkaniny.</p>
-                    </div>
-                    <div class="service-card">
-                        <div class="service-icon">📐</div>
-                        <h3>Narożniki</h3>
-                        <p>Dokładne pranie całej powierzchni wypoczynkowej wraz z funkcją spania i poduchami.</p>
-                    </div>
-                    <div class="service-card">
-                        <div class="service-icon">🪑</div>
-                        <h3>Fotele i Krzesła</h3>
-                        <p>Odświeżenie krzeseł tapicerowanych w jadalni oraz ulubionych foteli wypoczynkowych.</p>
-                    </div>
-                    <div class="service-card">
-                        <div class="service-icon">🛏️</div>
-                        <h3>Materace</h3>
-                        <p>Dogłębna eliminacja roztoczy, martwego naskórka, potu oraz plam biologicznych.</p>
-                    </div>
-                    <div class="service-card">
-                        <div class="service-icon">🧶</div>
-                        <h3>Dywany</h3>
-                        <p>Pranie dywanów z krótkim i długim włosiem. Podnosimy runo i usuwamy ukryty piasek.</p>
-                    </div>
-                    <div class="service-card">
-                        <div class="service-icon">🏢</div>
-                        <h3>Wykładziny</h3>
-                        <p>Czyszczenie dużych powierzchni wykładzin biurowych i obiektowych w elastycznych godzinach.</p>
-                    </div>
-                    <div class="service-card">
-                        <div class="service-icon">🐾</div>
-                        <h3>Plamy po Zwierzętach</h3>
-                        <p>Skuteczna dezynfekcja i usuwanie kryształków kwasu moczowego oraz zapachu kota lub psa.</p>
-                    </div>
-                    <div class="service-card">
-                        <div class="service-icon">✨</div>
-                        <h3>Odświeżanie Koloru</h3>
-                        <p>Wypłukanie resztek starych detergentów przywracające oryginalny, żywy odcień tkaniny.</p>
-                    </div>
-                </div>
-            </div>
-        </section>
-
-        <!-- 5. Sekcja Jak działamy? -->
-        <section id="proces" class="process-bg reveal">
-            <div class="container">
-                <div class="section-header">
-                    <h2>Jak działamy? Prosty proces</h2>
-                    <p>Cała usługa odbywa się u Ciebie, szybko i bez żadnego wysiłku z Twojej strony.</p>
-                </div>
-
-                <div class="process-steps">
-                    <div class="step-card">
-                        <div class="step-num">1</div>
-                        <h3>Kontakt</h3>
-                        <p>Dzwonisz lub wysyłasz zgłoszenie przez prosty formularz na stronie.</p>
-                    </div>
-                    <div class="step-card">
-                        <div class="step-num">2</div>
-                        <h3>Wycena</h3>
-                        <p>Ustalamy stałą, transparentną cenę na podstawie zdjęcia lub opisu mebla.</p>
-                    </div>
-                    <div class="step-card">
-                        <div class="step-num">3</div>
-                        <h3>Pranie u Ciebie</h3>
-                        <p>Przyjeżdżamy na ustaloną godzinę i wykonujemy bezpieczne czyszczenie ekstrakcyjne.</p>
-                    </div>
-                    <div class="step-card">
-                        <div class="step-num">4</div>
-                        <h3>Efekt WoW</h3>
-                        <p>Odbierasz czysty, pachnący i zdezynfekowany mebel gotowy do schnięcia.</p>
-                    </div>
-                </div>
-            </div>
-        </section>
-
-        <!-- 6. Sekcja Realizacje „Przed / Po" -->
-        <section id="realizacje" class="reveal">
-            <div class="container">
-                <div class="section-header">
-                    <h2>Nasze Realizacje (Przed / Po)</h2>
-                    <p>Zobacz spektakularne efekty prania ekstrakcyjnego maszyną Santoemma na realnych zleceniach.</p>
-                </div>
-
-                <div class="slider-wrapper">
-                    <div class="comparison-container" id="slider-root">
-                        <!-- Before Image Base Layer -->
-                        <div class="image-frame img-before">
-                            <!-- ZASTĄP WŁASNYM ZDJĘCIEM PRZED (Np. z czystakanapa.waw.pl) -->
-                            <img src="https://images.unsplash.com/photo-1540518614846-7eded433c457?auto=format&fit=crop&q=80&w=1200" alt="Tapicerka przed praniem" loading="lazy">
-                            <span class="slider-label label-before">Przed</span>
-                        </div>
-                        
-                        <!-- After Image Overlay Layer -->
-                        <div class="image-frame img-after" id="clip-layer">
-                            <div class="after-wrap" id="wrap-element">
-                                <!-- ZASTĄP WŁASNYM ZDJĘCIEM PO -->
-                                <img src="https://images.unsplash.com/photo-1540518614846-7eded433c457?auto=format&fit=crop&q=80&w=1200" alt="Tapicerka po czyszczeniu" loading="lazy">
-                            </div>
-                            <span class="slider-label label-after">Po</span>
-                        </div>
-
-                        <!-- Drag Control bar -->
-                        <div class="drag-handle" id="slider-handle">
-                            <div class="handle-button">↔</div>
-                        </div>
-                    </div>
-                </div>
-
-                <div class="tag-container">
-                    <span class="case-tag">Plamy z kawy usunięte</span>
-                    <span class="case-tag">Zacieki wodne zlikwidowane</span>
-                    <span class="case-tag">Sierść zwierząt usunięta</span>
-                    <span class="case-tag">Odkażony zżółkły materac</span>
-                </div>
-            </div>
-        </section>
-
-        <!-- 7. Sekcja Gwarancji -->
-        <section class="reveal">
-            <div class="container">
-                <div class="guarantee-box">
-                    <div class="guarantee-icon">🛡️</div>
-                    <div>
-                        <h3>Gwarancja 100% Satysfakcji</h3>
-                        <p>Płacisz tylko za zadowalający efekt. Jeśli po całkowitym wyschnięciu materiału zauważysz jakiekolwiek niedopracowane miejsce lub zaciek, skontaktuj się z nami. Przyjedziemy i bezpłatnie wykonamy korektę. Twoje zaufanie jest dla nas najważniejsze.</p>
-                    </div>
-                </div>
-            </div>
-        </section>
-
-        <!-- 8. Sekcja Opinii / Testimonials -->
-        <section id="opinie" class="process-bg reveal">
-            <div class="container">
-                <div class="section-header">
-                    <h2>Co mówią nasi klienci?</h2>
-                    <p>Opinie zweryfikowane, pochodzące bezpośrednio od mieszkańców Twojej najbliższej okolicy.</p>
-                </div>
-
-                <div class="testimonials-grid">
-                    <div class="review-card">
-                        <div>
-                            <div class="stars">★★★★★</div>
-                            <p>"Mój jasny narożnik po zalaniu sokiem porzeczkowym wyglądał na nie do uratowania. Panowie przyjechali, dobrali chemię i po plamach nie ma śladu. Bardzo profesjonalne podejście i czysty proces!"</p>
-                        </div>
-                        <div class="reviewer">Katarzyna M. • Warszawa Mokotów</div>
-                    </div>
-                    <div class="review-card">
-                        <div>
-                            <div class="stars">★★★★★</div>
-                            <p>"Usługa prania materaca wykonana ekspresowo i dokładnie. Zniknęły żółte odbarwienia i zapach potu, wszystko pachnie nowością. Ogromny plus za terminowość i darmowy dojazd do Brwinowa."</p>
-                        </div>
-                        <div class="reviewer">Tomasz K. • Brwinów</div>
-                    </div>
-                    <div class="review-card">
-                        <div>
-                            <div class="stars">★★★★★</div>
-                            <p>"Zleciłam czyszczenie foteli i dywanu w biurze. Wszystko wykonane idealnie, faktura bez problemu, praca w godzinach wieczornych, dzięki czemu nie zakłócono pracy biura. Szczerze polecam firmę MobiWash."</p>
-                        </div>
-                        <div class="reviewer">Karolina W. • Pruszków</div>
-                    </div>
-                </div>
-            </div>
-        </section>
-
-        <!-- 9. Formularz Wyceny / Kontaktu -->
-        <section id="kontakt" class="contact-section reveal">
-            <div class="container">
-                <div class="contact-layout">
-                    <div class="contact-info">
-                        <h2>Zamów Bezpłatną Wycenę w 15 minut</h2>
-                        <p>Napisz do nas przez formularz lub wybierz bezpośredni kontakt telefoniczny / WhatsApp. Odpowiadamy błyskawicznie, podając stałą, uczciwą stawkę.</p>
-                        
-                        <div class="alternative-channels">
-                            <div class="channel-box">
-                                <div class="channel-icon">📞</div>
-                                <div class="channel-data">
-                                    <div>Zadzwoń bezpośrednio</div>
-                                    <a href="tel:690000386">690 000 386</a>
-                                </div>
-                            </div>
-                            <div class="channel-box">
-                                <div class="channel-icon">💬</div>
-                                <div class="channel-data">
-                                    <div>Szybka wycena ze zdjęcia</div>
-                                    <a href="https://wa.me/48690000386" target="_blank" class="wa-link">Wyślij foto na WhatsApp</a>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-
-                    <div class="lead-form">
-                        <form id="leadForm" onsubmit="event.preventDefault(); alert('Dziękujemy! Otrzymaliśmy zgłoszenie. Oddzwonimy w ciągu 15 minut z wyceną i naliczonym 10% rabatem!');">
-                            <div class="form-group">
-                                <label for="form-name">Twoje Imię</label>
-                                <input type="text" id="form-name" required placeholder="np. Jan Kowalski">
-                            </div>
-                            <div class="form-group">
-                                <label for="form-phone">Numer Telefonu</label>
-                                <input type="tel" id="form-phone" required placeholder="np. 690 000 386">
-                            </div>
-                            <div class="form-group">
-                                <label for="form-service">Rodzaj mebla / usługi</label>
-                                <select id="form-service">
-                                    <option value="kanapa">Narożnik / Kanapa / Sofa</option>
-                                    <option value="materac">Materac sypialny</option>
-                                    <option value="dywan">Dywan lub Wykładzina</option>
-                                    <option value="krzesla">Fotele i krzesła tapicerowane</option>
-                                    <option value="pakiet">Pakiet kilku mebli</option>
-                                </select>
-                            </div>
-                            <div class="form-group">
-                                <label for="form-msg">Dodatkowe informacje (Lokalizacja, rodzaj plam)</label>
-                                <textarea id="form-msg" rows="3" placeholder="np. Brwinów, plamy po kawie na podłokietniku..."></textarea>
-                            </div>
-                            <button type="submit" class="btn btn-accent" style="width: 100%;">Wyślij zapytanie (-10% rabatu)</button>
-                        </form>
-                    </div>
-                </div>
-            </div>
-        </section>
-    </main>
-
-    <!-- 10. Footer z Local SEO -->
-    <footer>
-        <div class="container">
-            <div class="seo-pack">
-                <p><strong>Obszar działania:</strong> Warszawa (Mokotów, Ursynów, Wola, Bemowo, Śródmieście, Białołęka, Wilanów, Ochota) oraz okoliczne miejscowości do 30 km (m.in. Brwinów, Pruszków, Piastów, Grodzisk Mazowiecki, Milanówek, Nadarzyn, Ożarów Mazowiecki, Błonie). <strong>Zapewniamy w 100% darmowy dojazd do klienta!</strong></p>
-            </div>
-
-            <div class="footer-grid">
-                <div class="footer-brand">
-                    <div class="logo">MOBI<span>WASH</span></div>
-                    <p>Najwyższa jakość głębokiego prania ekstrakcyjnego sprzętem Santoemma i chemią Chemspec.</p>
-                </div>
-                <div class="footer-links">
-                    <h4>Menu</h4>
-                    <ul>
-                        <li><a href="#oferta">Oferta</a></li>
-                        <li><a href="#proces">Jak działamy</a></li>
-                        <li><a href="#realizacje">Realizacje</a></li>
-                        <li><a href="#opinie">Opinie</a></li>
-                    </ul>
-                </div>
-                <div class="footer-links">
-                    <h4>Kontakt</h4>
-                    <ul>
-                        <li>Telefon: 690 000 386</li>
-                        <li>Dojazd: Bezpłatny do 30km</li>
-                        <li>Czas odpowiedzi: do 15 min</li>
-                    </ul>
-                </div>
-            </div>
-
-            <div class="copyright">
-                &copy; 2026 MobiWash. Wszelkie prawa zastrzeżone. Projekt zoptymalizowany pod Local SEO & CRO.
-            </div>
+        <div class="ba-before" id="hero-before">
+          <img src="https://images.unsplash.com/photo-1558618666-fcd25c85cd64?w=800&q=80&auto=format" alt="Kanapa przed praniem - brudna tapicerka" loading="eager">
         </div>
-    </footer>
-
-    <!-- 11. Sticky Mobile Contact Bar -->
-    <div class="mobile-contact-bar">
-        <a href="tel:690000386" class="mobile-bar-btn mb-phone">📞 Zadzwoń teraz</a>
-        <a href="https://wa.me/48690000386" target="_blank" class="mobile-bar-btn mb-wa">💬 WhatsApp</a>
+        <div class="ba-handle" id="hero-handle">
+          <div class="ba-handle-circle">⟺</div>
+        </div>
+        <span class="ba-label before">PRZED</span>
+        <span class="ba-label after">PO</span>
+      </div>
+      <p class="ba-caption">Przeciągnij suwak, aby zobaczyć efekt prania ↔</p>
     </div>
+  </div>
+</section>
 
-    <!-- Script Blocks (Vanilla JS Observers & UI Core Logic) -->
-    <script>
-        // Mobile Hamburger Menu Toggle
-        const menuToggle = document.getElementById('menu-toggle');
-        const mobileMenu = document.getElementById('mobile-menu');
-        const mobileLinks = mobileMenu.querySelectorAll('.nav-link, .btn');
+<!-- TRUST STRIP -->
+<div class="trust-strip" role="complementary" aria-label="Nasze gwarancje">
+  <div class="trust-strip-inner">
+    <div class="trust-item"><span class="icon">🚗</span> Dojazd gratis od 150 zł</div>
+    <div class="trust-item"><span class="icon">⚡</span> Realizacja tego samego dnia</div>
+    <div class="trust-item"><span class="icon">🛡️</span> Gwarancja czystości</div>
+    <div class="trust-item"><span class="icon">🌿</span> Bezpieczne środki premium</div>
+    <div class="trust-item"><span class="icon">💳</span> Gotówka lub BLIK</div>
+    <div class="trust-item"><span class="icon">🧾</span> Możliwość faktury</div>
+  </div>
+</div>
 
-        menuToggle.addEventListener('click', () => {
-            mobileMenu.classList.toggle('open');
-            menuToggle.classList.toggle('active');
-        });
+<!-- SERVICES -->
+<section class="section" id="uslugi" aria-labelledby="services-heading">
+  <div class="section-inner">
+    <div class="reveal">
+      <span class="section-tag">Nasze usługi</span>
+      <h2 class="section-title" id="services-heading">Kompleksowe pranie tapicerki<br>w <em>Warszawie i okolicach</em></h2>
+      <p class="section-sub">
+        Obsługujemy domy, mieszkania, biura i hotele. Przyjeżdżamy z profesjonalnym sprzętem ekstrakcyjnym –
+        bez konieczności wywożenia mebli.
+      </p>
+    </div>
+    <div class="services-grid">
+      <article class="service-card reveal">
+        <span class="service-icon">🛋️</span>
+        <h3>Pranie kanap i narożników</h3>
+        <p>Głębokie czyszczenie tapicerki metodą ekstrakcyjną. Usuwamy plamy, roztocza, sierść zwierząt i nieprzyjemne zapachy z każdego rodzaju tkaniny – welur, alcantara, mikrofibra, tkanina strukturalna.</p>
+        <span class="service-price">od 180 zł</span>
+        <ul class="service-list">
+          <li>Kanapa 2–3 osobowa: 180–220 zł</li>
+          <li>Narożnik do 2,5 m: 250–280 zł</li>
+          <li>Narożnik od 2,6 m: 320–370 zł</li>
+          <li>Usuwanie plam i zapachów gratis</li>
+          <li>Schnięcie 2–4 godziny</li>
+        </ul>
+      </article>
+      <article class="service-card reveal">
+        <span class="service-icon">🛏️</span>
+        <h3>Pranie materacy</h3>
+        <p>Skuteczne czyszczenie materacy z roztoczy, plam i bakterii. Idealne dla alergików, rodzin z dziećmi i dla poprawy jakości snu. Obsługujemy materace jedno- i dwuosobowe, dziecięce oraz hotelowe.</p>
+        <span class="service-price">od 170 zł</span>
+        <ul class="service-list">
+          <li>Materac 1-os. (1 strona): 170–200 zł</li>
+          <li>Materac 1-os. (obie strony): 230–260 zł</li>
+          <li>Materac 2-os. (1 strona): 220–250 zł</li>
+          <li>Dezynfekcja antyalergiczna</li>
+          <li>Usuwanie zapachu moczu/wymiocin</li>
+        </ul>
+      </article>
+      <article class="service-card reveal">
+        <span class="service-icon">🪑</span>
+        <h3>Pranie krzeseł i foteli</h3>
+        <p>Profesjonalne czyszczenie krzeseł tapicerowanych, foteli wypoczynkowych i biurowych. Przywracamy świeżość krzesłom jadalnianym, konferencyjnym i hotelowym.</p>
+        <span class="service-price">od 30 zł</span>
+        <ul class="service-list">
+          <li>Krzesło tapicerowane: 30–40 zł</li>
+          <li>Fotel wypoczynkowy: 50–70 zł</li>
+          <li>Fotel biurowy: 50–70 zł</li>
+          <li>Czyszczenie krzeseł konferencyjnych</li>
+          <li>Dezynfekcja tapicerki</li>
+        </ul>
+      </article>
+      <article class="service-card reveal">
+        <span class="service-icon">🏡</span>
+        <h3>Pranie dywanów i wykładzin</h3>
+        <p>Czyszczenie dywanów u klienta lub z odbiorem i dostawą. Usuwamy głęboki brud, plamy, sierść i nieprzyjemne zapachy. Obsługujemy dywany wełniane, syntetyczne i jedwabne.</p>
+        <span class="service-price">od 200 zł</span>
+        <ul class="service-list">
+          <li>Dywan do 8 m²: 200 zł/szt.</li>
+          <li>Dywan 9–20 m²: 28 zł/m²</li>
+          <li>Pranie z odbiorem: 34 zł/m²</li>
+          <li>Odbiór i zwrot z Brwinowa: gratis</li>
+          <li>Usuwanie sierści: +10 zł/m²</li>
+        </ul>
+      </article>
+      <article class="service-card reveal">
+        <span class="service-icon">🌀</span>
+        <h3>Ozonowanie pomieszczeń</h3>
+        <p>Dezynfekcja ozonem eliminuje bakterie, wirusy, grzyby i nieprzyjemne zapachy. Skuteczne po zalaniu, pożarze, remoncie lub przy problemach z pleśnią. Bezpieczne dla alergików.</p>
+        <span class="service-price">wycena indywidualna</span>
+        <ul class="service-list">
+          <li>Ozonowanie mieszkań i domów</li>
+          <li>Usuwanie zapachu dymu, stęchlizny</li>
+          <li>Dezynfekcja po zwierzętach</li>
+          <li>Ozonowanie biur i hoteli</li>
+          <li>Ozonowanie po zalaniu</li>
+        </ul>
+      </article>
+      <article class="service-card reveal">
+        <span class="service-icon">🏢</span>
+        <h3>Usługi dla firm</h3>
+        <p>Pranie wykładzin biurowych, krzeseł konferencyjnych i tapicerki w hotelach, urzędach i obiektach szkoleniowych. Wystawiamy faktury VAT. Możliwość umowy stałej współpracy.</p>
+        <span class="service-price">od 6 zł/m²</span>
+        <ul class="service-list">
+          <li>Wykładziny biurowe: od 6 zł/m²</li>
+          <li>Krzesła konferencyjne</li>
+          <li>Tapicerka hotelowa</li>
+          <li>Faktura VAT na życzenie</li>
+          <li>Elastyczne terminy realizacji</li>
+        </ul>
+      </article>
+    </div>
+  </div>
+</section>
 
-        mobileLinks.forEach(link => {
-            link.addEventListener('click', () => {
-                mobileMenu.classList.remove('open');
-                menuToggle.classList.remove('active');
-            });
-        });
+<!-- BEFORE/AFTER GALLERY -->
+<section class="gallery-section" id="realizacje" aria-labelledby="gallery-heading">
+  <div class="section-inner">
+    <div class="reveal text-center">
+      <span class="section-tag">Nasze realizacje</span>
+      <h2 class="section-title" id="gallery-heading" style="color: var(--white);">Efekty mówią same<br>za <em style="color:var(--cyan)">siebie</em></h2>
+      <p class="section-sub" style="color:rgba(255,255,255,0.6); margin-left:auto; margin-right:auto;">
+        Prawdziwe zdjęcia przed i po naszych realizacji. Przeciągnij suwak, aby zobaczyć różnicę.
+      </p>
+    </div>
+    <div class="ba-gallery">
+      <div class="ba-card reveal">
+        <div class="ba-card-slider" data-slider>
+          <div class="ba-after">
+            <img src="https://images.unsplash.com/photo-1555041469-a586c61ea9bc?w=700&q=75&auto=format" alt="Czysta sofa po praniu MobiWash Warszawa" loading="lazy">
+          </div>
+          <div class="ba-before">
+            <img src="https://images.unsplash.com/photo-1558618666-fcd25c85cd64?w=700&q=75&auto=format" alt="Brudna sofa przed praniem" loading="lazy">
+          </div>
+          <div class="ba-handle">
+            <div class="ba-handle-circle">⟺</div>
+          </div>
+          <span class="ba-label before">PRZED</span>
+          <span class="ba-label after">PO</span>
+        </div>
+        <div class="ba-card-info">
+          <h4>Narożnik 3-osobowy, Warszawa Mokotów</h4>
+          <p>Welur z plamami po kawie i winie – przywrócony do stanu idealnego</p>
+        </div>
+      </div>
+      <div class="ba-card reveal">
+        <div class="ba-card-slider" data-slider>
+          <div class="ba-after">
+            <img src="https://images.unsplash.com/photo-1631049307264-da0ec9d70304?w=700&q=75&auto=format" alt="Czysty materac po praniu MobiWash" loading="lazy">
+          </div>
+          <div class="ba-before">
+            <img src="https://images.unsplash.com/photo-1586023492125-27b2c045efd7?w=700&q=75&auto=format" alt="Materac przed czyszczeniem" loading="lazy">
+          </div>
+          <div class="ba-handle">
+            <div class="ba-handle-circle">⟺</div>
+          </div>
+          <span class="ba-label before">PRZED</span>
+          <span class="ba-label after">PO</span>
+        </div>
+        <div class="ba-card-info">
+          <h4>Materac 160×200, Brwinów</h4>
+          <p>Głębokie odplamianie i dezynfekcja – eliminacja roztoczy i alergenów</p>
+        </div>
+      </div>
+      <div class="ba-card reveal">
+        <div class="ba-card-slider" data-slider>
+          <div class="ba-after">
+            <img src="https://images.unsplash.com/photo-1506439773649-6e0eb8cfb237?w=700&q=75&auto=format" alt="Czysty dywan po praniu w Pruszkowie" loading="lazy">
+          </div>
+          <div class="ba-before">
+            <img src="https://images.unsplash.com/photo-1558997519-83ea9252edc8?w=700&q=75&auto=format" alt="Dywan przed czyszczeniem" loading="lazy">
+          </div>
+          <div class="ba-handle">
+            <div class="ba-handle-circle">⟺</div>
+          </div>
+          <span class="ba-label before">PRZED</span>
+          <span class="ba-label after">PO</span>
+        </div>
+        <div class="ba-card-info">
+          <h4>Dywan wełniany 3×4m, Pruszków</h4>
+          <p>Usunięcie sierści psa, plam i nieprzyjemnych zapachów</p>
+        </div>
+      </div>
+    </div>
+    <p style="text-align:center; color:rgba(255,255,255,0.4); font-size:13px; margin-top:24px;">
+      * Zdjęcia własne z realizacji klientów MobiWash. Zdjęcia poglądowe zastępują oryginały do czasu załadowania pliku z Google Drive.
+    </p>
+  </div>
+</section>
 
-        // Intersection Observer for Animation Elements (Reveal on Scroll)
-        const revealElements = document.querySelectorAll('.reveal');
-        const revealObserver = new IntersectionObserver((entries, observer) => {
-            entries.forEach(entry => {
-                if (entry.isIntersecting) {
-                    entry.target.classList.add('active');
-                    observer.unobserve(entry.target);
-                }
-            });
-        }, { threshold: 0.15 });
+<!-- PROCESS -->
+<section class="section process-section" aria-labelledby="process-heading">
+  <div class="section-inner">
+    <div class="reveal text-center">
+      <span class="section-tag">Jak pracujemy</span>
+      <h2 class="section-title" id="process-heading">Profesjonalny proces<br>prania w <em>5 krokach</em></h2>
+      <p class="section-sub">Każde zlecenie realizujemy według sprawdzonego protokołu. Efekt gwarantowany lub wracamy bez dodatkowej opłaty.</p>
+    </div>
+    <div class="process-steps reveal">
+      <div class="process-step">
+        <div class="step-num">1</div>
+        <h4>Ocena tapicerki</h4>
+        <p>Rozpoznajemy rodzaj tkaniny, badamy stabilność kolorów i dobieramy odpowiednie środki czyszczące.</p>
+      </div>
+      <div class="process-step">
+        <div class="step-num">2</div>
+        <h4>Odkurzanie maszynowe</h4>
+        <p>Usuwamy suchy brud, kurz, sierść i piasek – to nawet 80% wszystkich zanieczyszczeń tapicerki.</p>
+      </div>
+      <div class="process-step">
+        <div class="step-num">3</div>
+        <h4>Odplamianie</h4>
+        <p>Stosujemy enzymatyczne pre-spaye i specjalistyczne odplamiacze dobrane do rodzaju plamy i materiału.</p>
+      </div>
+      <div class="process-step">
+        <div class="step-num">4</div>
+        <h4>Pranie ekstrakcyjne</h4>
+        <p>Ciśnieniowe wypłukanie detergentu przez tkaninę – dogłębne usunięcie brudu z najgłębszych warstw włókna.</p>
+      </div>
+      <div class="process-step">
+        <div class="step-num">5</div>
+        <h4>Kontrola i schnięcie</h4>
+        <p>Sprawdzamy efekt końcowy. Tapicerka jest lekko wilgotna i schnie w 2–6 godzin bez kapania.</p>
+      </div>
+    </div>
+  </div>
+</section>
 
-        revealElements.forEach(element => revealObserver.observe(element));
+<!-- PRICING -->
+<section class="section" id="cennik" aria-labelledby="pricing-heading">
+  <div class="section-inner">
+    <div class="reveal text-center">
+      <span class="section-tag">Cennik 2024</span>
+      <h2 class="section-title" id="pricing-heading">Przejrzyste ceny,<br><em>zero ukrytych opłat</em></h2>
+      <p class="section-sub">Wszystkie ceny zawierają usuwanie plam i zapachów. Dojazd gratis na terenie Warszawy przy zamówieniu powyżej 150 zł.</p>
+    </div>
+    <div class="pricing-grid reveal">
+      <div class="pricing-card featured">
+        <h3>🛋️ Tapicerka meblowa</h3>
+        <div class="price-row"><span class="price-name">Kanapa/wersalka 2–3 os.</span><span class="price-val price-highlight">180–220 zł</span></div>
+        <div class="price-row"><span class="price-name">Narożnik do 2,5 m</span><span class="price-val price-highlight">250–280 zł</span></div>
+        <div class="price-row"><span class="price-name">Narożnik od 2,6 m</span><span class="price-val price-highlight">320–370 zł</span></div>
+        <div class="price-row"><span class="price-name">Fotel</span><span class="price-val">50–70 zł</span></div>
+        <div class="price-row"><span class="price-name">Krzesło tapicerowane</span><span class="price-val">30–40 zł</span></div>
+        <div class="price-row"><span class="price-name">Poduszka dekoracyjna</span><span class="price-val">5–10 zł/szt.</span></div>
+        <div class="price-row"><span class="price-name">Neutralizacja zapachu (mocz/wymiociny)</span><span class="price-val">30–50 zł</span></div>
+        <div class="pricing-note">🎁 Karta Dużej Rodziny: –10% na wszystkie usługi</div>
+      </div>
+      <div class="pricing-card">
+        <h3>🛏️ Materace</h3>
+        <div class="price-row"><span class="price-name">Materac 1-os., 1 strona</span><span class="price-val">170–200 zł</span></div>
+        <div class="price-row"><span class="price-name">Materac 1-os., obie strony</span><span class="price-val">230–260 zł</span></div>
+        <div class="price-row"><span class="price-name">Materac 2-os., 1 strona</span><span class="price-val">220–250 zł</span></div>
+        <div class="price-row"><span class="price-name">Materac 2-os., obie strony</span><span class="price-val">280–320 zł</span></div>
+        <div class="price-row"><span class="price-name">Rama łóżka z zagłówkiem</span><span class="price-val">140–160 zł</span></div>
+        <div class="pricing-note">💳 Płatność gotówką lub BLIK</div>
+      </div>
+      <div class="pricing-card">
+        <h3>🏡 Dywany i wykładziny</h3>
+        <div class="price-row"><span class="price-name">Dywan u klienta do 8 m²</span><span class="price-val">200 zł/szt.</span></div>
+        <div class="price-row"><span class="price-name">Dywan u klienta 9–20 m²</span><span class="price-val">28 zł/m²</span></div>
+        <div class="price-row"><span class="price-name">Pranie z odbiorem</span><span class="price-val">34 zł/m²</span></div>
+        <div class="price-row"><span class="price-name">Odbiór/zwrot Brwinów i okolice</span><span class="price-val price-highlight">GRATIS</span></div>
+        <div class="price-row"><span class="price-name">Odbiór/zwrot Warszawa</span><span class="price-val">60 zł</span></div>
+        <div class="price-row"><span class="price-name">Wykładziny biurowe</span><span class="price-val">od 6 zł/m²</span></div>
+        <div class="price-row"><span class="price-name">Usuwanie sierści zwierząt</span><span class="price-val">+10 zł/m²</span></div>
+        <div class="pricing-note">⏱ Czas realizacji prania z odbiorem: ~7 dni</div>
+      </div>
+    </div>
+    <div style="text-align:center; margin-top:32px; color: var(--gray-400); font-size: 14px;">
+      Zamówienie i brak realizacji z winy klienta – opłata organizacyjna 150 zł. Możliwość wystawienia faktury bez VAT.
+    </div>
+  </div>
+</section>
 
-        // Pure Vanilla JS Interactive Before/After Drag Slider
-        const sliderRoot = document.getElementById('slider-root');
-        const sliderHandle = document.getElementById('slider-handle');
-        const clipLayer = document.getElementById('clip-layer');
-        const wrapElement = document.getElementById('wrap-element');
+<!-- AREAS -->
+<section class="areas-section" aria-labelledby="areas-heading">
+  <div class="section-inner">
+    <div class="reveal text-center">
+      <span class="section-tag">Obszar działania</span>
+      <h2 class="section-title" id="areas-heading">Dojeżdżamy do Ciebie –<br><em style="color:var(--cyan)">Warszawa i okolice</em></h2>
+      <p class="section-sub">Obsługujemy całą Warszawę oraz gminy i miejscowości w promieniu 50 km. Dojazd na terenie Warszawy gratis przy zamówieniu od 150 zł. Odbiór i zwrot dywanów z Brwinowa i okolic zawsze bezpłatny.</p>
+    </div>
+    <div class="areas-grid reveal">
+      <div class="area-chip main">🏙️ Warszawa</div>
+      <div class="area-chip main">🌿 Brwinów</div>
+      <div class="area-chip main">🏘️ Pruszków</div>
+      <div class="area-chip">Piastów</div>
+      <div class="area-chip">Milanówek</div>
+      <div class="area-chip">Podkowa Leśna</div>
+      <div class="area-chip">Otrębusy</div>
+      <div class="area-chip">Grodzisk Mazowiecki</div>
+      <div class="area-chip">Ożarów Mazowiecki</div>
+      <div class="area-chip">Płochocin</div>
+      <div class="area-chip">Duchnice</div>
+      <div class="area-chip">Komorów</div>
+      <div class="area-chip">Błonie</div>
+      <div class="area-chip">Żyrardów</div>
+      <div class="area-chip">Bemowo</div>
+      <div class="area-chip">Ursus</div>
+      <div class="area-chip">Włochy</div>
+      <div class="area-chip">Ochota</div>
+      <div class="area-chip">Mokotów</div>
+      <div class="area-chip">Ursynów</div>
+      <div class="area-chip">Wilanów</div>
+      <div class="area-chip">Wola</div>
+      <div class="area-chip">Białołęka</div>
+      <div class="area-chip">Targówek</div>
+    </div>
+  </div>
+</section>
 
-        let isDragging = false;
+<!-- REVIEWS -->
+<section class="section" id="opinie" aria-labelledby="reviews-heading">
+  <div class="section-inner">
+    <div class="reveal text-center">
+      <span class="section-tag">Opinie klientów</span>
+      <h2 class="section-title" id="reviews-heading">Co mówią nasi<br><em>klienci z Warszawy</em></h2>
+      <p class="section-sub">Ponad 200 pozytywnych opinii w Google. Sprawdź, dlaczego klienci z Warszawy, Brwinowa i Pruszkowa wybierają MobiWash.</p>
+    </div>
+    <div class="reviews-grid">
+      <article class="review-card reveal">
+        <div class="review-stars">★★★★★</div>
+        <p class="review-text">„Narożnik wyglądał beznadziejnie po 3 latach z psem i dzieckiem. Pan przyjechał punktualnie, zabrał się do pracy i po 2 godzinach sofa wyglądała jak nowa. Plamy z wina i kawą – znikły bez śladu."</p>
+        <div class="review-author">
+          <div class="review-avatar">A</div>
+          <div><div class="review-name">Agnieszka K.</div><div class="review-loc">📍 Warszawa Mokotów</div></div>
+        </div>
+      </article>
+      <article class="review-card reveal">
+        <div class="review-stars">★★★★★</div>
+        <p class="review-text">„Pranie materacy dla całej rodziny – 3 sztuki naraz. Ekipa super, szybko i bez bałaganu. Dziecko z alergią śpi o wiele lepiej. Polecam każdemu, kto ma problem z roztoczami."</p>
+        <div class="review-author">
+          <div class="review-avatar">M</div>
+          <div><div class="review-name">Marcin W.</div><div class="review-loc">📍 Brwinów</div></div>
+        </div>
+      </article>
+      <article class="review-card reveal">
+        <div class="review-stars">★★★★★</div>
+        <p class="review-text">„Dywan po kot i pies – śmierdział okropnie. Oddałam do prania z odbiorem, dostałam z powrotem czysty i pachnący. Bezpłatny odbiór z Brwinowa – to był hit. Na pewno wrócę."</p>
+        <div class="review-author">
+          <div class="review-avatar">K</div>
+          <div><div class="review-name">Kasia P.</div><div class="review-loc">📍 Otrębusy</div></div>
+        </div>
+      </article>
+      <article class="review-card reveal">
+        <div class="review-stars">★★★★★</div>
+        <p class="review-text">„Zamówiłam pranie kanapy z alcantary – bałam się, że czegoś nie będzie się dało zrobić. Pan sprawdził materiał, zastosował właściwy środek i efekt był znakomity. Pełen profesjonalizm."</p>
+        <div class="review-author">
+          <div class="review-avatar">E</div>
+          <div><div class="review-name">Ewa T.</div><div class="review-loc">📍 Pruszków</div></div>
+        </div>
+      </article>
+      <article class="review-card reveal">
+        <div class="review-stars">★★★★★</div>
+        <p class="review-text">„10 krzeseł do biura – zamówiliśmy z dzień na dzień. Ekipa przyjechała rano, skończyła zanim pracownicy przyszli. Krzesła idealnie czyste. Zdecydowanie polecam firmom."</p>
+        <div class="review-author">
+          <div class="review-avatar">R</div>
+          <div><div class="review-name">Robert M.</div><div class="review-loc">📍 Warszawa Wola</div></div>
+        </div>
+      </article>
+      <article class="review-card reveal">
+        <div class="review-stars">★★★★★</div>
+        <p class="review-text">„Materac po zalaniu – myśleliśmy, że do wyrzucenia. Pan przyjechał w ciągu 4 godzin od telefonu, wyprał, wydezynfekował i zapachu nie ma w ogóle. Oszczędziliśmy 2000 zł na nowym."</p>
+        <div class="review-author">
+          <div class="review-avatar">T</div>
+          <div><div class="review-name">Tomek i Gosia</div><div class="review-loc">📍 Grodzisk Mazowiecki</div></div>
+        </div>
+      </article>
+    </div>
+  </div>
+</section>
 
-        function updateSliderWidth() {
-            const rootWidth = sliderRoot.getBoundingClientRect().width;
-            wrapElement.style.width = rootWidth + 'px';
-        }
+<!-- FAQ -->
+<section class="section faq-section" id="faq" aria-labelledby="faq-heading">
+  <div class="section-inner">
+    <div class="reveal text-center">
+      <span class="section-tag">FAQ</span>
+      <h2 class="section-title" id="faq-heading">Często zadawane<br><em>pytania</em></h2>
+      <p class="section-sub" style="margin-left: auto; margin-right: auto;">Masz wątpliwości? Odpowiadamy na najczęstsze pytania klientów z Warszawy i okolic.</p>
+    </div>
+    <div class="faq-list reveal">
+      <div class="faq-item">
+        <button class="faq-q" aria-expanded="false">Jak długo schnie kanapa po praniu? <span class="arrow">+</span></button>
+        <div class="faq-a"><p>Po praniu ekstrakcyjnym tapicerka jest lekko wilgotna i schnie zazwyczaj od 2 do 6 godzin, w zależności od grubości materiału i wentylacji pomieszczenia. Woda nie kapie ani nie ocieka – możesz siedzieć na kanapie już po kilku godzinach.</p></div>
+      </div>
+      <div class="faq-item">
+        <button class="faq-q" aria-expanded="false">Czy usuwacie każdą plamę? <span class="arrow">+</span></button>
+        <div class="faq-a"><p>Usuwanie plam jest wliczone w cenę każdej usługi – nie dopłacasz za to. Większość plam usuwa się skutecznie, jednak bardzo stare lub utrwalone zanieczyszczenia mogą się tylko rozjaśnić. Zawsze informujemy o realnych możliwościach przed rozpoczęciem pracy.</p></div>
+      </div>
+      <div class="faq-item">
+        <button class="faq-q" aria-expanded="false">Czy muszę przenosić meble przed przyjazdem? <span class="arrow">+</span></button>
+        <div class="faq-a"><p>Nie, przyjeżdżamy z własnym sprzętem i pracujemy na miejscu. Wystarczy, że zapewnisz dostęp do gniazdka elektrycznego. Prosimy jedynie o swobodny dostęp do mebla z każdej strony – możemy pomóc odsunąć lżejsze elementy.</p></div>
+      </div>
+      <div class="faq-item">
+        <button class="faq-q" aria-expanded="false">Czy środki piorące są bezpieczne dla dzieci i alergików? <span class="arrow">+</span></button>
+        <div class="faq-a"><p>Tak, używamy wyłącznie atestowanych, profesjonalnych środków premium – marki Kärcher, Pro's Choice, Tenzi. Są bezpieczne dla dzieci, zwierząt domowych i osób z alergiami. Po praniu nie pozostają chemiczne opary.</p></div>
+      </div>
+      <div class="faq-item">
+        <button class="faq-q" aria-expanded="false">Na jakim terenie działacie? <span class="arrow">+</span></button>
+        <div class="faq-a"><p>Obsługujemy całą Warszawę (wszystkie dzielnice) oraz okoliczne miejscowości: Brwinów, Pruszków, Piastów, Milanówek, Podkowa Leśna, Otrębusy, Grodzisk Mazowiecki, Ożarów Mazowiecki, Błonie, Żyrardów i inne. Dojazd gratis na terenie Warszawy przy zamówieniu od 150 zł.</p></div>
+      </div>
+      <div class="faq-item">
+        <button class="faq-q" aria-expanded="false">Jak szybko mogę umówić wizytę? <span class="arrow">+</span></button>
+        <div class="faq-a"><p>Zazwyczaj realizujemy zlecenia tego samego lub następnego dnia roboczego. W nagłych przypadkach (zalanie, wymiociny, mocz) interweniujemy jeszcze szybciej. Zadzwoń pod 690 000 386 i umów się na dogodny termin.</p></div>
+      </div>
+      <div class="faq-item">
+        <button class="faq-q" aria-expanded="false">Jak wygląda pranie dywanu z odbiorem? <span class="arrow">+</span></button>
+        <div class="faq-a"><p>Odbieramy dywan z Twojego domu, pierzemy go w warunkach warsztatowych i dowozimy z powrotem czysty, suchy i pachnący. Czas realizacji to ok. 7 dni roboczych. Odbiór i zwrot z Brwinowa i okolic jest całkowicie bezpłatny.</p></div>
+      </div>
+    </div>
+  </div>
+</section>
 
-        window.addEventListener('resize', updateSliderWidth);
-        updateSliderWidth(); // Inicjalizacja startowa
+<!-- CONTACT -->
+<section class="section contact-section" id="kontakt" aria-labelledby="contact-heading">
+  <div class="section-inner">
+    <div class="contact-grid">
+      <div class="contact-info reveal">
+        <span class="section-tag">Kontakt</span>
+        <h2 id="contact-heading">Umów pranie<br>już dziś – <span style="color:var(--blue)">zadzwoń!</span></h2>
+        <p>Skontaktuj się z nami telefonicznie lub wypełnij formularz. Oddzwonimy w ciągu godziny i zaproponujemy najbliższy wolny termin. Działamy 7 dni w tygodniu.</p>
+        <div class="contact-detail">
+          <div class="contact-detail-icon">📞</div>
+          <div class="contact-detail-text">
+            <div class="label">Telefon / SMS / WhatsApp</div>
+            <a href="tel:690000386">690 000 386</a>
+          </div>
+        </div>
+        <div class="contact-detail">
+          <div class="contact-detail-icon">📍</div>
+          <div class="contact-detail-text">
+            <div class="label">Obszar działania</div>
+            <span>Warszawa, Brwinów, Pruszków i okolice (50 km)</span>
+          </div>
+        </div>
+        <div class="contact-detail">
+          <div class="contact-detail-icon">🕐</div>
+          <div class="contact-detail-text">
+            <div class="label">Godziny pracy</div>
+            <span>Pon–Sob: 8:00–20:00 | Niedziela: na umówienie</span>
+          </div>
+        </div>
+        <div class="contact-detail">
+          <div class="contact-detail-icon">💳</div>
+          <div class="contact-detail-text">
+            <div class="label">Płatność</div>
+            <span>Gotówka lub BLIK na telefon. Możliwość faktury bez VAT.</span>
+          </div>
+        </div>
+      </div>
+      <div class="contact-form reveal">
+        <h3 style="font-family: var(--font-display); font-size: 22px; font-weight: 700; margin-bottom: 24px; color: var(--navy);">Wyślij zapytanie</h3>
+        <form id="contact-form" novalidate>
+          <div class="form-group">
+            <label for="name">Imię i nazwisko</label>
+            <input type="text" id="name" name="name" placeholder="Jan Kowalski" required>
+          </div>
+          <div class="form-group">
+            <label for="phone">Numer telefonu *</label>
+            <input type="tel" id="phone" name="phone" placeholder="690 000 000" required>
+          </div>
+          <div class="form-group">
+            <label for="city">Miasto / dzielnica</label>
+            <input type="text" id="city" name="city" placeholder="np. Warszawa Mokotów, Brwinów">
+          </div>
+          <div class="form-group">
+            <label for="service">Interesuje mnie</label>
+            <select id="service" name="service">
+              <option value="">-- Wybierz usługę --</option>
+              <option>Pranie kanapy / narożnika</option>
+              <option>Pranie materaca</option>
+              <option>Pranie dywanu / wykładziny</option>
+              <option>Pranie krzeseł / foteli</option>
+              <option>Ozonowanie pomieszczeń</option>
+              <option>Usługi dla firmy / biura</option>
+              <option>Kilka usług jednocześnie</option>
+            </select>
+          </div>
+          <div class="form-group">
+            <label for="message">Dodatkowe informacje</label>
+            <textarea id="message" name="message" placeholder="Opisz swoje potrzeby, np. rozmiar dywanu, rodzaj tkaniny, rodzaj plam..."></textarea>
+          </div>
+          <button type="submit" class="form-submit">📞 Wyślij i czekaj na kontakt</button>
+          <p class="form-note">Oddzwonimy do Ciebie w ciągu 1 godziny w godzinach pracy.</p>
+        </form>
+      </div>
+    </div>
+  </div>
+</section>
 
-        function moveSlider(clientX) {
-            const rect = sliderRoot.getBoundingClientRect();
-            const x = clientX - rect.left;
-            let percentage = (x / rect.width) * 100;
-            
-            if (percentage < 0) percentage = 0;
-            if (percentage > 100) percentage = 100;
+<!-- FOOTER -->
+<footer class="footer" role="contentinfo">
+  <div class="footer-inner">
+    <div class="footer-brand">
+      <span class="logo">Mobi<span>Wash</span></span>
+      <p>Profesjonalne pranie kanap, materacy, dywanów i krzeseł w Warszawie, Brwinowie, Pruszkowie i okolicach. Dojeżdżamy do klienta z własnym sprzętem.</p>
+      <div style="margin-top: 20px;">
+        <a href="tel:690000386" style="display:inline-flex; align-items:center; gap:8px; color: var(--cyan); font-weight:700; font-size:18px; text-decoration:none;">📞 690 000 386</a>
+      </div>
+    </div>
+    <div class="footer-col">
+      <h5>Usługi</h5>
+      <ul>
+        <li><a href="#uslugi">Pranie kanap Warszawa</a></li>
+        <li><a href="#uslugi">Pranie narożników</a></li>
+        <li><a href="#uslugi">Pranie materacy Warszawa</a></li>
+        <li><a href="#uslugi">Pranie dywanów</a></li>
+        <li><a href="#uslugi">Pranie krzeseł</a></li>
+        <li><a href="#uslugi">Ozonowanie mieszkań</a></li>
+        <li><a href="#uslugi">Pranie tapicerki dla firm</a></li>
+      </ul>
+    </div>
+    <div class="footer-col">
+      <h5>Obszar działania</h5>
+      <ul>
+        <li><span>Warszawa (wszystkie dzielnice)</span></li>
+        <li><span>Brwinów i okolice</span></li>
+        <li><span>Pruszków, Piastów</span></li>
+        <li><span>Milanówek, Komorów</span></li>
+        <li><span>Grodzisk Mazowiecki</span></li>
+        <li><span>Ożarów Mazowiecki</span></li>
+        <li><span>Błonie, Żyrardów</span></li>
+      </ul>
+    </div>
+  </div>
+  <div class="footer-areas">
+    <strong style="color:rgba(255,255,255,0.4);">Pranie kanap Warszawa</strong> • pranie narożnika Warszawa • pranie materacy Warszawa • pranie dywanów Warszawa •
+    czyszczenie tapicerki meblowej Warszawa • pranie krzeseł Warszawa • pranie kanap Brwinów • pranie kanap Pruszków •
+    czyszczenie kanap Mokotów • pranie tapicerki Ursynów • pranie materacy Wilanów • pranie dywanów Wola •
+    ozonowanie mieszkań Warszawa • pranie tapicerki Grodzisk Mazowiecki • czyszczenie kanap Milanówek
+  </div>
+  <div class="footer-bottom">
+    <span>© 2024 MobiWash. Wszelkie prawa zastrzeżone.</span>
+    <span>Tel: <a href="tel:690000386" style="color: var(--cyan); text-decoration:none;">690 000 386</a></span>
+    <span><a href="#" style="color: rgba(255,255,255,0.4); text-decoration:none; font-size:12px;">Polityka prywatności</a></span>
+  </div>
+</footer>
 
-            sliderHandle.style.left = percentage + '%';
-            clipLayer.style.width = percentage + '%';
-        }
+<!-- Sticky CTA -->
+<a href="tel:690000386" class="sticky-phone" aria-label="Zadzwoń do MobiWash">📞</a>
 
-        // Mouse Events
-        sliderHandle.addEventListener('mousedown', () => isDragging = true);
-        window.addEventListener('mouseup', () => isDragging = false);
-        window.addEventListener('mousemove', (e) => {
-            if (!isDragging) return;
-            moveSlider(e.clientX);
-        });
+<script>
+  // ── HAMBURGER ──
+  const ham = document.getElementById('hamburger');
+  const nav = document.getElementById('nav-links');
+  ham.addEventListener('click', () => nav.classList.toggle('open'));
 
-        // Touch Events (Mobile)
-        sliderHandle.addEventListener('touchstart', () => isDragging = true);
-        window.addEventListener('touchend', () => isDragging = false);
-        window.addEventListener('touchmove', (e) => {
-            if (!isDragging) return;
-            if (e.touches.length > 0) {
-                moveSlider(e.touches[0].clientX);
-            }
-        });
-    </script>
+  // ── BEFORE/AFTER SLIDER ──
+  function initSlider(container, beforeEl, handleEl) {
+    let dragging = false;
+    function setPosition(pct) {
+      pct = Math.max(2, Math.min(98, pct));
+      beforeEl.style.clipPath = `inset(0 ${100 - pct}% 0 0)`;
+      handleEl.style.left = pct + '%';
+    }
+    function getPos(e, rect) {
+      const clientX = e.touches ? e.touches[0].clientX : e.clientX;
+      return Math.max(0, Math.min(100, (clientX - rect.left) / rect.width * 100));
+    }
+    container.addEventListener('mousedown', e => { dragging = true; setPosition(getPos(e, container.getBoundingClientRect())); });
+    container.addEventListener('touchstart', e => { dragging = true; setPosition(getPos(e, container.getBoundingClientRect())); }, {passive:true});
+    document.addEventListener('mousemove', e => { if (dragging) setPosition(getPos(e, container.getBoundingClientRect())); });
+    document.addEventListener('touchmove', e => { if (dragging) setPosition(getPos(e, container.getBoundingClientRect())); }, {passive:true});
+    document.addEventListener('mouseup', () => dragging = false);
+    document.addEventListener('touchend', () => dragging = false);
+  }
+
+  // Hero slider
+  initSlider(document.getElementById('hero-slider'), document.getElementById('hero-before'), document.getElementById('hero-handle'));
+
+  // Gallery sliders
+  document.querySelectorAll('[data-slider]').forEach(slider => {
+    const before = slider.querySelector('.ba-before');
+    const handle = slider.querySelector('.ba-handle');
+    initSlider(slider, before, handle);
+  });
+
+  // ── FAQ ──
+  document.querySelectorAll('.faq-q').forEach(btn => {
+    btn.addEventListener('click', () => {
+      const item = btn.closest('.faq-item');
+      const isOpen = item.classList.contains('open');
+      document.querySelectorAll('.faq-item').forEach(i => i.classList.remove('open'));
+      if (!isOpen) item.classList.add('open');
+      btn.setAttribute('aria-expanded', !isOpen);
+    });
+  });
+
+  // ── SCROLL REVEAL ──
+  const revealEls = document.querySelectorAll('.reveal');
+  const observer = new IntersectionObserver(entries => {
+    entries.forEach((entry, i) => {
+      if (entry.isIntersecting) {
+        setTimeout(() => entry.target.classList.add('visible'), i * 80);
+        observer.unobserve(entry.target);
+      }
+    });
+  }, { threshold: 0.1 });
+  revealEls.forEach(el => observer.observe(el));
+
+  // ── FORM ──
+  document.getElementById('contact-form').addEventListener('submit', e => {
+    e.preventDefault();
+    const phone = document.getElementById('phone').value.trim();
+    if (!phone) { alert('Prosimy podać numer telefonu.'); return; }
+    const btn = e.target.querySelector('.form-submit');
+    btn.textContent = '✅ Wysłano! Oddzwonimy wkrótce.';
+    btn.style.background = 'var(--green)';
+    btn.disabled = true;
+  });
+
+  // ── SMOOTH NAV CLOSE ──
+  document.querySelectorAll('.nav-links a').forEach(a => {
+    a.addEventListener('click', () => nav.classList.remove('open'));
+  });
+</script>
 </body>
 </html>
