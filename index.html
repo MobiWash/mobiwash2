@@ -53,7 +53,7 @@
 
         /* Hero */
         .hero { background: linear-gradient(135deg, #1e1e2f 0%, #11111b 100%); color: var(--white); padding: 100px 0 120px 0; position: relative; overflow: hidden; }
-        .hero-grid { display: grid; grid-template-columns: 1.2f 0.8fr; gap: 40px; align-items: center; }
+        .hero-grid { display: grid; grid-template-columns: 1.2fr 0.8fr; gap: 40px; align-items: center; }
         .hero-badge { background: rgba(0, 188, 212, 0.15); color: var(--primary); padding: 6px 16px; border-radius: 50px; display: inline-block; font-size: 0.85rem; font-weight: 600; margin-bottom: 20px; letter-spacing: 1px; text-transform: uppercase; border: 1px solid rgba(0, 188, 212, 0.3); }
         .hero h1 { font-size: 3.5rem; font-weight: 700; line-height: 1.2; margin-bottom: 25px; }
         .hero p { font-size: 1.15rem; color: #b4b4c7; margin-bottom: 35px; max-width: 600px; }
@@ -223,14 +223,14 @@
                     <h3>Główne Pozycje Cennika</h3>
                 </div>
                 <table class="pricing-table">
-                    <tr><td>Kanapa / Sofa (2-osobowa)</td><td class="price">od 130 - 150 zł</td></tr>
-                    <tr><td>Narożnik standardowy (do 2,5 m.b.)</td><td class="price">od 180 - 200 zł</td></tr>
-                    <tr><td>Narożnik duży (powyżej 2,5 m.b. / litera U)</td><td class="price">od 250 zł</td></tr>
-                    <tr><td>Fotel wypoczynkowy</td><td class="price">od 50 - 80 zł</td></tr>
-                    <tr><td>Krzesło z oparciem tapicerowanym</td><td class="price">od 30 - 40 zł</td></tr>
-                    <tr><td>Materac 1-osobowy (czyszczenie dwustronne)</td><td class="price">od 200 zł</td></tr>
-                    <tr><td>Materac 2-osobowy (czyszczenie dwustronne)</td><td class="price">od 250 - 300 zł</td></tr>
-                    <tr><td>Dywany i wykładziny (cena za m²)</td><td class="price">od 15 - 25 zł</td></tr>
+                    <tr><td>Kanapa / Sofa (2-osobowa)</td><td class="price" data-id="price-kanapa">od 130 - 150 zł</td></tr>
+                    <tr><td>Narożnik standardowy (do 2,5 m.b.)</td><td class="price" data-id="price-naroznik-std">od 180 - 200 zł</td></tr>
+                    <tr><td>Narożnik duży (powyżej 2,5 m.b. / litera U)</td><td class="price" data-id="price-naroznik-lrg">od 250 zł</td></tr>
+                    <tr><td>Fotel wypoczynkowy</td><td class="price" data-id="price-fotel">od 50 - 80 zł</td></tr>
+                    <tr><td>Krzesło z oparciem tapicerowanym</td><td class="price" data-id="price-krzeslo">od 30 - 40 zł</td></tr>
+                    <tr><td>Materac 1-osobowy (czyszczenie dwustronne)</td><td class="price" data-id="price-materac-1">od 200 zł</td></tr>
+                    <tr><td>Materac 2-osobowy (czyszczenie dwustronne)</td><td class="price" data-id="price-materac-2">od 250 - 300 zł</td></tr>
+                    <tr><td>Dywany i wykładziny (cena za m²)</td><td class="price" data-id="price-dywany">od 15 - 25 zł</td></tr>
                 </table>
                 <div class="pricing-footer">
                     * Minimalna kwota zamówienia z darmowym dojazdem wynosi 160 zł. W przypadku nietypowych mebli, wycenę ustalamy indywidualnie na podstawie zdjęcia (WhatsApp/MMS).
@@ -262,23 +262,23 @@
             <div class="blog-grid">
                 <div class="blog-card">
                     <div class="blog-content">
-                        <div class="blog-meta">Poradnik • 2026-06</div>
-                        <h3>Jak przygotować mieszkanie do wizyty specjalisty?</h3>
-                        <p>Zastanawiasz się, czy musisz odsuwać ciężkie meble przed naszym przyjazdem? W tym artykule wyjaśniamy, jak zabezpieczamy podłogi dedykowanymi matami wodoodpornymi i jak przygotować wolną przestrzeń wokół kanapy, by pranie przebiegło sprawnie, bezpiecznie i bez chlapania na ściany.</p>
+                        <div class="blog-meta" data-id="blog-meta-1">Poradnik • 2026-06</div>
+                        <h3 data-id="blog-title-1">Jak przygotować mieszkanie do wizyty specjalisty?</h3>
+                        <p data-id="blog-desc-1">Zastanawiasz się, czy musisz odsuwać ciężkie meble przed naszym przyjazdem? W tym artykule wyjaśniamy, jak zabezpieczamy podłogi dedykowanymi matami wodoodpornymi i jak przygotować wolną przestrzeń wokół kanapy, by pranie przebiegło sprawnie, bezpiecznie i bez chlapania na ściany.</p>
                     </div>
                 </div>
                 <div class="blog-card">
                     <div class="blog-content">
-                        <div class="blog-meta">Zdrowie • 2026-05</div>
-                        <h3>Pranie materaca sypialnianego – dlaczego warto?</h3>
-                        <p>Materac to miejsce, w którym spędzamy 1/3 swojego życia. Z czasem gromadzi on pot, roztocza i złuszczony naskórek, których nie usunie zwykłe odkurzanie. Poznaj zalety czyszczenia ekstrakcyjnego połączonego z dezynfekcją antyalergiczną i dowiedz się, dlaczego alergicy odczuwają ulgę już pierwszej nocy po zabiegu.</p>
+                        <div class="blog-meta" data-id="blog-meta-2">Zdrowie • 2026-05</div>
+                        <h3 data-id="blog-title-2">Pranie materaca sypialnianego – dlaczego warto?</h3>
+                        <p data-id="blog-desc-2">Materac to miejsce, w którym spędzamy 1/3 swojego życia. Z czasem gromadzi on pot, roztocza i złuszczony naskórek, których nie usunie zwykłe odkurzanie. Poznaj zalety czyszczenia ekstrakcyjnego połączonego z dezynfekcją antyalergiczną i dowiedz się, dlaczego alergicy odczuwają ulgę już pierwszej nocy po zabiegu.</p>
                     </div>
                 </div>
                 <div class="blog-card">
                     <div class="blog-content">
-                        <div class="blog-meta">Technologia • 2026-05</div>
-                        <h3>Pranie ekstrakcyjne vs domowe sposoby – fakty i mity</h3>
-                        <p>Kupne pianki z marketów często bezpowrotnie utrwalają plamy i wciskają brud głębiej w gąbkę, powodując powstawanie brzydkich zacieków. Wyjaśniamy przewagę technologiczną maszyn Santoemma Sabrina, które pod ciśnieniem wprowadzają detergent i natychmiast odsysają go wraz z rozpuszczonym brudem.</p>
+                        <div class="blog-meta" data-id="blog-meta-3">Technologia • 2026-05</div>
+                        <h3 data-id="blog-title-3">Pranie ekstrakcyjne vs domowe sposoby – fakty i mity</h3>
+                        <p data-id="blog-desc-3">Kupne pianki z marketów często bezpowrotnie utrwalają plamy i wciskają brud głębiej w gąbkę, powodując powstawanie brzydkich zacieków. Wyjaśniamy przewagę technologiczną maszyn Santoemma Sabrina, które pod ciśnieniem wprowadzają detergent i natychmiast odsysają go wraz z rozpuszczonym brudem.</p>
                     </div>
                 </div>
             </div>
