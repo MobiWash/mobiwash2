@@ -3,187 +3,226 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Panel Administracyjny</title>
-    
+    <title>Panel Live-CMS | MobiWash</title>
     <style>
-        /* Domyślnie ukrywamy cały panel admina */
-        body { 
-            margin: 0; 
-            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; 
-            background-color: #f4f6f9;
-            visibility: hidden; 
+        :root {
+            --dark-bg: #11111b;
+            --panel-bg: #1e1e2f;
+            --primary: #00bcd4;
+            --text-light: #f4f6f9;
+            --border: #2a2a3f;
         }
+        * { box-sizing: border-box; margin: 0; padding: 0; }
+        body { font-family: 'Segoe UI', Tahoma, sans-serif; background: var(--dark-bg); color: var(--text-light); padding: 30px 10px; }
+        .container { max-width: 900px; margin: 0 auto; background: var(--panel-bg); padding: 40px; border-radius: 16px; box-shadow: 0 10px 30px rgba(0,0,0,0.5); display: none; }
         
-        /* Styl dla nakładki logowania - widocznej na starcie */
-        .login-overlay {
-            visibility: visible;
-            position: fixed; top: 0; left: 0; width: 100%; height: 100%;
-            background: #1e1e2f; display: flex; justify-content: center;
-            align-items: center; z-index: 999999;
-        }
-        .login-box {
-            background: white; padding: 40px; border-radius: 12px;
-            box-shadow: 0 8px 30px rgba(0,0,0,0.3); text-align: center; width: 340px;
-        }
-        .login-box h2 { margin-top: 0; margin-bottom: 25px; color: #333; font-size: 24px; }
-        .login-box input {
-            width: 100%; padding: 12px; margin-bottom: 20px;
-            border: 2px solid #e0e0e0; border-radius: 6px; box-sizing: border-box; 
-            font-size: 16px; transition: border-color 0.3s;
-        }
-        .login-box input:focus { border-color: #4e73df; outline: none; }
-        .login-box button {
-            width: 100%; padding: 12px; background: #4e73df; color: white;
-            border: none; border-radius: 6px; cursor: pointer; font-size: 16px; font-weight: bold;
-            transition: background 0.3s;
-        }
-        .login-box button:hover { background: #2e59d9; }
-        .error-msg { color: #e74a3b; font-size: 14px; margin-top: 15px; display: none; font-weight: bold; }
-    </style>
-
-    <style>
-        /* Główne kontenery panelu */
-        .admin-container { display: flex; min-height: 100vh; }
+        /* Overlay Logowania */
+        .login-overlay { position: fixed; top:0; left:0; width:100%; height:100%; background: var(--dark-bg); display: flex; justify-content: center; align-items: center; z-index: 1000; }
+        .login-box { background: var(--panel-bg); padding: 40px; border-radius: 12px; text-align: center; width: 400px; border: 1px solid var(--border); }
         
-        /* Menu boczne */
-        .sidebar { width: 260px; background: #222e3c; color: #fff; padding: 20px; }
-        .sidebar h3 { margin-top: 0; padding-bottom: 20px; border-bottom: 1px solid #2b3947; color: #fff; }
-        .sidebar ul { list-style: none; padding: 0; margin: 20px 0; }
-        .sidebar ul li { padding: 12px 15px; border-radius: 4px; margin-bottom: 5px; cursor: pointer; transition: 0.2s; }
-        .sidebar ul li:hover, .sidebar ul li.active { background: #303e4e; color: #4e73df; font-weight: bold; }
+        h2 { margin-bottom: 25px; color: var(--primary); font-weight: 600; }
+        .form-group { margin-bottom: 20px; text-align: left; }
+        label { display: block; margin-bottom: 8px; font-size: 0.9rem; color: #b4b4c7; }
+        input[type="text"], textarea, input[type="password"] { width: 100%; padding: 12px; background: #11111b; border: 1px solid var(--border); border-radius: 6px; color: #fff; font-size: 0.95rem; font-family: inherit; }
+        input:focus, textarea:focus { outline: none; border-color: var(--primary); }
         
-        /* Główna zawartość */
-        .main-content { flex: 1; padding: 30px; }
-        .header { display: flex; justify-content: space-between; align-items: center; margin-bottom: 30px; }
-        .header h1 { margin: 0; color: #333; }
+        button { background: var(--primary); color: white; border: none; padding: 14px 25px; border-radius: 6px; cursor: pointer; font-weight: 600; font-size: 1rem; width: 100%; transition: all 0.2s; }
+        button:hover { background: #0097a7; transform: translateY(-1px); }
         
-        /* Karty ze statystykami */
-        .stats-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(220px, 1fr)); gap: 20px; margin-bottom: 30px; }
-        .stat-card { background: white; padding: 20px; border-radius: 8px; box-shadow: 0 2px 6px rgba(0,0,0,0.05); border-left: 5px solid #4e73df; }
-        .stat-card.green { border-left-color: #1cc88a; }
-        .stat-card.orange { border-left-color: #f6c23e; }
-        .stat-card title { font-size: 12px; text-transform: uppercase; color: #858796; font-weight: bold; display: block; margin-bottom: 5px; }
-        .stat-card .number { font-size: 24px; font-weight: bold; color: #5a5c69; }
+        .grid-prices { display: grid; grid-template-columns: 1fr 1fr; gap: 20px; }
+        .blog-section { background: #11111b; padding: 20px; border-radius: 8px; margin-bottom: 25px; border: 1px solid var(--border); }
         
-        /* Tabela danych */
-        .data-section { background: white; padding: 20px; border-radius: 8px; box-shadow: 0 2px 6px rgba(0,0,0,0.05); }
-        .data-section h2 { margin-top: 0; margin-bottom: 20px; color: #333; font-size: 18px; }
-        table { width: 100%; border-collapse: collapse; text-align: left; }
-        th, td { padding: 12px 15px; border-bottom: 1px solid #e3e6f0; }
-        th { background-color: #f8f9fc; color: #4e73df; font-weight: bold; }
-        tr:hover { background-color: #f8f9fc; }
-        
-        /* Przyciski akcji */
-        .btn-action { padding: 6px 12px; border: none; border-radius: 4px; cursor: pointer; font-size: 12px; margin-right: 5px; }
-        .btn-edit { background: #f6c23e; color: white; }
-        .btn-delete { background: #e74a3b; color: white; }
-        .btn-logout { background: #858796; color: white; padding: 8px 15px; border: none; border-radius: 4px; cursor: pointer; }
+        /* Spinner */
+        .loader { display: none; margin: 20px auto; border: 4px solid #f3f3f3; border-top: 4px solid var(--primary); border-radius: 50%; width: 30px; height: 30px; animation: spin 1s linear infinite; }
+        @keyframes spin { 0% { transform: rotate(0deg); } 100% { transform: rotate(360deg); } }
+        .status-msg { text-align: center; margin-top: 15px; font-weight: 600; }
     </style>
 </head>
 <body>
 
-    <div id="loginOverlay" class="login-overlay">
+    <div class="login-overlay" id="loginOverlay">
         <div class="login-box">
-            <h2>Panel Administracyjny</h2>
-            <input type="password" id="passwordInput" placeholder="Wprowadź hasło..." onkeydown="if(event.key === 'Enter') checkPassword()">
-            <button onclick="checkPassword()">Zaloguj się</button>
-            <div id="errorMsg" class="error-msg">Błędne hasło! Spróbuj ponownie.</div>
+            <h2>MobiWash Live CMS</h2>
+            <div class="form-group">
+                <label>Wklej swój GitHub Personal Access Token:</label>
+                <input type="password" id="ghToken" placeholder="github_pat_...">
+            </div>
+            <button onclick="loadWebsiteData()">Zaloguj i Pobierz Dane</button>
+            <div class="loader" id="loginLoader"></div>
+            <p id="loginError" style="color: #ff5252; margin-top: 15px; display: none;">Błąd autoryzacji. Sprawdź poprawność tokenu.</p>
         </div>
     </div>
 
-    <div class="admin-container">
-        <aside class="sidebar">
-            <h3>MobiWash Admin</h3>
-            <ul>
-                <li class="active">Pulpit główny</li>
-                <li>Zlecenia / Rezerwacje</li>
-                <li>Klienci</li>
-                <li>Ustawienia strony</li>
-            </ul>
-        </aside>
+    <div class="container" id="adminContainer">
+        <h2>Zarządzanie Treścią Strony</h2>
+        <div style="margin-bottom: 30px; padding-bottom: 15px; border-bottom: 1px solid var(--border); display: flex; justify-content: space-between; align-items: center;">
+            <span>Połączono z repozytorium: <b>mobiwash2</b></span>
+            <button onclick="location.reload()" style="width: auto; padding: 8px 15px; background: #ff5252;">Wyloguj</button>
+        </div>
 
-        <main class="main-content">
-            <header class="header">
-                <h1>Witaj w panelu zarządzania</h1>
-                <button class="btn-logout" onclick="logout()">Wyloguj</button>
-            </header>
+        <h3 style="margin-bottom: 15px; color: var(--primary);">1. Aktualny Cennik Usług</h3>
+        <div class="grid-prices" id="pricesFormGrid">
+            </div>
 
-            <section class="stats-grid">
-                <div class="stat-card">
-                    <title>Nowe zapytania</title>
-                    <div class="number">12</div>
-                </div>
-                <div class="stat-card green">
-                    <title>Zrealizowane dziś</title>
-                    <div class="number">4</div>
-                </div>
-                <div class="stat-card orange">
-                    <title>Oczekujące opinie</title>
-                    <div class="number">6</div>
-                </div>
-            </section>
+        <h3 style="margin-top: 40px; margin-bottom: 15px; color: var(--primary);">2. Artykuły na Blogu (SEO)</h3>
+        <div id="blogFormGrid">
+            </div>
 
-            <section class="data-section">
-                <h2>Ostatnie wiadomości z formularza</h2>
-                <table>
-                    <thead>
-                        <tr>
-                            <th>Data</th>
-                            <th>Klient</th>
-                            <th>Usługa</th>
-                            <th>Status</th>
-                            <th>Akcje</th>
-                        </tr>
-                    </thead>
-                    <tbody>
-                        <tr>
-                            <td>22.06.2026</td>
-                            <td>Jan Kowalski</td>
-                            <td>Czyszczenie narożnika</td>
-                            <td><span style="color: #1cc88a; font-weight: bold;">Nowe</span></td>
-                            <td>
-                                <button class="btn-action btn-edit">Podgląd</button>
-                                <button class="btn-action btn-delete">Usuń</button>
-                            </td>
-                        </tr>
-                        <tr>
-                            <td>21.06.2026</td>
-                            <td>Anna Nowak</td>
-                            <td>Pranie materaca</td>
-                            <td><span style="color: #858796;">W trakcie</span></td>
-                            <td>
-                                <button class="btn-action btn-edit">Podgląd</button>
-                                <button class="btn-action btn-delete">Usuń</button>
-                            </td>
-                        </tr>
-                    </tbody>
-                </table>
-            </section>
-        </main>
+        <button id="saveBtn" onclick="saveWebsiteData()" style="background: #4caf50; font-size: 1.2rem; padding: 18px; margin-top: 30px;">Zapisz i opublikuj zmiany na stronie</button>
+        <div class="loader" id="saveLoader"></div>
+        <div class="status-msg" id="statusMsg"></div>
     </div>
 
     <script>
-        function checkPassword() {
-            const input = document.getElementById('passwordInput').value;
-            const error = document.getElementById('errorMsg');
+        let GITHUB_TOKEN = '';
+        const REPO = 'MobiWash/mobiwash2';
+        const FILE_PATH = 'index.html';
+        let fileSha = '';
+        let pageDOM = null;
+
+        // Kluczowe identyfikatory cen na stronie głównej
+        const priceIds = [
+            { id: 'price-kanapa', label: 'Kanapa / Sofa (2-osobowa)' },
+            { id: 'price-naroznik-std', label: 'Narożnik standardowy' },
+            { id: 'price-naroznik-lrg', label: 'Narożnik duży / litera U' },
+            { id: 'price-fotel', label: 'Fotel wypoczynkowy' },
+            { id: 'price-krzeslo', label: 'Krzesło z oparciem' },
+            { id: 'price-materac-1', label: 'Materac 1-osobowy' },
+            { id: 'price-materac-2', label: 'Materac 2-osobowy' },
+            { id: 'price-dywany', label: 'Dywany i wykładziny (za m²)' }
+        ];
+
+        // Kodowanie / Dekodowanie UTF-8 bez uszkadzania polskich znaków
+        function b64DecodeUnicode(str) {
+            return decodeURIComponent(atob(str).split('').map(c => '%' + ('00' + c.charCodeAt(0).toString(16)).slice(-2)).join(''));
+        }
+        function b64EncodeUnicode(str) {
+            return btoa(encodeURIComponent(str).replace(/%([0-9A-F]{2})/g, (match, p1) => String.fromCharCode('0x' + p1)));
+        }
+
+        // Pobieranie danych z GitHuba
+        async function loadWebsiteData() {
+            GITHUB_TOKEN = document.getElementById('ghToken').value.trim();
+            if(!GITHUB_TOKEN) return alert('Wpisz token!');
             
-            // Definicja Twojego hasła
-            if (input === 'DzieciecaMoc') {
-                // Jeśli hasło poprawne: usuwamy okno logowania i odsłaniamy panel
+            document.getElementById('loginLoader').style.display = 'block';
+            document.getElementById('loginError').style.display = 'none';
+
+            try {
+                const res = await fetch(`https://api.github.com/repos/${REPO}/contents/${FILE_PATH}`, {
+                    headers: { 'Authorization': `token ${GITHUB_TOKEN}` }
+                });
+                
+                if(!res.ok) throw new Error();
+                const data = await res.json();
+                fileSha = data.sha;
+                
+                const htmlContent = b64DecodeUnicode(data.content);
+                const parser = new DOMParser();
+                pageDOM = parser.parseFromString(htmlContent, 'text/html');
+
+                buildForms();
+
                 document.getElementById('loginOverlay').remove();
-                document.body.style.visibility = 'visible';
-            } else {
-                // Jeśli błędne: czyścimy pole i pokazujemy komunikat błędu
-                error.style.display = 'block';
-                document.getElementById('passwordInput').value = '';
+                document.getElementById('adminContainer').style.display = 'block';
+            } catch(err) {
+                document.getElementById('loginLoader').style.display = 'none';
+                document.getElementById('loginError').style.display = 'block';
             }
         }
 
-        function logout() {
-            // Szybkie przeładowanie strony powoduje ponowne zablokowanie panelem hasła
-            window.location.reload();
+        // Budowanie formularzy na bazie wczytanego kodu HTML
+        function buildForms() {
+            // Cennik
+            const pricesGrid = document.getElementById('pricesFormGrid');
+            priceIds.forEach(item => {
+                const element = pageDOM.querySelector(`[data-id="${item.id}"]`);
+                const val = element ? element.textContent : '';
+                pricesGrid.innerHTML += `
+                    <div class="form-group">
+                        <label>${item.label}</label>
+                        <input type="text" id="input-${item.id}" value="${val}">
+                    </div>`;
+            });
+
+            // Blog (3 artykuły)
+            const blogGrid = document.getElementById('blogFormGrid');
+            for(let i=1; i<=3; i++) {
+                const t = pageDOM.querySelector(`[data-id="blog-title-${i}"]`)?.textContent || '';
+                const m = pageDOM.querySelector(`[data-id="blog-meta-${i}"]`)?.textContent || '';
+                const d = pageDOM.querySelector(`[data-id="blog-desc-${i}"]`)?.textContent || '';
+                
+                blogGrid.innerHTML += `
+                    <div class="blog-section">
+                        <h4>Artykuł ${i}</h4><br>
+                        <div class="form-group">
+                            <label>Kategoria i Data</label>
+                            <input type="text" id="input-blog-meta-${i}" value="${m}">
+                        </div>
+                        <div class="form-group">
+                            <label>Tytuł wpisu</label>
+                            <input type="text" id="input-blog-title-${i}" value="${t}">
+                        </div>
+                        <div class="form-group">
+                            <label>Treść skrócona (Zajawka)</label>
+                            <textarea rows="3" id="input-blog-desc-${i}">${d}</textarea>
+                        </div>
+                    </div>`;
+            }
+        }
+
+        // Wysyłanie zmodyfikowanego kodu z powrotem na GitHub
+        async function saveWebsiteData() {
+            document.getElementById('saveLoader').style.display = 'block';
+            const status = document.getElementById('statusMsg');
+            status.style.color = '#fff';
+            status.textContent = 'Zapisywanie na GitHub...';
+
+            // Zgraj dane z formularzy do wirtualnego pliku DOM
+            priceIds.forEach(item => {
+                const el = pageDOM.querySelector(`[data-id="${item.id}"]`);
+                if(el) el.textContent = document.getElementById(`input-${item.id}`).value;
+            });
+
+            for(let i=1; i<=3; i++) {
+                const metaEl = pageDOM.querySelector(`[data-id="blog-meta-${i}"]`);
+                const titleEl = pageDOM.querySelector(`[data-id="blog-title-${i}"]`);
+                const descEl = pageDOM.querySelector(`[data-id="blog-desc-${i}"]`);
+                
+                if(metaEl) metaEl.textContent = document.getElementById(`input-blog-meta-${i}`).value;
+                if(titleEl) titleEl.textContent = document.getElementById(`input-blog-title-${i}`).value;
+                if(descEl) descEl.textContent = document.getElementById(`input-blog-desc-${i}`).value;
+            }
+
+            const updatedHtml = "<!DOCTYPE html>\n" + pageDOM.documentElement.outerHTML;
+
+            try {
+                const res = await fetch(`https://api.github.com/repos/${REPO}/contents/${FILE_PATH}`, {
+                    method: 'PUT',
+                    headers: {
+                        'Authorization': `token ${GITHUB_TOKEN}`,
+                        'Content-Type': 'application/json'
+                    },
+                    body: JSON.stringify({
+                        message: "Aktualizacja cen i bloga przez MobiWash Admin Panel",
+                        content: b64EncodeUnicode(updatedHtml),
+                        sha: fileSha
+                    })
+                });
+
+                if(!res.ok) throw new Error();
+                const resData = await res.json();
+                fileSha = resData.content.sha; // uaktualnij sha na wypadek kolejnego zapisu
+
+                document.getElementById('saveLoader').style.display = 'none';
+                status.style.color = '#4caf50';
+                status.innerHTML = '✨ <b>Sukces!</b> Zmiany zostały wysłane do GitHuba.<br>Cloudflare właśnie przebudowuje stronę. Za około 45 sekund nowości będą widoczne dla wszystkich!';
+            } catch(err) {
+                document.getElementById('saveLoader').style.display = 'none';
+                status.style.color = '#ff5252';
+                status.textContent = 'Błąd podczas zapisu. Upewnij się, że Twój token nie wygasł.';
+            }
         }
     </script>
-
 </body>
 </html>
