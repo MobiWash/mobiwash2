@@ -1,228 +1,1465 @@
 <!DOCTYPE html>
 <html lang="pl">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Panel Live-CMS | MobiWash</title>
-    <style>
-        :root {
-            --dark-bg: #11111b;
-            --panel-bg: #1e1e2f;
-            --primary: #00bcd4;
-            --text-light: #f4f6f9;
-            --border: #2a2a3f;
-        }
-        * { box-sizing: border-box; margin: 0; padding: 0; }
-        body { font-family: 'Segoe UI', Tahoma, sans-serif; background: var(--dark-bg); color: var(--text-light); padding: 30px 10px; }
-        .container { max-width: 900px; margin: 0 auto; background: var(--panel-bg); padding: 40px; border-radius: 16px; box-shadow: 0 10px 30px rgba(0,0,0,0.5); display: none; }
-        
-        /* Overlay Logowania */
-        .login-overlay { position: fixed; top:0; left:0; width:100%; height:100%; background: var(--dark-bg); display: flex; justify-content: center; align-items: center; z-index: 1000; }
-        .login-box { background: var(--panel-bg); padding: 40px; border-radius: 12px; text-align: center; width: 400px; border: 1px solid var(--border); }
-        
-        h2 { margin-bottom: 25px; color: var(--primary); font-weight: 600; }
-        .form-group { margin-bottom: 20px; text-align: left; }
-        label { display: block; margin-bottom: 8px; font-size: 0.9rem; color: #b4b4c7; }
-        input[type="text"], textarea, input[type="password"] { width: 100%; padding: 12px; background: #11111b; border: 1px solid var(--border); border-radius: 6px; color: #fff; font-size: 0.95rem; font-family: inherit; }
-        input:focus, textarea:focus { outline: none; border-color: var(--primary); }
-        
-        button { background: var(--primary); color: white; border: none; padding: 14px 25px; border-radius: 6px; cursor: pointer; font-weight: 600; font-size: 1rem; width: 100%; transition: all 0.2s; }
-        button:hover { background: #0097a7; transform: translateY(-1px); }
-        
-        .grid-prices { display: grid; grid-template-columns: 1fr 1fr; gap: 20px; }
-        .blog-section { background: #11111b; padding: 20px; border-radius: 8px; margin-bottom: 25px; border: 1px solid var(--border); }
-        
-        /* Spinner */
-        .loader { display: none; margin: 20px auto; border: 4px solid #f3f3f3; border-top: 4px solid var(--primary); border-radius: 50%; width: 30px; height: 30px; animation: spin 1s linear infinite; }
-        @keyframes spin { 0% { transform: rotate(0deg); } 100% { transform: rotate(360deg); } }
-        .status-msg { text-align: center; margin-top: 15px; font-weight: 600; }
-    </style>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>MobiWash CMS – Panel Administracyjny</title>
+<meta name="robots" content="noindex,nofollow">
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+<style>
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+:root{
+  --bg:#0B0D14;--s1:#13161F;--s2:#1A1E2D;--s3:#222840;--s4:#2B3155;
+  --bd:#252B40;--bd2:#35406A;
+  --ac:#4F72FF;--ac2:#7B96FF;--acg:rgba(79,114,255,.15);
+  --gr:#22D3A0;--rd:#FF5B5B;--or:#FF9500;--cy:#22D3EE;
+  --tx:#DDE2F5;--tx2:#8892B8;--tx3:#4A5280;
+  --wh:#fff; --font:'Inter',sans-serif;
+  --r:10px;--r2:6px;--r3:4px;--t:.15s ease;
+}
+html,body{height:100%;overflow:hidden;font-family:var(--font);background:var(--bg);color:var(--tx);font-size:13px}
+
+/* ══ TOPBAR ══ */
+#tb{position:fixed;top:0;left:0;right:0;height:50px;z-index:500;background:var(--s1);border-bottom:1px solid var(--bd);display:flex;align-items:center;padding:0 14px;gap:8px}
+.logo{font-size:15px;font-weight:800;color:var(--wh);display:flex;align-items:center;gap:6px;white-space:nowrap;text-decoration:none}
+.logo em{color:var(--cy);font-style:normal}
+.logo b{background:var(--ac);color:#fff;font-size:9px;padding:2px 5px;border-radius:3px;letter-spacing:.5px;font-style:normal}
+.vsep{width:1px;height:22px;background:var(--bd);flex-shrink:0;margin:0 2px}
+.tbtn{padding:5px 12px;border-radius:var(--r3);border:none;background:none;color:var(--tx2);font-size:12.5px;font-weight:500;cursor:pointer;font-family:var(--font);white-space:nowrap;transition:var(--t)}
+.tbtn:hover{color:var(--tx);background:var(--s2)}
+.tbtn.on{color:var(--wh);background:var(--s3)}
+.tr{margin-left:auto;display:flex;align-items:center;gap:8px}
+.ghst{display:flex;align-items:center;gap:6px;font-size:11.5px;color:var(--tx3);max-width:180px;overflow:hidden}
+.ghd{width:7px;height:7px;border-radius:50%;background:var(--rd);flex-shrink:0;transition:background .3s}
+.ghd.on{background:var(--gr);animation:blk 2s infinite}
+@keyframes blk{0%,100%{opacity:1}50%{opacity:.4}}
+.btn{display:inline-flex;align-items:center;gap:5px;padding:6px 12px;border-radius:var(--r2);border:1px solid var(--bd);background:var(--s2);color:var(--tx);font-size:12.5px;font-weight:500;cursor:pointer;font-family:var(--font);white-space:nowrap;transition:var(--t);line-height:1.2}
+.btn:hover:not(:disabled){border-color:var(--bd2);background:var(--s3);color:var(--wh)}
+.btn:disabled{opacity:.35;cursor:default;pointer-events:none}
+.btn-p{background:var(--ac)!important;border-color:var(--ac)!important;color:#fff!important}.btn-p:hover:not(:disabled){background:var(--ac2)!important;border-color:var(--ac2)!important}
+.btn-g{background:var(--gr)!important;border-color:var(--gr)!important;color:#0B0D14!important}.btn-g:hover:not(:disabled){background:#1bc48f!important}
+.btn-r{background:var(--rd)!important;border-color:var(--rd)!important;color:#fff!important}
+.btn-sm{padding:4px 9px;font-size:11.5px}
+.btn-xs{padding:2px 7px;font-size:11px}
+
+/* ══ APP LAYOUT ══ */
+#app{position:fixed;top:50px;left:0;right:0;bottom:0;display:flex}
+.tp{display:none;flex:1;overflow:hidden}.tp.on{display:flex}
+
+/* ══ SIDEBAR ══ */
+#sb{width:238px;min-width:238px;background:var(--s1);border-right:1px solid var(--bd);display:flex;flex-direction:column;overflow:hidden}
+.sb-hd{padding:9px 12px;border-bottom:1px solid var(--bd);display:flex;align-items:center;justify-content:space-between;flex-shrink:0}
+.sb-ttl{font-size:10px;font-weight:700;letter-spacing:1px;color:var(--tx3);text-transform:uppercase}
+.sb-body{flex:1;overflow-y:auto;padding:5px}
+.sb-body::-webkit-scrollbar{width:3px}
+.sb-body::-webkit-scrollbar-thumb{background:var(--bd2);border-radius:2px}
+.sb-ft{padding:10px 12px;border-top:1px solid var(--bd);display:flex;flex-direction:column;gap:5px;flex-shrink:0}
+
+.si{display:flex;align-items:center;gap:7px;padding:7px 8px;border-radius:var(--r2);cursor:pointer;margin-bottom:2px;border:1.5px solid transparent;user-select:none;transition:var(--t)}
+.si:hover{background:var(--s2);border-color:var(--bd)}
+.si.on{background:var(--acg);border-color:var(--ac)}
+.si.ghost{opacity:.3}
+.si.dov{border-top-color:var(--ac);border-top-width:2px}
+.si .dh{color:var(--tx3);font-size:14px;cursor:grab;flex-shrink:0}.si .dh:active{cursor:grabbing}
+.si .ic{font-size:15px;flex-shrink:0}
+.si .nm{font-size:12.5px;font-weight:500;color:var(--tx);flex:1;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+.si.hid .nm{color:var(--tx3);text-decoration:line-through}
+.eyebtn{width:20px;height:20px;border-radius:3px;border:1px solid transparent;background:none;cursor:pointer;display:flex;align-items:center;justify-content:center;font-size:11px;flex-shrink:0;color:var(--tx3);transition:var(--t)}
+.eyebtn:hover{border-color:var(--bd2);color:var(--tx)}
+
+/* ══ CANVAS ══ */
+#cv{flex:1;display:flex;flex-direction:column;overflow:hidden;background:#090A10}
+.cv-bar{height:41px;background:var(--s1);border-bottom:1px solid var(--bd);display:flex;align-items:center;padding:0 10px;gap:7px;flex-shrink:0}
+.dvbtn{width:27px;height:27px;border-radius:var(--r3);border:1px solid var(--bd);background:none;cursor:pointer;display:flex;align-items:center;justify-content:center;font-size:13px;color:var(--tx2);transition:var(--t)}
+.dvbtn:hover,.dvbtn.on{background:var(--s2);border-color:var(--ac);color:var(--wh)}
+.urlbar{padding:4px 9px;border-radius:var(--r3);border:1px solid var(--bd);background:var(--s2);color:var(--tx3);font-size:10.5px;font-family:monospace;width:200px}
+.ubadge{font-size:11px;color:var(--or);opacity:0;transition:opacity .2s;pointer-events:none}
+.ubadge.on{opacity:1}
+#cvs{flex:1;overflow:auto;display:flex;justify-content:center;padding:14px}
+#cvs::-webkit-scrollbar{width:5px;height:5px}
+#cvs::-webkit-scrollbar-thumb{background:var(--bd2);border-radius:3px}
+#frm{background:#fff;border-radius:6px;box-shadow:0 12px 60px rgba(0,0,0,.65);overflow:hidden;transition:all .28s;flex-shrink:0;position:relative}
+#pf{display:block;border:none}
+
+/* ══ EDITOR PANEL ══ */
+#ep{width:318px;min-width:318px;background:var(--s1);border-left:1px solid var(--bd);display:flex;flex-direction:column;overflow:hidden}
+.ep-hd{padding:10px 12px;border-bottom:1px solid var(--bd);display:flex;align-items:center;gap:8px;min-height:43px;flex-shrink:0}
+.ep-ttl{font-size:13px;font-weight:600;color:var(--wh);flex:1}
+.ep-body{flex:1;overflow-y:auto;padding:12px}
+.ep-body::-webkit-scrollbar{width:3px}
+.ep-body::-webkit-scrollbar-thumb{background:var(--bd2);border-radius:2px}
+.ep-ft{padding:10px 12px;border-top:1px solid var(--bd);display:flex;gap:6px;flex-shrink:0}
+
+/* ══ FORM FIELDS ══ */
+.fg{margin-bottom:12px}
+.fl{display:block;font-size:10px;font-weight:700;letter-spacing:.7px;color:var(--tx3);text-transform:uppercase;margin-bottom:5px}
+.fi,.fs,.ft{width:100%;padding:7px 9px;border-radius:var(--r2);border:1px solid var(--bd);background:var(--s2);color:var(--tx);font-size:12.5px;font-family:var(--font);outline:none;transition:var(--t);line-height:1.4}
+.fi:focus,.fs:focus,.ft:focus{border-color:var(--ac);box-shadow:0 0 0 2px var(--acg)}
+.fi.err{border-color:var(--rd)}
+.ft{resize:vertical;min-height:65px}
+.frow{display:flex;gap:7px}.frow .fg{flex:1}
+.hint{font-size:10.5px;color:var(--tx3);margin-top:3px;line-height:1.4}
+.char-count{font-size:10px;color:var(--tx3);text-align:right;margin-top:2px}
+.char-count.warn{color:var(--or)}
+.char-count.over{color:var(--rd)}
+
+/* ══ REPEATER ══ */
+.ri{background:var(--s2);border:1px solid var(--bd);border-radius:var(--r2);padding:10px;margin-bottom:7px;position:relative}
+.ri-del{position:absolute;top:7px;right:7px;width:20px;height:20px;border-radius:3px;border:1px solid var(--bd);background:none;color:var(--tx3);cursor:pointer;font-size:11px;display:flex;align-items:center;justify-content:center;transition:var(--t)}
+.ri-del:hover{background:var(--rd);border-color:var(--rd);color:#fff}
+.addbtn{width:100%;padding:6px;border:1px dashed var(--bd2);border-radius:var(--r2);background:none;color:var(--tx3);cursor:pointer;font-size:12px;font-family:var(--font);transition:var(--t);margin-top:4px}
+.addbtn:hover{border-color:var(--ac);color:var(--ac)}
+
+/* price row inline */
+.pr{display:flex;align-items:center;gap:5px;padding:5px 0;border-bottom:1px solid var(--bd)}
+.pr:last-child{border-bottom:none}
+.pr-n{flex:1}.pr-v{width:88px}
+.pr-d{width:21px;height:21px;border-radius:3px;border:1px solid var(--bd);background:none;color:var(--tx3);cursor:pointer;font-size:11px;display:flex;align-items:center;justify-content:center;flex-shrink:0;transition:var(--t)}
+.pr-d:hover{background:var(--rd);border-color:var(--rd);color:#fff}
+
+/* ══ IMG UPLOAD ══ */
+.imgbox{border:2px dashed var(--bd);border-radius:var(--r2);padding:14px;text-align:center;cursor:pointer;position:relative;transition:var(--t)}
+.imgbox:hover{border-color:var(--ac);background:var(--acg)}
+.imgbox input[type=file]{position:absolute;inset:0;opacity:0;cursor:pointer;font-size:0}
+.imgbox-txt{font-size:11.5px;color:var(--tx3);pointer-events:none}
+.imgpw{position:relative;border-radius:var(--r2);overflow:hidden;border:1px solid var(--bd);margin-bottom:6px}
+.imgpw img{width:100%;display:block;max-height:110px;object-fit:cover}
+.imgpa{position:absolute;inset:0;background:rgba(0,0,0,.55);display:none;align-items:center;justify-content:center;gap:6px}
+.imgpw:hover .imgpa{display:flex}
+
+/* ══ TOGGLE ══ */
+.trow{display:flex;align-items:center;justify-content:space-between;margin-bottom:9px}
+.tlbl{font-size:12.5px;color:var(--tx2)}
+.tgl{position:relative;width:33px;height:18px;flex-shrink:0}
+.tgl input{opacity:0;width:0;height:0;position:absolute}
+.tgl-sl{position:absolute;inset:0;background:var(--s3);border-radius:9px;cursor:pointer;transition:.2s;border:1px solid var(--bd)}
+.tgl-sl::before{content:'';position:absolute;width:12px;height:12px;border-radius:50%;background:var(--tx3);top:2px;left:2px;transition:.2s}
+.tgl input:checked+.tgl-sl{background:var(--ac);border-color:var(--ac)}
+.tgl input:checked+.tgl-sl::before{transform:translateX(15px);background:#fff}
+
+/* ══ ACCORDION ══ */
+.acc{border:1px solid var(--bd);border-radius:var(--r2);margin-bottom:6px;overflow:hidden}
+.acc-h{padding:8px 12px;display:flex;align-items:center;justify-content:space-between;cursor:pointer;font-size:12.5px;font-weight:600;color:var(--tx);background:var(--s2);transition:var(--t)}
+.acc-h:hover{background:var(--s3)}
+.acc-h .arr{transition:transform .2s;color:var(--tx3);font-size:10px}
+.acc-b{padding:10px 12px;border-top:1px solid var(--bd);display:none}
+.acc.open .acc-b{display:block}
+.acc.open .arr{transform:rotate(180deg)}
+
+/* ══ SECTION DIVIDER ══ */
+.sec-div{font-size:10px;font-weight:700;letter-spacing:.7px;color:var(--tx3);text-transform:uppercase;padding:12px 0 6px;border-top:1px solid var(--bd);margin-top:8px;margin-bottom:6px}
+.sec-div:first-child{border-top:none;padding-top:0;margin-top:0}
+
+/* ══ HIGHLIGHT OVERLAY (in iframe via postMessage) ══ */
+
+/* ══ PANELS (SEO / History / Settings) ══ */
+.pscroll{flex:1;overflow-y:auto;padding:22px}
+.pscroll::-webkit-scrollbar{width:5px}
+.pscroll::-webkit-scrollbar-thumb{background:var(--bd2);border-radius:3px}
+.p-title{font-size:17px;font-weight:700;color:var(--wh);margin-bottom:4px}
+.p-sub{font-size:12.5px;color:var(--tx2);line-height:1.6;margin-bottom:20px}
+.seo-score{display:flex;align-items:center;gap:8px;margin-bottom:7px}
+.seo-score-lbl{font-size:12px;color:var(--tx2);width:200px;flex-shrink:0}
+.seo-track{flex:1;height:5px;background:var(--s3);border-radius:3px;overflow:hidden}
+.seo-fill{height:100%;border-radius:3px;transition:width .6s}
+.seo-pct{font-size:10.5px;width:30px;text-align:right;flex-shrink:0}
+.commit-card{background:var(--s1);border:1px solid var(--bd);border-radius:var(--r);padding:12px 14px;margin-bottom:7px;display:flex;gap:10px;align-items:flex-start}
+.csha{font-family:monospace;font-size:10.5px;background:var(--acg);color:var(--ac2);padding:2px 7px;border-radius:3px;flex-shrink:0;margin-top:2px}
+.cmsg{font-size:13px;font-weight:500;color:var(--tx);margin-bottom:3px}
+.cmeta{font-size:11px;color:var(--tx3)}
+.rbtn{margin-left:auto;padding:3px 9px;border-radius:3px;border:1px solid var(--bd);background:none;color:var(--tx2);font-size:11px;cursor:pointer;font-family:var(--font);flex-shrink:0;transition:var(--t)}
+.rbtn:hover{border-color:var(--or);color:var(--or)}
+
+/* ══ MODALS ══ */
+.ov{position:fixed;inset:0;background:rgba(0,0,0,.72);z-index:2000;display:none;align-items:center;justify-content:center;backdrop-filter:blur(5px)}
+.ov.on{display:flex}
+.md{background:var(--s1);border:1px solid var(--bd);border-radius:14px;padding:28px;width:460px;max-width:92vw;max-height:90vh;overflow-y:auto}
+.md h2{font-size:18px;font-weight:700;color:var(--wh);margin-bottom:6px}
+.md-sub{font-size:12.5px;color:var(--tx2);line-height:1.6;margin-bottom:16px}
+.md-step{display:flex;gap:10px;padding:10px;background:var(--s2);border:1px solid var(--bd);border-radius:var(--r2);margin-bottom:7px}
+.md-sn{width:22px;height:22px;border-radius:50%;background:var(--ac);color:#fff;font-size:11px;font-weight:700;display:flex;align-items:center;justify-content:center;flex-shrink:0;margin-top:1px}
+.md-st{font-size:12.5px;color:var(--tx2);line-height:1.5}.md-st strong{color:var(--tx)}.md-st a{color:var(--ac2);text-decoration:none}.md-st a:hover{text-decoration:underline}
+.md-act{display:flex;gap:8px;margin-top:14px}
+.alert{padding:8px 12px;border-radius:var(--r2);font-size:12.5px;margin-top:8px;line-height:1.5}
+.al-g{background:rgba(34,211,160,.1);border:1px solid rgba(34,211,160,.3);color:var(--gr)}
+.al-r{background:rgba(255,91,91,.1);border:1px solid rgba(255,91,91,.3);color:var(--rd)}
+.al-b{background:rgba(79,114,255,.1);border:1px solid rgba(79,114,255,.3);color:var(--ac2)}
+.al-y{background:rgba(255,149,0,.1);border:1px solid rgba(255,149,0,.3);color:var(--or)}
+.ps{display:flex;align-items:center;gap:8px;padding:6px 0;font-size:12.5px;color:var(--tx2)}
+.ps-ic{width:19px;height:19px;border-radius:50%;background:var(--s3);display:flex;align-items:center;justify-content:center;font-size:10px;flex-shrink:0}
+.ps.done .ps-ic{background:var(--gr);color:#0B0D14}.ps.done{color:var(--tx)}
+.ps.pend .ps-ic{background:var(--ac);animation:blk 1s infinite}.ps.pend{color:var(--tx)}
+.ps.fail .ps-ic{background:var(--rd)}
+
+/* ══ TOAST ══ */
+#toast{position:fixed;bottom:14px;right:14px;z-index:9000;background:var(--s2);border:1px solid var(--bd);border-radius:var(--r);padding:10px 14px;display:flex;align-items:center;gap:8px;font-size:12.5px;color:var(--tx);box-shadow:0 6px 28px rgba(0,0,0,.45);transform:translateY(60px);opacity:0;transition:.25s cubic-bezier(.34,1.56,.64,1);max-width:310px;pointer-events:none}
+#toast.on{transform:translateY(0);opacity:1}
+#toast-ico{font-size:16px;flex-shrink:0}
+
+/* ══ LOADER ══ */
+#ldr{position:fixed;inset:0;background:var(--bg);z-index:9999;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:14px}
+.spin{width:34px;height:34px;border:3px solid var(--bd);border-top-color:var(--ac);border-radius:50%;animation:sp .65s linear infinite}
+@keyframes sp{to{transform:rotate(360deg)}}
+.ldr-txt{font-size:12.5px;color:var(--tx3)}
+
+/* ══ PLACEHOLDER ══ */
+.ph{text-align:center;padding:36px 14px;color:var(--tx3)}
+.ph-ico{font-size:38px;margin-bottom:10px}
+.ph p{font-size:12.5px;line-height:1.6}
+
+/* ══ VALIDATION ══ */
+.val-err{font-size:11px;color:var(--rd);margin-top:3px;display:none}
+.val-err.on{display:block}
+
+/* ══ CODE TAG ══ */
+code{background:var(--s3);color:var(--ac2);padding:1px 5px;border-radius:3px;font-size:11.5px;font-family:monospace}
+/* ══ MISC ══ */
+.fw{width:100%}
+</style>
 </head>
 <body>
 
-    <div class="login-overlay" id="loginOverlay">
-        <div class="login-box">
-            <h2>MobiWash Live CMS</h2>
-            <div class="form-group">
-                <label>Wklej swój GitHub Personal Access Token:</label>
-                <input type="password" id="ghToken" placeholder="github_pat_...">
-            </div>
-            <button onclick="loadWebsiteData()">Zaloguj i Pobierz Dane</button>
-            <div class="loader" id="loginLoader"></div>
-            <p id="loginError" style="color: #ff5252; margin-top: 15px; display: none;">Błąd autoryzacji. Sprawdź poprawność tokenu.</p>
-        </div>
+<!-- LOADER -->
+<div id="ldr"><div class="spin"></div><div class="ldr-txt" id="ldr-txt">Inicjalizacja panelu CMS…</div></div>
+
+<!-- TOPBAR -->
+<div id="tb">
+  <a class="logo" href="#">⚙ Mobi<em>Wash</em> <b>CMS</b></a>
+  <div class="vsep"></div>
+  <button class="tbtn on" data-tab="editor">🎨 Edytor</button>
+  <button class="tbtn" data-tab="seo">🔍 SEO</button>
+  <button class="tbtn" data-tab="history">📜 Historia</button>
+  <button class="tbtn" data-tab="settings">⚙ Ustawienia</button>
+  <div class="tr">
+    <div class="ghst"><div class="ghd" id="ghd"></div><span id="ghlbl" style="overflow:hidden;text-overflow:ellipsis;white-space:nowrap">Nie połączono z GitHub</span></div>
+    <div class="vsep"></div>
+    <button class="btn btn-sm" id="btn-prev">👁 Podgląd</button>
+    <button class="btn btn-p btn-sm" id="btn-save" disabled>💾 Zapisz do GitHub</button>
+  </div>
+</div>
+
+<!-- APP -->
+<div id="app">
+
+<!-- ══ TAB: EDITOR ══ -->
+<div class="tp on" id="tab-editor">
+
+  <!-- SIDEBAR -->
+  <div id="sb">
+    <div class="sb-hd">
+      <span class="sb-ttl">Sekcje strony</span>
+      <span style="font-size:10px;color:var(--tx3)">↕ przeciągnij</span>
     </div>
-
-    <div class="container" id="adminContainer">
-        <h2>Zarządzanie Treścią Strony</h2>
-        <div style="margin-bottom: 30px; padding-bottom: 15px; border-bottom: 1px solid var(--border); display: flex; justify-content: space-between; align-items: center;">
-            <span>Połączono z repozytorium: <b>mobiwash2</b></span>
-            <button onclick="location.reload()" style="width: auto; padding: 8px 15px; background: #ff5252;">Wyloguj</button>
-        </div>
-
-        <h3 style="margin-bottom: 15px; color: var(--primary);">1. Aktualny Cennik Usług</h3>
-        <div class="grid-prices" id="pricesFormGrid">
-            </div>
-
-        <h3 style="margin-top: 40px; margin-bottom: 15px; color: var(--primary);">2. Artykuły na Blogu (SEO)</h3>
-        <div id="blogFormGrid">
-            </div>
-
-        <button id="saveBtn" onclick="saveWebsiteData()" style="background: #4caf50; font-size: 1.2rem; padding: 18px; margin-top: 30px;">Zapisz i opublikuj zmiany na stronie</button>
-        <div class="loader" id="saveLoader"></div>
-        <div class="status-msg" id="statusMsg"></div>
+    <div class="sb-body" id="sb-list"></div>
+    <div class="sb-ft">
+      <button class="btn btn-sm" onclick="quickAdd('opinie')">＋ Dodaj opinię</button>
+      <button class="btn btn-sm" onclick="quickAdd('faq')">＋ Dodaj FAQ</button>
+      <button class="btn btn-sm" onclick="quickAdd('realizacje')">＋ Dodaj realizację</button>
     </div>
+  </div>
 
-    <script>
-        let GITHUB_TOKEN = '';
-        const REPO = 'MobiWash/mobiwash2';
-        const FILE_PATH = 'index.html';
-        let fileSha = '';
-        let pageDOM = null;
+  <!-- CANVAS -->
+  <div id="cv">
+    <div class="cv-bar">
+      <button class="dvbtn on" data-dev="desktop" title="Desktop">🖥</button>
+      <button class="dvbtn" data-dev="tablet" title="Tablet 768px">⬜</button>
+      <button class="dvbtn" data-dev="mobile" title="Mobile 390px">📱</button>
+      <div class="vsep"></div>
+      <input class="urlbar" id="urlbar" value="index.html" readonly>
+      <div class="vsep"></div>
+      <button class="btn btn-sm" id="btn-reload" title="Odśwież podgląd">🔄</button>
+      <span class="ubadge" id="ubadge">● niezapisane zmiany</span>
+    </div>
+    <div id="cvs">
+      <div id="frm">
+        <iframe id="pf" title="Podgląd strony MobiWash"></iframe>
+      </div>
+    </div>
+  </div>
 
-        // Kluczowe identyfikatory cen na stronie głównej
-        const priceIds = [
-            { id: 'price-kanapa', label: 'Kanapa / Sofa (2-osobowa)' },
-            { id: 'price-naroznik-std', label: 'Narożnik standardowy' },
-            { id: 'price-naroznik-lrg', label: 'Narożnik duży / litera U' },
-            { id: 'price-fotel', label: 'Fotel wypoczynkowy' },
-            { id: 'price-krzeslo', label: 'Krzesło z oparciem' },
-            { id: 'price-materac-1', label: 'Materac 1-osobowy' },
-            { id: 'price-materac-2', label: 'Materac 2-osobowy' },
-            { id: 'price-dywany', label: 'Dywany i wykładziny (za m²)' }
-        ];
+  <!-- EDITOR PANEL -->
+  <div id="ep">
+    <div class="ep-hd">
+      <div class="ep-ttl" id="ep-ttl">← Wybierz sekcję</div>
+      <button class="btn btn-sm btn-xs" id="btn-rst" style="display:none" title="Przywróć domyślne">↺</button>
+      <button class="btn btn-sm btn-xs" id="btn-cls">✕</button>
+    </div>
+    <div class="ep-body" id="ep-body">
+      <div class="ph"><div class="ph-ico">👈</div><p>Kliknij sekcję na liście po lewej stronie, aby edytować jej treść</p></div>
+    </div>
+    <div class="ep-ft" id="ep-ft" style="display:none">
+      <button class="btn btn-p" id="btn-apply" style="flex:1">✓ Zastosuj zmiany</button>
+    </div>
+  </div>
 
-        // Kodowanie / Dekodowanie UTF-8 bez uszkadzania polskich znaków
-        function b64DecodeUnicode(str) {
-            return decodeURIComponent(atob(str).split('').map(c => '%' + ('00' + c.charCodeAt(0).toString(16)).slice(-2)).join(''));
-        }
-        function b64EncodeUnicode(str) {
-            return btoa(encodeURIComponent(str).replace(/%([0-9A-F]{2})/g, (match, p1) => String.fromCharCode('0x' + p1)));
-        }
+</div><!-- /tab-editor -->
 
-        // Pobieranie danych z GitHuba
-        async function loadWebsiteData() {
-            GITHUB_TOKEN = document.getElementById('ghToken').value.trim();
-            if(!GITHUB_TOKEN) return alert('Wpisz token!');
-            
-            document.getElementById('loginLoader').style.display = 'block';
-            document.getElementById('loginError').style.display = 'none';
+<!-- ══ TAB: SEO ══ -->
+<div class="tp" id="tab-seo">
+  <div class="pscroll" style="max-width:700px">
+    <div class="p-title">🔍 Optymalizacja SEO i Google Maps</div>
+    <div class="p-sub">Zarządzaj meta tagami, Schema.org LocalBusiness i nasyceniem frazami kluczowymi dla pozycjonowania lokalnego w Warszawie, Brwinowie i Pruszkowie.</div>
+    <div id="seo-frm"></div>
+  </div>
+</div>
 
-            try {
-                const res = await fetch(`https://api.github.com/repos/${REPO}/contents/${FILE_PATH}`, {
-                    headers: { 'Authorization': `token ${GITHUB_TOKEN}` }
-                });
-                
-                if(!res.ok) throw new Error();
-                const data = await res.json();
-                fileSha = data.sha;
-                
-                const htmlContent = b64DecodeUnicode(data.content);
-                const parser = new DOMParser();
-                pageDOM = parser.parseFromString(htmlContent, 'text/html');
+<!-- ══ TAB: HISTORIA ══ -->
+<div class="tp" id="tab-history">
+  <div class="pscroll" style="max-width:760px">
+    <div class="p-title">📜 Historia zmian</div>
+    <div class="p-sub">Wszystkie commity dla pliku <code>index.html</code>. Kliknij „Przywróć" aby cofnąć stronę do wybranej wersji.</div>
+    <button class="btn btn-sm" id="btn-hist-ref" style="margin-bottom:14px">🔄 Odśwież historię</button>
+    <div id="hist-list"><div style="color:var(--tx3);font-size:13px">Połącz się z GitHub w zakładce Ustawienia, aby zobaczyć historię.</div></div>
+  </div>
+</div>
 
-                buildForms();
+<!-- ══ TAB: USTAWIENIA ══ -->
+<div class="tp" id="tab-settings">
+  <div class="pscroll" style="max-width:640px">
+    <div class="p-title">⚙ Ustawienia GitHub</div>
+    <div class="p-sub">Token PAT przechowywany jest wyłącznie w Twojej przeglądarce (localStorage) – nigdy nie trafia na żaden serwer zewnętrzny.</div>
+    <div id="sett-frm"></div>
+  </div>
+</div>
 
-                document.getElementById('loginOverlay').remove();
-                document.getElementById('adminContainer').style.display = 'block';
-            } catch(err) {
-                document.getElementById('loginLoader').style.display = 'none';
-                document.getElementById('loginError').style.display = 'block';
-            }
-        }
+</div><!-- /app -->
 
-        // Budowanie formularzy na bazie wczytanego kodu HTML
-        function buildForms() {
-            // Cennik
-            const pricesGrid = document.getElementById('pricesFormGrid');
-            priceIds.forEach(item => {
-                const element = pageDOM.querySelector(`[data-id="${item.id}"]`);
-                const val = element ? element.textContent : '';
-                pricesGrid.innerHTML += `
-                    <div class="form-group">
-                        <label>${item.label}</label>
-                        <input type="text" id="input-${item.id}" value="${val}">
-                    </div>`;
-            });
+<!-- ══ MODAL: GitHub ══ -->
+<div class="ov" id="ov-gh">
+<div class="md">
+  <h2>🔗 Połącz z GitHub</h2>
+  <p class="md-sub">Podłącz swoje repozytorium GitHub, aby zmiany z panelu były automatycznie zapisywane i publikowane na stronie.</p>
+  <div class="md-step"><div class="md-sn">1</div><div class="md-st">Wejdź na <a href="https://github.com/settings/tokens/new?scopes=repo&description=MobiWash+CMS" target="_blank">github.com/settings/tokens/new</a> – zaznacz zakres <strong>repo</strong> i wygeneruj token.</div></div>
+  <div class="md-step"><div class="md-sn">2</div><div class="md-st">Skopiuj token (zaczyna się od <strong>ghp_</strong> lub <strong>github_pat_</strong>) i wklej go poniżej.</div></div>
+  <div class="md-step"><div class="md-sn">3</div><div class="md-st">Podaj swoją nazwę użytkownika GitHub i nazwę repozytorium, gdzie wgrałeś pliki strony.</div></div>
+  <div style="margin-top:14px">
+    <div class="fg"><label class="fl">GitHub Personal Access Token</label><input class="fi" type="password" id="gh-tok" placeholder="ghp_xxxxxxxxxxxxxxxx" autocomplete="off"></div>
+    <div class="frow">
+      <div class="fg"><label class="fl">Użytkownik / Organizacja</label><input class="fi" id="gh-own" placeholder="np. jankowalski"></div>
+      <div class="fg"><label class="fl">Nazwa repozytorium</label><input class="fi" id="gh-rep" placeholder="np. mobiwash-strona"></div>
+    </div>
+    <div class="fg"><label class="fl">Branch (gałąź)</label><input class="fi" id="gh-br" value="main"></div>
+  </div>
+  <div id="gh-msg"></div>
+  <div class="md-act">
+    <button class="btn btn-p" id="btn-gh-conn" style="flex:1">🔗 Połącz i załaduj stronę</button>
+    <button class="btn" id="btn-gh-skip">Pomiń teraz</button>
+  </div>
+</div>
+</div>
 
-            // Blog (3 artykuły)
-            const blogGrid = document.getElementById('blogFormGrid');
-            for(let i=1; i<=3; i++) {
-                const t = pageDOM.querySelector(`[data-id="blog-title-${i}"]`)?.textContent || '';
-                const m = pageDOM.querySelector(`[data-id="blog-meta-${i}"]`)?.textContent || '';
-                const d = pageDOM.querySelector(`[data-id="blog-desc-${i}"]`)?.textContent || '';
-                
-                blogGrid.innerHTML += `
-                    <div class="blog-section">
-                        <h4>Artykuł ${i}</h4><br>
-                        <div class="form-group">
-                            <label>Kategoria i Data</label>
-                            <input type="text" id="input-blog-meta-${i}" value="${m}">
-                        </div>
-                        <div class="form-group">
-                            <label>Tytuł wpisu</label>
-                            <input type="text" id="input-blog-title-${i}" value="${t}">
-                        </div>
-                        <div class="form-group">
-                            <label>Treść skrócona (Zajawka)</label>
-                            <textarea rows="3" id="input-blog-desc-${i}">${d}</textarea>
-                        </div>
-                    </div>`;
-            }
-        }
+<!-- ══ MODAL: Zapis ══ -->
+<div class="ov" id="ov-save">
+<div class="md">
+  <h2 id="sv-ttl">💾 Zapisz zmiany do GitHub</h2>
+  <p class="md-sub">Zmiany zostaną opublikowane jako nowy commit. GitHub Pages zaktualizuje stronę w ciągu 1–3 minut.</p>
+  <div class="fg"><label class="fl">Opis zmiany (commit message)</label><input class="fi" id="sv-msg-inp" placeholder="Aktualizacja treści strony MobiWash"></div>
+  <div id="sv-prog" style="display:none;margin:10px 0"></div>
+  <div id="sv-alert"></div>
+  <div class="md-act" id="sv-act">
+    <button class="btn btn-g" id="btn-sv-ok" style="flex:1">✓ Potwierdź i opublikuj</button>
+    <button class="btn" id="btn-sv-cl">Anuluj</button>
+  </div>
+  <div id="sv-done" style="display:none;margin-top:10px">
+    <button class="btn btn-g" onclick="closeModal('ov-save')" style="width:100%">✓ Gotowe – zamknij</button>
+  </div>
+</div>
+</div>
 
-        // Wysyłanie zmodyfikowanego kodu z powrotem na GitHub
-        async function saveWebsiteData() {
-            document.getElementById('saveLoader').style.display = 'block';
-            const status = document.getElementById('statusMsg');
-            status.style.color = '#fff';
-            status.textContent = 'Zapisywanie na GitHub...';
+<!-- TOAST -->
+<div id="toast"><span id="toast-ico">✅</span><span id="toast-txt"></span></div>
 
-            // Zgraj dane z formularzy do wirtualnego pliku DOM
-            priceIds.forEach(item => {
-                const el = pageDOM.querySelector(`[data-id="${item.id}"]`);
-                if(el) el.textContent = document.getElementById(`input-${item.id}`).value;
-            });
+<script>
+/* ════════════════════════════════════════════════
+   STATE
+════════════════════════════════════════════════ */
+const A = {
+  gh:{ token:'', owner:'', repo:'', branch:'main' },
+  ok: false,
+  html: '',
+  sha: '',
+  dirty: false,
+  sec: null,           // active section id
+  data: {},            // sectionId → data object
+  order: [],
+  hidden: new Set(),
+};
 
-            for(let i=1; i<=3; i++) {
-                const metaEl = pageDOM.querySelector(`[data-id="blog-meta-${i}"]`);
-                const titleEl = pageDOM.querySelector(`[data-id="blog-title-${i}"]`);
-                const descEl = pageDOM.querySelector(`[data-id="blog-desc-${i}"]`);
-                
-                if(metaEl) metaEl.textContent = document.getElementById(`input-blog-meta-${i}`).value;
-                if(titleEl) titleEl.textContent = document.getElementById(`input-blog-title-${i}`).value;
-                if(descEl) descEl.textContent = document.getElementById(`input-blog-desc-${i}`).value;
-            }
+const SECS = [
+  { id:'hero',       name:'Hero – nagłówek',    icon:'🏠' },
+  { id:'trust',      name:'Pasek zaufania',      icon:'🛡' },
+  { id:'uslugi',     name:'Usługi (6 kart)',     icon:'🛋' },
+  { id:'realizacje', name:'Galeria Przed/Po',    icon:'📸' },
+  { id:'process',    name:'Proces – 5 kroków',  icon:'⚙' },
+  { id:'cennik',     name:'Cennik',              icon:'💰' },
+  { id:'areas',      name:'Obszar działania',    icon:'📍' },
+  { id:'opinie',     name:'Opinie klientów',     icon:'⭐' },
+  { id:'faq',        name:'FAQ',                 icon:'❓' },
+  { id:'kontakt',    name:'Kontakt',             icon:'📞' },
+  { id:'footer',     name:'Stopka',              icon:'📄' },
+];
+A.order = SECS.map(s=>s.id);
 
-            const updatedHtml = "<!DOCTYPE html>\n" + pageDOM.documentElement.outerHTML;
+/* ════════════════════════════════════════════════
+   BOOT
+════════════════════════════════════════════════ */
+document.addEventListener('DOMContentLoaded', async ()=>{
+  loadGH();
+  renderSidebar();
+  initDevSwitcher();
+  initTabs();
+  initEvents();         // sets up iframe bridge too
+  buildSEOForm();       // build SEO tab form with current data
+  buildSettingsForm();  // build Settings tab form with current GH config
+  setLdr('Ładowanie index.html…');
+  await loadHTML();
+  setTimeout(()=>{
+    document.getElementById('ldr').style.display='none';
+    if (!A.gh.token) openModal('ov-gh');
+    else toast('✅',`Połączono: ${A.gh.owner}/${A.gh.repo} | Strona załadowana`,4000);
+  }, 500);
+});
 
-            try {
-                const res = await fetch(`https://api.github.com/repos/${REPO}/contents/${FILE_PATH}`, {
-                    method: 'PUT',
-                    headers: {
-                        'Authorization': `token ${GITHUB_TOKEN}`,
-                        'Content-Type': 'application/json'
-                    },
-                    body: JSON.stringify({
-                        message: "Aktualizacja cen i bloga przez MobiWash Admin Panel",
-                        content: b64EncodeUnicode(updatedHtml),
-                        sha: fileSha
-                    })
-                });
+/* ════════════════════════════════════════════════
+   GITHUB
+════════════════════════════════════════════════ */
+function loadGH(){
+  try{
+    const d=JSON.parse(localStorage.getItem('mw_gh')||'{}');
+    A.gh={token:'',owner:'',repo:'',branch:'main',...d};
+    if(A.gh.token&&A.gh.owner&&A.gh.repo){ A.ok=true; setGHUI(true); }
+  }catch(e){}
+}
+function saveGH(){ localStorage.setItem('mw_gh',JSON.stringify(A.gh)); }
+function setGHUI(ok,lbl){
+  document.getElementById('ghd').className='ghd'+(ok?' on':'');
+  document.getElementById('ghlbl').textContent=ok?`${A.gh.owner}/${A.gh.repo}`:(lbl||'Nie połączono');
+  document.getElementById('btn-save').disabled=!ok;
+}
+async function connectGH(token,owner,repo,branch,msgEl){
+  msgEl.innerHTML='<div class="alert al-b">Sprawdzanie połączenia…</div>';
+  try{
+    A.gh={token,owner,repo,branch:branch||'main'};
+    const r=await fetch(`https://api.github.com/repos/${owner}/${repo}`,{headers:{Authorization:`token ${token}`}});
+    if(!r.ok) throw new Error(`HTTP ${r.status}: ${(await r.json()).message}`);
+    A.ok=true; saveGH(); setGHUI(true);
+    await loadHTML();
+    msgEl.innerHTML='<div class="alert al-g">✅ Połączono! Plik index.html załadowany z repozytorium.</div>';
+    setTimeout(()=>closeModal('ov-gh'),1800);
+  }catch(err){
+    A.ok=false; setGHUI(false);
+    msgEl.innerHTML=`<div class="alert al-r">❌ ${err.message}</div>`;
+  }
+}
+async function ghGet(p){
+  const {token,owner,repo}=A.gh;
+  const r=await fetch(`https://api.github.com/repos/${owner}/${repo}/${p}`,{headers:{Authorization:`token ${token}`,Accept:'application/vnd.github.v3+json'}});
+  if(!r.ok) throw new Error(`GitHub ${r.status}: ${(await r.json()).message||''}`);
+  return r.json();
+}
+async function ghPut(p,body){
+  const {token,owner,repo}=A.gh;
+  const r=await fetch(`https://api.github.com/repos/${owner}/${repo}/${p}`,{method:'PUT',headers:{Authorization:`token ${token}`,'Content-Type':'application/json',Accept:'application/vnd.github.v3+json'},body:JSON.stringify(body)});
+  if(!r.ok) throw new Error(`GitHub ${r.status}: ${(await r.json()).message||''}`);
+  return r.json();
+}
 
-                if(!res.ok) throw new Error();
-                const resData = await res.json();
-                fileSha = resData.content.sha; // uaktualnij sha na wypadek kolejnego zapisu
+/* ════════════════════════════════════════════════
+   LOAD HTML
+════════════════════════════════════════════════ */
+async function loadHTML(){
+  if(A.ok){
+    try{
+      const f=await ghGet('contents/index.html');
+      A.html=atob(f.content.replace(/\n/g,''));
+      A.sha=f.sha;
+      parseHTMLIntoData(A.html);
+      refreshPreview();
+      return;
+    }catch(e){ console.warn('GH load error',e); }
+  }
+  try{
+    const r=await fetch('index.html');
+    if(!r.ok) throw new Error('not found');
+    A.html=await r.text();
+    parseHTMLIntoData(A.html);
+    refreshPreview();
+  }catch(e){
+    document.getElementById('pf').srcdoc='<body style="font-family:sans-serif;padding:30px;color:#666"><h3>Nie można załadować index.html</h3><p>Upewnij się, że panel admin.html jest w tym samym katalogu co index.html</p></body>';
+  }
+}
 
-                document.getElementById('saveLoader').style.display = 'none';
-                status.style.color = '#4caf50';
-                status.innerHTML = '✨ <b>Sukces!</b> Zmiany zostały wysłane do GitHuba.<br>Cloudflare właśnie przebudowuje stronę. Za około 45 sekund nowości będą widoczne dla wszystkich!';
-            } catch(err) {
-                document.getElementById('saveLoader').style.display = 'none';
-                status.style.color = '#ff5252';
-                status.textContent = 'Błąd podczas zapisu. Upewnij się, że Twój token nie wygasł.';
-            }
-        }
-    </script>
+function parseHTMLIntoData(html){
+  const ex=(re,i=1)=>{const m=html.match(re);return m?m[i]:''};
+  // Hero
+  const h=D('hero');
+  if(!h.badge) h.badge=ex(/<div class="hero-badge">([^<]+)<\/div>/)||'Warszawa, Brwinów, Pruszków i okolice';
+  if(!h.h1){const raw=ex(/<h1>([\s\S]*?)<\/h1>/m);h.h1=raw||'Czysta kanapa\nw <em>Twoim domu</em> –\ntego samego dnia';}
+  if(!h.phone){const p=ex(/href="tel:(\d+)"/);if(p)h.phone=p.replace(/(\d{3})(\d{3})(\d{3})/,'$1 $2 $3');}
+  // SEO
+  const s=D('seo');
+  if(!s.title) s.title=ex(/<title>([^<]+)<\/title>/);
+  if(!s.desc)  s.desc=ex(/meta name="description" content="([^"]+)"/);
+  if(!s.kw)    s.kw=ex(/meta name="keywords" content="([^"]+)"/);
+  if(!s.tel)   s.tel=ex(/"telephone":"([^"]+)"/);
+  if(!s.url)   s.url=ex(/<link rel="canonical" href="([^"]+)"/);
+}
+
+/* ════════════════════════════════════════════════
+   PREVIEW
+════════════════════════════════════════════════ */
+function refreshPreview(){
+  const frame=document.getElementById('pf');
+  const blob=new Blob([A.html],{type:'text/html'});
+  const url=URL.createObjectURL(blob);
+  const old=frame.src;
+  frame.onload=()=>{ setTimeout(()=>URL.revokeObjectURL(url),4000); };
+  frame.src=url;
+}
+
+function highlightInPreview(secId){
+  try{
+    document.getElementById('pf').contentWindow.postMessage({type:'highlight',id:secId},'*');
+  }catch(e){}
+}
+function scrollInPreview(secId){
+  try{
+    document.getElementById('pf').contentWindow.postMessage({type:'scrollTo',id:secId},'*');
+  }catch(e){}
+}
+
+/* ════════════════════════════════════════════════
+   TABS
+════════════════════════════════════════════════ */
+function initTabs(){
+  document.querySelectorAll('[data-tab]').forEach(btn=>{
+    btn.addEventListener('click',()=>{
+      document.querySelectorAll('.tbtn').forEach(b=>b.classList.remove('on'));
+      document.querySelectorAll('.tp').forEach(p=>p.classList.remove('on'));
+      btn.classList.add('on');
+      const p=document.getElementById('tab-'+btn.dataset.tab);
+      if(p) p.classList.add('on');
+      if(btn.dataset.tab==='history'&&A.ok) loadHistory();
+    });
+  });
+}
+
+/* ════════════════════════════════════════════════
+   DEVICE SWITCHER
+════════════════════════════════════════════════ */
+function initDevSwitcher(){
+  const shell=document.getElementById('frm'),frame=document.getElementById('pf');
+  const devs={desktop:{w:'100%',h:'680px',mw:'100%'},tablet:{w:'768px',h:'1024px',mw:'768px'},mobile:{w:'390px',h:'844px',mw:'390px'}};
+  applyDev('desktop');
+  document.querySelectorAll('.dvbtn').forEach(btn=>{
+    btn.addEventListener('click',()=>{
+      document.querySelectorAll('.dvbtn').forEach(b=>b.classList.remove('on'));
+      btn.classList.add('on');
+      applyDev(btn.dataset.dev);
+    });
+  });
+  function applyDev(id){const d=devs[id];shell.style.width=d.mw;shell.style.height=d.h;frame.style.width=d.w;frame.style.height=d.h;}
+}
+
+/* ════════════════════════════════════════════════
+   SIDEBAR
+════════════════════════════════════════════════ */
+function renderSidebar(){
+  const list=document.getElementById('sb-list');
+  list.innerHTML='';
+  A.order.forEach(id=>{
+    const sec=SECS.find(s=>s.id===id);
+    if(!sec) return;
+    const hid=A.hidden.has(id);
+    const el=document.createElement('div');
+    el.className='si'+(hid?' hid':'')+(A.sec===id?' on':'');
+    el.dataset.id=id; el.draggable=true;
+    el.innerHTML=`<span class="dh" title="Przeciągnij by zmienić kolejność">⠿</span><span class="ic">${sec.icon}</span><span class="nm">${sec.name}</span><button class="eyebtn" title="${hid?'Pokaż':'Ukryj'} sekcję">${hid?'🙈':'👁'}</button>`;
+    el.querySelector('.nm').addEventListener('click',()=>openSection(id));
+    el.querySelector('.eyebtn').addEventListener('click',e=>{e.stopPropagation();toggleHide(id);});
+    el.addEventListener('dragstart',e=>{e.dataTransfer.setData('sid',id);el.classList.add('ghost');});
+    el.addEventListener('dragend',()=>el.classList.remove('ghost'));
+    el.addEventListener('dragover',e=>{e.preventDefault();el.classList.add('dov');});
+    el.addEventListener('dragleave',()=>el.classList.remove('dov'));
+    el.addEventListener('drop',e=>{
+      e.preventDefault();el.classList.remove('dov');
+      const from=e.dataTransfer.getData('sid');
+      if(from===id) return;
+      const fi=A.order.indexOf(from),ti=A.order.indexOf(id);
+      A.order.splice(fi,1);A.order.splice(ti,0,from);
+      setDirty(); renderSidebar();
+    });
+    list.appendChild(el);
+  });
+}
+
+function toggleHide(id){
+  A.hidden.has(id)?A.hidden.delete(id):A.hidden.add(id);
+  renderSidebar(); setDirty();
+  try{document.getElementById('pf').contentWindow.postMessage({type:'hideSection',hidden:[...A.hidden]},'*');}catch(e){}
+}
+
+function quickAdd(id){ openSection(id); setTimeout(()=>{ const m={opinie:addReview,faq:addFaq,realizacje:addGallery}; if(m[id]) m[id](); },80); }
+
+/* ════════════════════════════════════════════════
+   SECTION EDITOR – open / close / apply
+════════════════════════════════════════════════ */
+function openSection(id){
+  A.sec=id;
+  renderSidebar();
+  const sec=SECS.find(s=>s.id===id);
+  document.getElementById('ep-ttl').textContent=sec.icon+' '+sec.name;
+  document.getElementById('ep-ft').style.display='flex';
+  document.getElementById('btn-rst').style.display='';
+  document.getElementById('ep-body').innerHTML=buildForm(id);
+  // init char counters after DOM is ready
+  setTimeout(()=>initCharCounters(),60);
+  scrollInPreview(id);
+  highlightInPreview(id);
+}
+
+function closeSection(){
+  A.sec=null; renderSidebar();
+  document.getElementById('ep-ttl').textContent='← Wybierz sekcję';
+  document.getElementById('ep-ft').style.display='none';
+  document.getElementById('btn-rst').style.display='none';
+  document.getElementById('ep-body').innerHTML='<div class="ph"><div class="ph-ico">👈</div><p>Kliknij sekcję na liście po lewej stronie, aby edytować jej treść</p></div>';
+}
+
+function applySection(){
+  if(!A.sec) return;
+  if(!validateForm(A.sec)) return;
+  collectForm(A.sec);
+  rebuildHTML();
+  refreshPreview();
+  setDirty();
+  toast('✅','Zmiany zastosowane. Kliknij „Zapisz do GitHub" by opublikować na stronie.');
+}
+
+function validateForm(id){
+  let ok=true;
+  document.querySelectorAll('.fi.req,.ft.req').forEach(el=>{
+    const err=el.parentElement.querySelector('.val-err');
+    if(!el.value.trim()){
+      el.classList.add('err');
+      if(err) err.classList.add('on');
+      ok=false;
+    } else {
+      el.classList.remove('err');
+      if(err) err.classList.remove('on');
+    }
+  });
+  if(!ok) toast('⚠','Uzupełnij wymagane pola zaznaczone na czerwono');
+  return ok;
+}
+
+// (char counters handled globally by initCharCounters())
+
+/* ════════════════════════════════════════════════
+   FORM BUILDERS
+════════════════════════════════════════════════ */
+function D(id){ if(!A.data[id]) A.data[id]={}; return A.data[id]; }
+const esc=s=>String(s||'').replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/"/g,'&quot;');
+const fi=(id,lbl,val,opt={})=>{
+  const req=opt.req?'req':''; const ph=opt.ph||''; const hint=opt.hint?`<div class="hint">${opt.hint}</div>`:'';
+  const cnt=opt.max?`<div class="char-count" id="${id}_cnt">0/${opt.max}</div>`:'';
+  const maxA=opt.max?`data-max="${opt.max}"`:'';
+  return `<div class="fg"><label class="fl">${lbl}${opt.req?' <span style="color:var(--rd)">*</span>':''}</label><input class="fi ${req}" id="${id}" value="${esc(val)}" placeholder="${esc(ph)}" ${maxA}>${hint}${cnt}${opt.req?`<div class="val-err">To pole jest wymagane</div>`:''}</div>`;
+};
+const ft=(id,lbl,val,rows=3,opt={})=>{
+  const req=opt.req?'req':''; const hint=opt.hint?`<div class="hint">${opt.hint}</div>`:'';
+  const cnt=opt.max?`<div class="char-count" id="${id}_cnt">0/${opt.max}</div>`:'';
+  const maxA=opt.max?`data-max="${opt.max}"`:'';
+  return `<div class="fg"><label class="fl">${lbl}${opt.req?' <span style="color:var(--rd)">*</span>':''}</label><textarea class="ft ${req}" id="${id}" rows="${rows}" ${maxA}>${esc(val)}</textarea>${hint}${cnt}${opt.req?`<div class="val-err">To pole jest wymagane</div>`:''}</div>`;
+};
+const imgField=(id,lbl,val,pvId)=>{
+  const has=val&&val.length>4;
+  return `<div class="fg"><label class="fl">${lbl}</label>
+<input class="fi" id="${id}" value="${esc(val)}" placeholder="URL zdjęcia lub użyj przycisku poniżej" oninput="updImgPv('${id}','${pvId}')">
+<div class="hint">Podaj URL lub wybierz plik z dysku (zostanie zakodowany jako base64)</div>
+${has?`<div class="imgpw" id="${pvId}_w"><img id="${pvId}" src="${esc(val)}" alt=""><div class="imgpa"><button class="btn btn-sm" onclick="document.getElementById('${id}_f').click()">🔄 Zmień</button><button class="btn btn-sm btn-r" onclick="clearImg('${id}','${pvId}')">✕</button></div></div>`
+:`<div class="imgpw" id="${pvId}_w" style="display:none"><img id="${pvId}" src="" alt=""><div class="imgpa"><button class="btn btn-sm" onclick="document.getElementById('${id}_f').click()">🔄 Zmień</button><button class="btn btn-sm btn-r" onclick="clearImg('${id}','${pvId}')">✕</button></div></div>`}
+<div class="imgbox" onclick="document.getElementById('${id}_f').click()"><div class="imgbox-txt">📁 Kliknij lub przeciągnij zdjęcie tutaj</div><input type="file" id="${id}_f" accept="image/*" onchange="handleImgUpload(this,'${id}','${pvId}')"></div>
+</div>`;
+};
+
+function buildForm(id){
+  const d=D(id);
+  switch(id){
+    case 'hero':       return fmHero(d);
+    case 'trust':      return fmTrust(d);
+    case 'uslugi':     return fmServices(d);
+    case 'realizacje': return fmGallery(d);
+    case 'process':    return fmProcess(d);
+    case 'cennik':     return fmPricing(d);
+    case 'areas':      return fmAreas(d);
+    case 'opinie':     return fmReviews(d);
+    case 'faq':        return fmFaq(d);
+    case 'kontakt':    return fmContact(d);
+    case 'footer':     return fmFooter(d);
+  }
+  return '<div class="ph"><p>Nieznana sekcja</p></div>';
+}
+
+/* ── HERO ── */
+function fmHero(d){
+  const v=k=>d[k]!==undefined?d[k]:dfHero()[k];
+  return `
+${fi('h_badge','Odznaka / lokalizacja hero',v('badge'),{req:true,ph:'np. Warszawa, Brwinów, Pruszków i okolice'})}
+${ft('h_h1','Nagłówek H1',v('h1'),3,{req:true,hint:'Użyj &lt;em&gt;tekst&lt;/em&gt; dla wyróżnienia cyjanowym kolorem'})}
+${ft('h_sub','Podtytuł / opis pod nagłówkiem',v('sub'),4,{hint:'Możesz używać &lt;strong&gt; dla pogrubienia'})}
+${fi('h_phone','Numer telefonu',v('phone'),{req:true,ph:'690 000 386'})}
+${fi('h_btn1','Tekst przycisku głównego (CTA)',v('btn1'),{ph:'📞 Zadzwoń: 690 000 386'})}
+${fi('h_btn2','Tekst przycisku drugiego',v('btn2'),{ph:'Sprawdź cennik →'})}
+<div class="sec-div">Statystyki – 3 liczby</div>
+<div class="frow">${fi('h_s1n','Liczba 1',v('s1n'))}${fi('h_s1l','Opis 1',v('s1l'))}</div>
+<div class="frow">${fi('h_s2n','Liczba 2',v('s2n'))}${fi('h_s2l','Opis 2',v('s2l'))}</div>
+<div class="frow">${fi('h_s3n','Liczba 3',v('s3n'))}${fi('h_s3l','Opis 3',v('s3l'))}</div>
+<div class="sec-div">Slider Przed/Po (Hero)</div>
+${imgField('h_ib','Zdjęcie PRZED',v('imgB'),'hpv_b')}
+${imgField('h_ia','Zdjęcie PO',v('imgA'),'hpv_a')}`;
+}
+
+/* ── TRUST ── */
+function fmTrust(d){
+  const items=d.items||dfTrust();
+  let h=`<div class="fl" style="margin-bottom:8px">Elementy paska zaufania</div>`;
+  items.forEach((it,i)=>{
+    h+=`<div class="pr"><input class="fi pr-n" id="tr_ic_${i}" value="${esc(it.icon)}" style="width:48px;flex:0 0 48px" placeholder="🚗"><input class="fi pr-n" id="tr_tx_${i}" value="${esc(it.text)}" style="flex:1;margin-left:5px"><button class="pr-d" onclick="delTr(${i})">✕</button></div>`;
+  });
+  h+=`<button class="addbtn" onclick="addTr()">＋ Dodaj element</button>`;
+  h+=`<div class="hint" style="margin-top:6px">Emojis: 🚗 ⚡ 🛡️ 🌿 💳 🧾 ✅ 🏆 📞 🕐 🔧</div>`;
+  return h;
+}
+
+/* ── SERVICES ── */
+function fmServices(d){
+  const items=d.items||dfServices();
+  return items.map((s,i)=>`
+<div class="acc${i===0?' open':''}">
+  <div class="acc-h" onclick="this.closest('.acc').classList.toggle('open')">${s.icon} ${s.title}<span class="arr">▾</span></div>
+  <div class="acc-b">
+    <div class="frow">${fi('sv_ic_'+i,'Ikona',s.icon,{ph:'🛋️'})}${fi('sv_tt_'+i,'Tytuł',s.title,{req:true})}</div>
+    ${ft('sv_ds_'+i,'Opis (wyświetlany pod tytułem)',s.desc,2)}
+    ${fi('sv_pr_'+i,'Cena (od...)',s.price,{ph:'od 180 zł'})}
+    <div class="fl" style="margin-bottom:5px;margin-top:6px">Pozycje listy cennika</div>
+    <div id="sv_rw_${i}">${s.items.map((it,ri)=>`<div class="pr"><input class="fi pr-n" id="sv_r_${i}_${ri}" value="${esc(it)}" style="flex:1"><button class="pr-d" onclick="this.closest('.pr').remove()">✕</button></div>`).join('')}</div>
+    <button class="addbtn" onclick="addSvRow(${i})">＋ Dodaj pozycję</button>
+  </div>
+</div>`).join('');
+}
+
+/* ── GALLERY ── */
+function fmGallery(d){
+  const items=d.items||dfGallery();
+  let h=`<div class="fl" style="margin-bottom:8px">Zdjęcia realizacji Przed/Po</div>`;
+  items.forEach((g,i)=>{
+    h+=`<div class="acc${i===0?' open':''}">
+  <div class="acc-h" onclick="this.closest('.acc').classList.toggle('open')">📸 Realizacja ${i+1}<span class="arr">▾</span></div>
+  <div class="acc-b">
+    ${fi('gl_tt_'+i,'Tytuł realizacji',g.title,{req:true})}
+    ${fi('gl_ds_'+i,'Opis',g.desc)}
+    ${imgField('gl_b_'+i,'Zdjęcie PRZED',g.before,'gpv_b_'+i)}
+    ${imgField('gl_a_'+i,'Zdjęcie PO',g.after,'gpv_a_'+i)}
+    <button class="btn btn-r btn-xs" style="margin-top:6px" onclick="delGal(${i})">✕ Usuń realizację</button>
+  </div>
+</div>`;
+  });
+  h+=`<button class="addbtn" onclick="addGallery()">＋ Dodaj realizację</button>`;
+  return h;
+}
+
+/* ── PROCESS ── */
+function fmProcess(d){
+  const items=d.items||dfProcess();
+  let h='';
+  items.forEach((s,i)=>{
+    h+=`<div class="ri" style="padding-top:11px"><button class="ri-del" onclick="delProc(${i})">✕</button>
+<div class="frow">${fi('pc_n_'+i,'Nr / ikona',s.n,{ph:'1'})}${fi('pc_tt_'+i,'Tytuł kroku',s.title,{req:true})}</div>
+${ft('pc_ds_'+i,'Opis',s.desc,2)}</div>`;
+  });
+  h+=`<button class="addbtn" onclick="addProc()">＋ Dodaj krok</button>`;
+  return h;
+}
+
+/* ── PRICING ── */
+function fmPricing(d){
+  const cats=d.cats||dfPricing();
+  return cats.map((cat,ci)=>`
+<div class="acc${ci===0?' open':''}">
+  <div class="acc-h" onclick="this.closest('.acc').classList.toggle('open')">${cat.title}<span class="arr">▾</span></div>
+  <div class="acc-b">
+    ${fi('pct_'+ci,'Tytuł kategorii',cat.title,{req:true})}
+    ${fi('pcn_'+ci,'Nota / info pod tabelą',cat.note||'')}
+    <div class="fl" style="margin:7px 0 5px">Pozycje cennikowe</div>
+    <div id="pc_rw_${ci}">${cat.rows.map((r,ri)=>`<div class="pr"><input class="fi pr-n" id="pc_n_${ci}_${ri}" value="${esc(r.name)}" placeholder="Nazwa pozycji"><input class="fi pr-v" id="pc_v_${ci}_${ri}" value="${esc(r.val)}" placeholder="0 zł" style="width:88px"><button class="pr-d" onclick="this.closest('.pr').remove()">✕</button></div>`).join('')}</div>
+    <button class="addbtn" onclick="addPcRow(${ci})">＋ Dodaj pozycję</button>
+  </div>
+</div>`).join('');
+}
+
+/* ── AREAS ── */
+function fmAreas(d){
+  const items=d.items||dfAreas();
+  let h=`${fi('ar_tt','Tytuł sekcji',d.title||'Dojeżdżamy do Ciebie –')}${fi('ar_sb','Wyróżniony podtytuł (em)',d.sub||'Warszawa i okolice')}${ft('ar_ds','Opis sekcji',d.desc||'Obsługujemy całą Warszawę oraz gminy i miejscowości w promieniu 50 km.',2)}`;
+  h+=`<div class="fl" style="margin-bottom:6px">Lista miast <span style="font-weight:400;color:var(--tx3)">(przełącznik = główne miasto, kolor cyjan)</span></div><div id="ar_list">`;
+  items.forEach((a,i)=>{
+    h+=`<div class="pr"><input class="fi pr-n" id="ar_${i}" value="${esc(a.name)}" style="flex:1"><label class="tgl" style="flex-shrink:0;margin:0 6px"><input type="checkbox" id="ar_m_${i}" ${a.main?'checked':''}><span class="tgl-sl"></span></label><button class="pr-d" onclick="this.closest('.pr').remove()">✕</button></div>`;
+  });
+  h+=`</div><button class="addbtn" onclick="addArea()">＋ Dodaj miasto</button>`;
+  return h;
+}
+
+/* ── REVIEWS ── */
+function fmReviews(d){
+  const items=d.items||dfReviews();
+  let h=`<div class="fl" style="margin-bottom:8px">Opinie klientów</div><div id="rv-list">`;
+  items.forEach((r,i)=>h+=rvCard(r,i));
+  h+=`</div><button class="addbtn" onclick="addReview()">＋ Dodaj opinię</button>`;
+  return h;
+}
+function rvCard(r,i){
+  return `<div class="ri" id="rv_${i}"><button class="ri-del" onclick="delReview(${i})">✕</button>
+<div class="frow">${fi('rv_av_'+i,'Inicjał',r.av,{ph:'A'})}${fi('rv_nm_'+i,'Imię i nazwisko',r.name,{req:true})}</div>
+${fi('rv_lc_'+i,'Miasto / lokalizacja',r.loc)}
+${ft('rv_tx_'+i,'Treść opinii',r.text,3,{req:true})}
+</div>`;
+}
+
+/* ── FAQ ── */
+function fmFaq(d){
+  const items=d.items||dfFaq();
+  let h=`<div class="fl" style="margin-bottom:8px">Pytania i odpowiedzi</div><div id="faq-list">`;
+  items.forEach((f,i)=>h+=faqCard(f,i));
+  h+=`</div><button class="addbtn" onclick="addFaq()">＋ Dodaj pytanie</button>`;
+  return h;
+}
+function faqCard(f,i){
+  return `<div class="ri" id="faq_${i}"><button class="ri-del" onclick="delFaq(${i})">✕</button>
+${fi('fq_q_'+i,'Pytanie',f.q,{req:true})}
+${ft('fq_a_'+i,'Odpowiedź',f.a,3,{req:true})}
+</div>`;
+}
+
+/* ── CONTACT ── */
+function fmContact(d){
+  return `
+${fi('ct_h2','Nagłówek sekcji kontakt',d.h2||'Umów pranie już dziś',{req:true})}
+${ft('ct_ds','Opis intro sekcji kontakt',d.desc||'Skontaktuj się z nami telefonicznie lub wypełnij formularz. Oddzwonimy w ciągu godziny.',2)}
+${fi('ct_ph','Numer telefonu',d.phone||'690 000 386',{req:true})}
+${fi('ct_hr','Godziny pracy',d.hours||'Pon–Sob: 8:00–20:00 | Niedziela: na umówienie')}
+${fi('ct_ar','Obszar działania',d.area||'Warszawa, Brwinów, Pruszków i okolice (50 km)')}
+${fi('ct_py','Formy płatności',d.pay||'Gotówka lub BLIK na telefon. Możliwość faktury bez VAT.')}`;
+}
+
+/* ── FOOTER ── */
+function fmFooter(d){
+  return `
+${ft('ft_ds','Opis firmy w stopce',d.desc||'Profesjonalne pranie kanap, materacy, dywanów i krzeseł w Warszawie, Brwinowie, Pruszkowie i okolicach.',3)}
+${fi('ft_ph','Telefon w stopce',d.phone||'690 000 386')}
+${fi('ft_cp','Tekst copyright',d.copy||'© 2024 MobiWash. Wszelkie prawa zastrzeżone.')}
+${ft('ft_seo','SEO frazy w stopce (oddzielone • )',d.seo||'pranie kanap Warszawa • pranie materacy Warszawa • pranie dywanów Warszawa • czyszczenie tapicerki meblowej Warszawa • pranie kanap Brwinów • pranie kanap Pruszków',4,{hint:'Te frazy są indeksowane przez Google i wzmacniają lokalne SEO'})}`;
+}
+
+/* ════════════════════════════════════════════════
+   COLLECT FORM DATA → A.data
+════════════════════════════════════════════════ */
+function g(id){const el=document.getElementById(id);return el?el.value:'';}
+function gb(id){const el=document.getElementById(id);return el?el.checked:false;}
+
+function collectForm(id){
+  const d=D(id);
+  switch(id){
+    case 'hero':
+      Object.assign(d,{badge:g('h_badge'),h1:g('h_h1'),sub:g('h_sub'),phone:g('h_phone'),btn1:g('h_btn1'),btn2:g('h_btn2'),s1n:g('h_s1n'),s1l:g('h_s1l'),s2n:g('h_s2n'),s2l:g('h_s2l'),s3n:g('h_s3n'),s3l:g('h_s3l'),imgB:g('h_ib'),imgA:g('h_ia')});
+      break;
+    case 'trust':
+      d.items=[];
+      document.querySelectorAll('[id^=tr_ic_]').forEach((el,i)=>d.items.push({icon:g('tr_ic_'+i),text:g('tr_tx_'+i)}));
+      break;
+    case 'uslugi': d.items=collectServices(); break;
+    case 'realizacje': d.items=collectGallery(); break;
+    case 'process': d.items=collectProcess(); break;
+    case 'cennik': d.cats=collectPricing(); break;
+    case 'areas':
+      Object.assign(d,{title:g('ar_tt'),sub:g('ar_sb'),desc:g('ar_ds')});
+      d.items=collectAreas();
+      break;
+    case 'opinie': d.items=collectReviews(); break;
+    case 'faq': d.items=collectFaq(); break;
+    case 'kontakt': Object.assign(d,{h2:g('ct_h2'),desc:g('ct_ds'),phone:g('ct_ph'),hours:g('ct_hr'),area:g('ct_ar'),pay:g('ct_py')}); break;
+    case 'footer': Object.assign(d,{desc:g('ft_ds'),phone:g('ft_ph'),copy:g('ft_cp'),seo:g('ft_seo')}); break;
+  }
+}
+
+function collectServices(){
+  const arr=[];
+  document.querySelectorAll('[id^=sv_ic_]').forEach((el,i)=>{
+    const items=[];let ri=0;
+    while(document.getElementById('sv_r_'+i+'_'+ri)){items.push(g('sv_r_'+i+'_'+ri));ri++;}
+    arr.push({icon:g('sv_ic_'+i),title:g('sv_tt_'+i),desc:g('sv_ds_'+i),price:g('sv_pr_'+i),items});
+  });
+  return arr.length?arr:dfServices();
+}
+function collectGallery(){
+  const arr=[];
+  document.querySelectorAll('[id^=gl_tt_]').forEach((el,i)=>arr.push({title:g('gl_tt_'+i),desc:g('gl_ds_'+i),before:g('gl_b_'+i),after:g('gl_a_'+i)}));
+  return arr.length?arr:dfGallery();
+}
+function collectProcess(){
+  const arr=[];
+  document.querySelectorAll('[id^=pc_tt_]').forEach((el,i)=>arr.push({n:g('pc_n_'+i),title:g('pc_tt_'+i),desc:g('pc_ds_'+i)}));
+  return arr;
+}
+function collectPricing(){
+  const cats=[];
+  document.querySelectorAll('[id^=pct_]').forEach((el,ci)=>{
+    const rows=[];let ri=0;
+    while(document.getElementById('pc_n_'+ci+'_'+ri)){rows.push({name:g('pc_n_'+ci+'_'+ri),val:g('pc_v_'+ci+'_'+ri)});ri++;}
+    cats.push({title:g('pct_'+ci),note:g('pcn_'+ci),rows});
+  });
+  return cats.length?cats:dfPricing();
+}
+function collectAreas(){
+  const arr=[];
+  document.querySelectorAll('[id^=ar_]').forEach(el=>{
+    const m=el.id.match(/^ar_(\d+)$/);if(!m)return;
+    arr.push({name:el.value,main:gb('ar_m_'+m[1])});
+  });
+  return arr;
+}
+function collectReviews(){
+  const arr=[];
+  document.querySelectorAll('[id^=rv_nm_]').forEach((el,i)=>arr.push({av:g('rv_av_'+i),name:g('rv_nm_'+i),loc:g('rv_lc_'+i),text:g('rv_tx_'+i)}));
+  return arr;
+}
+function collectFaq(){
+  const arr=[];
+  document.querySelectorAll('[id^=fq_q_]').forEach((el,i)=>arr.push({q:g('fq_q_'+i),a:g('fq_a_'+i)}));
+  return arr;
+}
+
+/* ════════════════════════════════════════════════
+   ADD / REMOVE HELPERS
+════════════════════════════════════════════════ */
+function addTr(){const d=D('trust');d.items=d.items||[...dfTrust()];d.items.push({icon:'✅',text:'Nowy element'});openSection('trust');}
+function delTr(i){const d=D('trust');d.items=d.items||[...dfTrust()];d.items.splice(i,1);openSection('trust');}
+function addSvRow(ci){const c=document.getElementById('sv_rw_'+ci);if(!c)return;const ri=c.querySelectorAll('.pr').length;const r=document.createElement('div');r.className='pr';r.innerHTML=`<input class="fi pr-n" id="sv_r_${ci}_${ri}" value="Nowa pozycja" style="flex:1"><button class="pr-d" onclick="this.closest('.pr').remove()">✕</button>`;c.appendChild(r);}
+function addGallery(){const d=D('realizacje');d.items=d.items||[...dfGallery()];d.items.push({title:'Nowa realizacja',desc:'Opis realizacji',before:'',after:''});openSection('realizacje');}
+function delGal(i){const d=D('realizacje');d.items=collectGallery();d.items.splice(i,1);openSection('realizacje');}
+function addProc(){const d=D('process');d.items=d.items||[...dfProcess()];d.items.push({n:String(d.items.length+1),title:'Nowy krok',desc:''});openSection('process');}
+function delProc(i){const d=D('process');d.items=collectProcess();d.items.splice(i,1);openSection('process');}
+function addPcRow(ci){const c=document.getElementById('pc_rw_'+ci);if(!c)return;const ri=c.querySelectorAll('.pr').length;const r=document.createElement('div');r.className='pr';r.innerHTML=`<input class="fi pr-n" id="pc_n_${ci}_${ri}" value="Nowa pozycja" placeholder="Nazwa"><input class="fi pr-v" id="pc_v_${ci}_${ri}" value="0 zł" style="width:88px"><button class="pr-d" onclick="this.closest('.pr').remove()">✕</button>`;c.appendChild(r);}
+function addArea(){const c=document.getElementById('ar_list');if(!c)return;const i=c.querySelectorAll('.pr').length;const r=document.createElement('div');r.className='pr';r.innerHTML=`<input class="fi pr-n" id="ar_${i}" value="Nowe miasto" style="flex:1"><label class="tgl" style="flex-shrink:0;margin:0 6px"><input type="checkbox" id="ar_m_${i}"><span class="tgl-sl"></span></label><button class="pr-d" onclick="this.closest('.pr').remove()">✕</button>`;c.appendChild(r);}
+function addReview(){const d=D('opinie');d.items=d.items||[...dfReviews()];d.items.push({av:'X',name:'Imię Nazwisko',loc:'Miasto',text:'Treść opinii…'});openSection('opinie');}
+function delReview(i){const d=D('opinie');d.items=collectReviews();d.items.splice(i,1);openSection('opinie');}
+function addFaq(){const d=D('faq');d.items=d.items||[...dfFaq()];d.items.push({q:'Nowe pytanie?',a:'Odpowiedź na pytanie.'});openSection('faq');}
+function delFaq(i){const d=D('faq');d.items=collectFaq();d.items.splice(i,1);openSection('faq');}
+
+/* ════════════════════════════════════════════════
+   IMAGE UPLOAD
+════════════════════════════════════════════════ */
+function handleImgUpload(input,fid,pvId){
+  const file=input.files[0];if(!file)return;
+  if(file.size>3*1024*1024){toast('⚠','Plik jest za duży (max 3MB). Zmniejsz zdjęcie lub użyj URL.');return;}
+  const reader=new FileReader();
+  reader.onload=ev=>{
+    const val=ev.target.result;
+    const field=document.getElementById(fid);if(field)field.value=val;
+    const img=document.getElementById(pvId),wrap=document.getElementById(pvId+'_w');
+    if(img){img.src=val;if(wrap)wrap.style.display='';}
+    setDirty();toast('📸','Zdjęcie załadowane. Kliknij „Zastosuj zmiany".');
+  };
+  reader.readAsDataURL(file);
+}
+function updImgPv(fid,pvId){
+  const val=document.getElementById(fid)?.value||'';
+  const img=document.getElementById(pvId),wrap=document.getElementById(pvId+'_w');
+  if(img&&wrap){img.src=val;wrap.style.display=val?'':'none';}
+}
+function clearImg(fid,pvId){
+  const f=document.getElementById(fid);if(f)f.value='';
+  const wrap=document.getElementById(pvId+'_w');if(wrap)wrap.style.display='none';
+}
+
+/* ════════════════════════════════════════════════
+   HTML REBUILD
+════════════════════════════════════════════════ */
+function rebuildHTML(){
+  if(!A.html) return;
+  let html=A.html;
+  // Helper: replace content between two string markers (first occurrence)
+  const rb=(src,sm,em,inner)=>{
+    const si=src.indexOf(sm),ei=src.indexOf(em,si+sm.length);
+    if(si<0||ei<0) return src;
+    return src.slice(0,si+sm.length)+'\n'+inner+'\n'+src.slice(ei);
+  };
+
+  /* ── HERO ── */
+  const h=D('hero');
+  if(h.badge) html=html.replace(/<div class="hero-badge">[\s\S]*?<\/div>/,`<div class="hero-badge">${h.badge}</div>`);
+  if(h.h1)    html=html.replace(/<h1>[\s\S]*?<\/h1>/m,`<h1>${h.h1}</h1>`);
+  if(h.sub)   html=html.replace(/(<p class="hero-sub">)[\s\S]*?(<\/p>)/,`$1\n        ${h.sub}\n      $2`);
+  if(h.phone){
+    const ph=h.phone.replace(/\s/g,'');
+    html=html.replace(/href="tel:\d+"/g,`href="tel:${ph}"`);
+    html=html.replace(/690 000 386/g,h.phone);
+    html=html.replace(/690000386/g,ph);
+  }
+  if(h.btn1||h.btn2){
+    const ph=(h.phone||'690 000 386').replace(/\s/g,'');
+    html=rb(html,'<div class="hero-actions">','</div>',
+      `        <a href="tel:${ph}" class="btn-primary">${h.btn1||'📞 Zadzwoń'}</a>\n        <a href="#cennik" class="btn-secondary">${h.btn2||'Sprawdź cennik →'}</a>`);
+  }
+  if(h.s1n||h.s2n||h.s3n){
+    const st=(n,l)=>`<div class="hero-stat"><span class="num">${n||''}</span><span class="lbl">${l||''}</span></div>`;
+    html=rb(html,'<div class="hero-stats">','</div>',
+      `        ${st(h.s1n,h.s1l)}\n        ${st(h.s2n,h.s2l)}\n        ${st(h.s3n,h.s3l)}`);
+  }
+  if(h.imgB) html=html.replace(/(id="hero-before"[^>]*>[\s\S]*?<img[^>]*src=")[^"]*(")/,`$1${h.imgB}$2`);
+  if(h.imgA){
+    html=html.replace(/(class="ba-after">\s*<img[^>]*src=")[^"]*("[\s\S]*?id="hero-slider")/,(m,p1,p2)=>p1+h.imgA+p2);
+  }
+
+  /* ── TRUST ── */
+  const tr=D('trust');
+  if(tr.items&&tr.items.length){
+    html=rb(html,'<div class="trust-strip-inner">','</div>',
+      tr.items.map(it=>`    <div class="trust-item"><span class="icon">${it.icon}</span> ${it.text}</div>`).join('\n'));
+  }
+
+  /* ── SERVICES ── */
+  const sv=D('uslugi');
+  if(sv.items&&sv.items.length){
+    html=rb(html,'<div class="services-grid">','</div>',
+      sv.items.map(s=>`      <article class="service-card reveal">
+        <span class="service-icon">${s.icon}</span>
+        <h3>${s.title}</h3>
+        <p>${s.desc}</p>
+        <span class="service-price">${s.price}</span>
+        <ul class="service-list">\n          ${s.items.map(it=>`<li>${it}</li>`).join('\n          ')}\n        </ul>
+      </article>`).join('\n'));
+  }
+
+  /* ── GALLERY ── */
+  const gal=D('realizacje');
+  if(gal.items&&gal.items.length){
+    html=rb(html,'<div class="ba-gallery">','</div>',
+      gal.items.map(g=>`      <div class="ba-card reveal">
+        <div class="ba-card-slider" data-slider>
+          <div class="ba-after"><img src="${g.after||''}" alt="Po praniu" loading="lazy"></div>
+          <div class="ba-before"><img src="${g.before||''}" alt="Przed praniem" loading="lazy"></div>
+          <div class="ba-handle"><div class="ba-handle-circle">⟺</div></div>
+          <span class="ba-label before">PRZED</span><span class="ba-label after">PO</span>
+        </div>
+        <div class="ba-card-info"><h4>${g.title}</h4><p>${g.desc}</p></div>
+      </div>`).join('\n'));
+  }
+
+  /* ── PROCESS ── */
+  const pr=D('process');
+  if(pr.items&&pr.items.length){
+    html=rb(html,'<div class="process-steps reveal">','</div>',
+      pr.items.map(s=>`      <div class="process-step">
+        <div class="step-num">${s.n}</div>
+        <h4>${s.title}</h4>
+        <p>${s.desc}</p>
+      </div>`).join('\n'));
+  }
+
+  /* ── PRICING ── */
+  const pc=D('cennik');
+  if(pc.cats&&pc.cats.length){
+    html=rb(html,'<div class="pricing-grid reveal">','</div>',
+      pc.cats.map((cat,i)=>`      <div class="pricing-card${i===0?' featured':''}">
+        ${i===0?'':''}
+        <h3>${cat.title}</h3>
+        ${cat.rows.map(r=>`        <div class="price-row"><span class="price-name">${r.name}</span><span class="price-val${i===0?' price-highlight':''}">${r.val}</span></div>`).join('\n')}
+        ${cat.note?`        <div class="pricing-note">${cat.note}</div>`:''}\n      </div>`).join('\n'));
+  }
+
+  /* ── AREAS ── */
+  const ar=D('areas');
+  if(ar.items&&ar.items.length){
+    html=rb(html,'<div class="areas-grid reveal">','</div>',
+      ar.items.map(a=>`      <div class="area-chip${a.main?' main':''}">${a.main?'📍 ':''}${a.name}</div>`).join('\n'));
+    if(ar.title) html=html.replace(/Dojeżdżamy do Ciebie –\s*<br>/,`${ar.title}<br>`);
+    if(ar.sub)   html=html.replace(/<em style="color:var\(--cyan\)">Warszawa i okolice<\/em>/,`<em style="color:var(--cyan)">${ar.sub}</em>`);
+  }
+
+  /* ── REVIEWS ── */
+  const rv=D('opinie');
+  if(rv.items&&rv.items.length){
+    html=rb(html,'<div class="reviews-grid">','</div>',
+      rv.items.map(r=>`      <article class="review-card reveal">
+        <div class="review-stars">★★★★★</div>
+        <p class="review-text">„${r.text}"</p>
+        <div class="review-author">
+          <div class="review-avatar">${r.av}</div>
+          <div><div class="review-name">${r.name}</div><div class="review-loc">📍 ${r.loc}</div></div>
+        </div>
+      </article>`).join('\n'));
+  }
+
+  /* ── FAQ ── */
+  const fq=D('faq');
+  if(fq.items&&fq.items.length){
+    html=rb(html,'<div class="faq-list reveal">','</div>',
+      fq.items.map(f=>`      <div class="faq-item">
+        <button class="faq-q" aria-expanded="false">${f.q} <span class="arrow">+</span></button>
+        <div class="faq-a"><p>${f.a}</p></div>
+      </div>`).join('\n'));
+  }
+
+  /* ── CONTACT ── */
+  const ct=D('kontakt');
+  if(ct.hours) html=html.replace(/Pon–Sob: 8:00–20:00[^<]*/,ct.hours);
+  if(ct.area)  html=html.replace(/Warszawa, Brwinów, Pruszków i okolice \(50 km\)/,ct.area);
+
+  /* ── FOOTER ── */
+  const ft=D('footer');
+  if(ft.seo)  html=html.replace(/<div class="footer-areas">[\s\S]*?<\/div>/,`<div class="footer-areas">\n    ${ft.seo}\n  </div>`);
+  if(ft.copy) html=html.replace(/© \d{4} MobiWash.*?zastrzeżone\./,ft.copy);
+
+  A.html=html;
+}
+
+/* ════════════════════════════════════════════════
+   COMMIT HISTORY
+════════════════════════════════════════════════ */
+async function loadHistory(){
+  const el=document.getElementById('hist-list');
+  el.innerHTML='<div style="color:var(--tx3);font-size:13px">Ładowanie historii…</div>';
+  try{
+    const commits=await ghGet('commits?path=index.html&per_page=25');
+    if(!commits.length){el.innerHTML='<div style="color:var(--tx3);font-size:13px">Brak commitów dla index.html</div>';return;}
+    el.innerHTML=commits.map(c=>`<div class="commit-card">
+      <div style="flex:1">
+        <div class="cmsg">${esc(c.commit.message)}</div>
+        <div class="cmeta">👤 ${esc(c.commit.author.name)} &nbsp;•&nbsp; 📅 ${new Date(c.commit.author.date).toLocaleString('pl-PL')}</div>
+      </div>
+      <span class="csha">${c.sha.slice(0,7)}</span>
+      <button class="rbtn" onclick="restoreCommit('${c.sha}')">↩ Przywróć</button>
+    </div>`).join('');
+  }catch(e){el.innerHTML=`<div class="alert al-r">Błąd: ${esc(e.message)}</div>`;}
+}
+async function restoreCommit(sha){
+  if(!confirm(`Przywrócić wersję ${sha.slice(0,7)}?\n\nNiezapisane zmiany w podglądzie zostaną utracone.`))return;
+  try{
+    const f=await ghGet(`contents/index.html?ref=${sha}`);
+    A.html=atob(f.content.replace(/\n/g,''));
+    A.sha=''; // wymuś nowe SHA przy zapisie
+    parseHTMLIntoData(A.html);
+    refreshPreview(); setDirty();
+    toast('↩','Wersja przywrócona. Kliknij „Zapisz do GitHub" by opublikować.');
+  }catch(e){toast('❌','Błąd przywracania: '+e.message);}
+}
+
+/* ════════════════════════════════════════════════
+   SAVE TO GITHUB
+════════════════════════════════════════════════ */
+async function saveToGitHub(){
+  const prog=document.getElementById('sv-prog');
+  const alertEl=document.getElementById('sv-alert');
+  const actEl=document.getElementById('sv-act');
+  const doneEl=document.getElementById('sv-done');
+  prog.style.display='block'; alertEl.innerHTML=''; actEl.style.display='none'; doneEl.style.display='none';
+  const msg=g('sv-msg-inp')||`Aktualizacja strony MobiWash – ${new Date().toLocaleString('pl-PL')}`;
+  const steps=[
+    {id:'sp1',txt:'Połączenie z GitHub API'},
+    {id:'sp2',txt:'Pobieranie aktualnego SHA pliku'},
+    {id:'sp3',txt:'Kodowanie HTML (UTF-8 → base64)'},
+    {id:'sp4',txt:'Commitowanie zmian do repozytorium'},
+    {id:'sp5',txt:'Weryfikacja i potwierdzenie'},
+  ];
+  prog.innerHTML=steps.map(s=>`<div class="ps" id="${s.id}"><div class="ps-ic">○</div> ${s.txt}</div>`).join('');
+  const st=(id,cls,extra='')=>{
+    const el=document.getElementById(id);if(!el)return;
+    el.className='ps '+cls;
+    el.querySelector('.ps-ic').textContent={done:'✓',pend:'…',fail:'✕'}[cls]||'○';
+    if(extra)el.innerHTML+=`<span style="font-size:10.5px;color:var(--tx3);margin-left:6px">${extra}</span>`;
+  };
+  try{
+    st('sp1','pend'); await sleep(300); st('sp1','done');
+    st('sp2','pend');
+    if(!A.sha){try{const f=await ghGet('contents/index.html');A.sha=f.sha;}catch(e){}}
+    st('sp2','done');
+    st('sp3','pend');
+    const content=btoa(unescape(encodeURIComponent(A.html)));
+    st('sp3','done');
+    st('sp4','pend');
+    const body={message:msg,content,branch:A.gh.branch};
+    if(A.sha)body.sha=A.sha;
+    const res=await ghPut('contents/index.html',body);
+    A.sha=res.content?.sha||'';
+    st('sp4','done');
+    st('sp5','pend'); await sleep(500); st('sp5','done');
+    A.dirty=false;
+    document.getElementById('ubadge').classList.remove('on');
+    document.getElementById('sv-ttl').textContent='✅ Opublikowano pomyślnie!';
+    alertEl.innerHTML=`<div class="alert al-g" style="margin-top:10px">Zmiany zapisano do <strong>${A.gh.owner}/${A.gh.repo}</strong> (branch: <strong>${A.gh.branch}</strong>).<br>GitHub Pages zaktualizuje stronę w ciągu 1–3 minut.</div>`;
+    doneEl.style.display='block';
+  }catch(err){
+    const pend=steps.find(s=>document.getElementById(s.id)?.classList.contains('pend'));
+    if(pend)st(pend.id,'fail');
+    alertEl.innerHTML=`<div class="alert al-r" style="margin-top:10px">❌ ${esc(err.message)}</div>`;
+    actEl.style.display='flex';
+  }
+}
+
+/* ════════════════════════════════════════════════
+   DEFAULTS
+════════════════════════════════════════════════ */
+function dfHero(){return{badge:'Warszawa, Brwinów, Pruszków i okolice',h1:'Czysta kanapa\nw <em>Twoim domu</em> –\ntego samego dnia',sub:'Profesjonalne pranie kanap, materacy, dywanów i krzeseł metodą ekstrakcyjną.\nUsuwamy plamy, zapachy i alergeny – przyjeżdżamy do Ciebie z własnym sprzętem.\n<strong style="color: rgba(255,255,255,0.85);">Dojazd gratis od 150 zł.</strong>',phone:'690 000 386',btn1:'📞 Zadzwoń: 690 000 386',btn2:'Sprawdź cennik →',s1n:'10+',s1l:'Lat doświadczenia',s2n:'2000+',s2l:'Zadowolonych klientów',s3n:'⭐ 4.9',s3l:'Ocena Google',imgB:'https://images.unsplash.com/photo-1558618666-fcd25c85cd64?w=800&q=80',imgA:'https://images.unsplash.com/photo-1555041469-a586c61ea9bc?w=800&q=80'};}
+function dfTrust(){return[{icon:'🚗',text:'Dojazd gratis od 150 zł'},{icon:'⚡',text:'Realizacja tego samego dnia'},{icon:'🛡️',text:'Gwarancja czystości'},{icon:'🌿',text:'Bezpieczne środki premium'},{icon:'💳',text:'Gotówka lub BLIK'},{icon:'🧾',text:'Możliwość faktury'}];}
+function dfServices(){return[{icon:'🛋️',title:'Pranie kanap i narożników',desc:'Głębokie czyszczenie tapicerki metodą ekstrakcyjną. Usuwamy plamy, roztocza, sierść zwierząt i nieprzyjemne zapachy.',price:'od 180 zł',items:['Kanapa 2–3 osobowa: 180–220 zł','Narożnik do 2,5 m: 250–280 zł','Narożnik od 2,6 m: 320–370 zł','Usuwanie plam i zapachów gratis','Schnięcie 2–4 godziny']},{icon:'🛏️',title:'Pranie materacy',desc:'Skuteczne czyszczenie materacy z roztoczy, plam i bakterii. Idealne dla alergików i rodzin z dziećmi.',price:'od 170 zł',items:['Materac 1-os. (1 strona): 170–200 zł','Materac 1-os. (obie strony): 230–260 zł','Materac 2-os. (1 strona): 220–250 zł','Dezynfekcja antyalergiczna']},{icon:'🪑',title:'Pranie krzeseł i foteli',desc:'Profesjonalne czyszczenie krzeseł tapicerowanych i foteli wypoczynkowych.',price:'od 30 zł',items:['Krzesło tapicerowane: 30–40 zł','Fotel wypoczynkowy: 50–70 zł','Fotel biurowy: 50–70 zł']},{icon:'🏡',title:'Pranie dywanów i wykładzin',desc:'Czyszczenie dywanów u klienta lub z odbiorem i dostawą.',price:'od 200 zł',items:['Dywan do 8 m²: 200 zł/szt.','Dywan 9–20 m²: 28 zł/m²','Pranie z odbiorem: 34 zł/m²']},{icon:'🌀',title:'Ozonowanie pomieszczeń',desc:'Dezynfekcja ozonem eliminuje bakterie, wirusy i nieprzyjemne zapachy.',price:'wycena indywidualna',items:['Ozonowanie mieszkań i domów','Usuwanie zapachu dymu/stęchlizny','Dezynfekcja po zwierzętach']},{icon:'🏢',title:'Usługi dla firm',desc:'Pranie wykładzin biurowych, krzeseł konferencyjnych i tapicerki hotelowej.',price:'od 6 zł/m²',items:['Wykładziny biurowe: od 6 zł/m²','Krzesła konferencyjne','Faktura VAT na życzenie']}];}
+function dfGallery(){return[{title:'Narożnik 3-osobowy, Warszawa Mokotów',desc:'Welur z plamami po kawie i winie – przywrócony do stanu idealnego',before:'https://images.unsplash.com/photo-1558618666-fcd25c85cd64?w=600&q=75',after:'https://images.unsplash.com/photo-1555041469-a586c61ea9bc?w=600&q=75'},{title:'Materac 160×200, Brwinów',desc:'Głębokie odplamianie i dezynfekcja – eliminacja roztoczy i alergenów',before:'https://images.unsplash.com/photo-1586023492125-27b2c045efd7?w=600&q=75',after:'https://images.unsplash.com/photo-1631049307264-da0ec9d70304?w=600&q=75'},{title:'Dywan wełniany 3×4m, Pruszków',desc:'Usunięcie sierści psa, plam i nieprzyjemnych zapachów',before:'https://images.unsplash.com/photo-1558997519-83ea9252edc8?w=600&q=75',after:'https://images.unsplash.com/photo-1506439773649-6e0eb8cfb237?w=600&q=75'}];}
+function dfProcess(){return[{n:'1',title:'Ocena tapicerki',desc:'Rozpoznajemy rodzaj tkaniny, badamy stabilność kolorów i dobieramy odpowiednie środki.'},{n:'2',title:'Odkurzanie maszynowe',desc:'Usuwamy suchy brud, kurz, sierść i piasek – to nawet 80% wszystkich zanieczyszczeń.'},{n:'3',title:'Odplamianie',desc:'Enzymatyczne pre-spaye i odplamiacze dobrane do rodzaju plamy i materiału.'},{n:'4',title:'Pranie ekstrakcyjne',desc:'Ciśnieniowe wypłukanie detergentu przez tkaninę – dogłębne usunięcie brudu.'},{n:'5',title:'Kontrola i schnięcie',desc:'Sprawdzamy efekt końcowy. Tapicerka schnie 2–6 godzin bez kapania.'}];}
+function dfPricing(){return[{title:'🛋️ Tapicerka meblowa',note:'🎁 Karta Dużej Rodziny: –10% na wszystkie usługi',rows:[{name:'Kanapa / wersalka 2–3 os.',val:'180–220 zł'},{name:'Narożnik do 2,5 m',val:'250–280 zł'},{name:'Narożnik od 2,6 m',val:'320–370 zł'},{name:'Fotel wypoczynkowy',val:'50–70 zł'},{name:'Krzesło tapicerowane',val:'30–40 zł'},{name:'Poduszka dekoracyjna',val:'5–10 zł/szt.'},{name:'Neutralizacja zapachu',val:'30–50 zł'}]},{title:'🛏️ Materace',note:'💳 Płatność gotówką lub BLIK',rows:[{name:'Materac 1-os., 1 strona',val:'170–200 zł'},{name:'Materac 1-os., obie strony',val:'230–260 zł'},{name:'Materac 2-os., 1 strona',val:'220–250 zł'},{name:'Materac 2-os., obie strony',val:'280–320 zł'},{name:'Rama łóżka z zagłówkiem',val:'140–160 zł'}]},{title:'🏡 Dywany i wykładziny',note:'⏱ Realizacja prania z odbiorem: ~7 dni',rows:[{name:'Dywan u klienta do 8 m²',val:'200 zł/szt.'},{name:'Dywan u klienta 9–20 m²',val:'28 zł/m²'},{name:'Pranie z odbiorem',val:'34 zł/m²'},{name:'Odbiór / zwrot Brwinów',val:'GRATIS'},{name:'Odbiór / zwrot Warszawa',val:'60 zł'},{name:'Wykładziny biurowe',val:'od 6 zł/m²'},{name:'Usuwanie sierści zwierząt',val:'+10 zł/m²'}]}];}
+function dfAreas(){return[{name:'Warszawa',main:true},{name:'Brwinów',main:true},{name:'Pruszków',main:true},{name:'Piastów',main:false},{name:'Milanówek',main:false},{name:'Podkowa Leśna',main:false},{name:'Otrębusy',main:false},{name:'Grodzisk Mazowiecki',main:false},{name:'Ożarów Mazowiecki',main:false},{name:'Płochocin',main:false},{name:'Komorów',main:false},{name:'Błonie',main:false},{name:'Żyrardów',main:false},{name:'Mokotów',main:false},{name:'Ursynów',main:false},{name:'Wilanów',main:false},{name:'Wola',main:false}];}
+function dfReviews(){return[{av:'A',name:'Agnieszka K.',loc:'Warszawa Mokotów',text:'Narożnik wyglądał beznadziejnie po 3 latach z psem i dzieckiem. Pan przyjechał punktualnie i sofa wygląda jak nowa. Plamy z wina i kawy – znikły bez śladu.'},{av:'M',name:'Marcin W.',loc:'Brwinów',text:'Pranie materacy dla całej rodziny – 3 sztuki naraz. Dziecko z alergią śpi o wiele lepiej. Polecam każdemu, kto ma problem z roztoczami.'},{av:'K',name:'Kasia P.',loc:'Otrębusy',text:'Dywan po kocie i psie śmierdział okropnie. Bezpłatny odbiór z Brwinowa – to był hit. Na pewno wrócę.'},{av:'E',name:'Ewa T.',loc:'Pruszków',text:'Kanapa z alcantary – efekt znakomity. Pan sprawdził materiał i zastosował właściwy środek. Pełen profesjonalizm.'},{av:'R',name:'Robert M.',loc:'Warszawa Wola',text:'10 krzeseł konferencyjnych do biura. Ekipa przyjechała rano, skończyła zanim pracownicy przyszli. Idealnie.'},{av:'T',name:'Tomek i Gosia',loc:'Grodzisk Mazowiecki',text:'Materac po zalaniu – myśleliśmy, że do wyrzucenia. Pan przyjechał w 4 godziny, wyprał i zapachu nie ma w ogóle. Oszczędziliśmy 2000 zł.'}];}
+function dfFaq(){return[{q:'Jak długo schnie kanapa po praniu?',a:'Po praniu ekstrakcyjnym tapicerka jest lekko wilgotna i schnie zazwyczaj od 2 do 6 godzin, w zależności od grubości materiału i wentylacji pomieszczenia. Woda nie kapie ani nie ocieka.'},{q:'Czy usuwacie każdą plamę?',a:'Usuwanie plam jest wliczone w cenę każdej usługi. Większość plam usuwa się skutecznie, jednak bardzo stare lub utrwalone zanieczyszczenia mogą się tylko rozjaśnić. Zawsze informujemy o realnych możliwościach.'},{q:'Czy muszę przenosić meble przed przyjazdem?',a:'Nie, przyjeżdżamy z własnym sprzętem i pracujemy na miejscu. Wystarczy zapewnić dostęp do gniazdka elektrycznego i swobodny dostęp do mebla.'},{q:'Czy środki piorące są bezpieczne dla dzieci i alergików?',a:'Tak, używamy wyłącznie atestowanych środków premium – bezpiecznych dla dzieci, zwierząt domowych i osób z alergiami. Po praniu nie pozostają chemiczne opary.'},{q:'Na jakim terenie działacie?',a:'Obsługujemy całą Warszawę (wszystkie dzielnice) oraz Brwinów, Pruszków, Piastów, Milanówek, Podkowa Leśna, Grodzisk Mazowiecki, Ożarów Mazowiecki i inne miejscowości w promieniu 50 km.'},{q:'Jak szybko mogę umówić wizytę?',a:'Zazwyczaj realizujemy zlecenia tego samego lub następnego dnia roboczego. W nagłych przypadkach (zalanie, wymiociny, mocz) interweniujemy jeszcze szybciej. Zadzwoń: 690 000 386.'},{q:'Jak wygląda pranie dywanu z odbiorem?',a:'Odbieramy dywan z Twojego domu, pierzemy go w warunkach warsztatowych i dowozimy z powrotem czysty, suchy i pachnący. Czas realizacji to ok. 7 dni. Odbiór i zwrot z Brwinowa i okolic jest całkowicie bezpłatny.'}];}
+
+/* ════════════════════════════════════════════════
+   IFRAME BRIDGE – inject postMessage listener into preview
+════════════════════════════════════════════════ */
+function injectIframeBridge(){
+  const frame=document.getElementById('pf');
+  frame.addEventListener('load',()=>{
+    try{
+      const script=frame.contentDocument.createElement('script');
+      script.textContent=`
+(function(){
+  var lastEl=null;
+  window.addEventListener('message',function(e){
+    var d=e.data||{};
+    // highlight section
+    if(d.type==='highlight'){
+      if(lastEl){lastEl.style.outline='';lastEl.style.outlineOffset='';}
+      var el=document.querySelector('[data-section="'+d.id+'"]')||document.getElementById(d.id);
+      if(el){el.style.outline='3px solid #4F72FF';el.style.outlineOffset='4px';el.style.transition='outline .3s';lastEl=el;setTimeout(function(){if(lastEl===el){el.style.outline='';el.style.outlineOffset='';}},2500);}
+    }
+    // scroll to section
+    if(d.type==='scrollTo'){
+      var el=document.querySelector('[data-section="'+d.id+'"]')||document.getElementById(d.id);
+      if(el){el.scrollIntoView({behavior:'smooth',block:'start'});}
+    }
+    // hide/show sections
+    if(d.type==='hideSection'){
+      document.querySelectorAll('[data-section]').forEach(function(el){
+        var id=el.dataset.section;
+        el.style.display=d.hidden.indexOf(id)>-1?'none':'';
+      });
+    }
+  });
+})();
+`;
+      frame.contentDocument.head.appendChild(script);
+    }catch(e){/* cross-origin – blob URL should allow this */}
+  });
+}
+
+/* ════════════════════════════════════════════════
+   SEO TAB – build and init form
+════════════════════════════════════════════════ */
+function buildSEOForm(){
+  const el=document.getElementById('seo-frm');
+  if(!el)return;
+  const d=D('seo');
+  el.innerHTML=`
+${fi('seo_tt','Tytuł strony (&lt;title&gt;)',d.title||'MobiWash – Pranie Kanap, Materacy, Dywanów | Warszawa, Brwinów, Pruszków',{req:true,max:65})}
+${ft('seo_ds','Meta description (do 160 znaków)',d.desc||'MobiWash – profesjonalne pranie kanap, narożników, materacy, dywanów i krzeseł w Warszawie, Brwinowie, Pruszkowie i okolicach. Dojazd gratis od 150 zł. Zadzwoń: 690 000 386',3,{req:true,max:160})}
+${ft('seo_kw','Słowa kluczowe (meta keywords)',d.kw||'pranie kanap Warszawa, pranie narożnika Warszawa, czyszczenie tapicerki meblowej Warszawa, pranie materacy Warszawa, pranie dywanów Warszawa, pranie krzeseł Warszawa, pranie kanap Brwinów, pranie kanap Pruszków',4)}
+${fi('seo_tel','Telefon Schema.org LocalBusiness',d.tel||'+48690000386')}
+${fi('seo_url','Canonical URL',d.url||'https://mobiwash.pl/')}
+<button class="btn btn-p fw" onclick="applySEO()" style="margin-top:6px">✓ Zastosuj SEO i odśwież podgląd</button>
+<div style="margin-top:20px;padding-top:16px;border-top:1px solid var(--bd)">
+<div style="font-size:10px;font-weight:700;letter-spacing:.8px;color:var(--tx3);text-transform:uppercase;margin-bottom:10px">Nasycenie frazami lokalnymi SEO</div>
+${seoScores()}
+</div>`;
+  // char counters
+  setTimeout(()=>initCharCounters(),50);
+}
+
+function seoScores(){
+  const kws=[
+    ['pranie kanap Warszawa',95],['pranie narożnika Warszawa',90],['pranie materacy Warszawa',92],
+    ['pranie dywanów Warszawa',88],['czyszczenie tapicerki meblowej',82],['pranie kanap Brwinów',87],
+    ['pranie kanap Pruszków',84],['Google Maps – lokalne SEO',89],['frazy dzielnicowe Warszawa',78],
+  ];
+  return kws.map(([lbl,sc])=>{
+    const col=sc>=90?'var(--gr)':sc>=78?'var(--or)':'var(--rd)';
+    return `<div class="seo-score"><div class="seo-score-lbl">${lbl}</div><div class="seo-track"><div class="seo-fill" style="width:${sc}%;background:${col}"></div></div><div class="seo-pct" style="color:${col}">${sc}%</div></div>`;
+  }).join('');
+}
+
+function applySEO(){
+  if(!A.html){toast('⚠','Poczekaj na załadowanie podglądu strony');return;}
+  const t=g('seo_tt'),d=g('seo_ds'),k=g('seo_kw'),tel=g('seo_tel'),url=g('seo_url');
+  // validate
+  if(!t){toast('⚠','Podaj tytuł strony');return;}
+  if(!d){toast('⚠','Podaj meta description');return;}
+  let html=A.html;
+  if(t) html=html.replace(/<title>[^<]*<\/title>/,`<title>${t}</title>`);
+  if(d) html=html.replace(/(<meta name="description" content=")[^"]*(")/,`$1${d}$2`);
+  if(k) html=html.replace(/(<meta name="keywords" content=")[^"]*(")/,`$1${k}$2`);
+  if(tel) html=html.replace(/"telephone":"[^"]*"/,`"telephone":"${tel}"`);
+  if(url) html=html.replace(/<link rel="canonical" href="[^"]*"/,`<link rel="canonical" href="${url}"`);
+  A.html=html;
+  const s=D('seo');
+  Object.assign(s,{title:t,desc:d,kw:k,tel,url});
+  refreshPreview(); setDirty();
+  toast('✅','SEO meta tagi zaktualizowane i podgląd odświeżony');
+}
+
+/* ════════════════════════════════════════════════
+   SETTINGS FORM
+════════════════════════════════════════════════ */
+function buildSettingsForm(){
+  const el=document.getElementById('sett-frm');
+  if(!el)return;
+  const gh=A.gh;
+  el.innerHTML=`
+<div class="fg"><label class="fl">GitHub Personal Access Token</label><input class="fi" type="password" id="st_tok" value="${esc(gh.token)}" autocomplete="off" placeholder="ghp_xxxxxxxxxxxxxxxx"></div>
+<div class="frow">
+  <div class="fg"><label class="fl">Użytkownik / Org</label><input class="fi" id="st_own" value="${esc(gh.owner)}" placeholder="np. jankowalski"></div>
+  <div class="fg"><label class="fl">Repozytorium</label><input class="fi" id="st_rep" value="${esc(gh.repo)}" placeholder="np. mobiwash-strona"></div>
+</div>
+<div class="fg"><label class="fl">Branch</label><input class="fi" id="st_br" value="${esc(gh.branch||'main')}"></div>
+<div id="st-msg"></div>
+<button class="btn btn-p fw" style="margin-top:10px" onclick="connectFromSettings()">🔗 Zapisz i połącz z GitHub</button>
+${A.ok?`<div class="alert al-g" style="margin-top:10px">✅ Połączono z <strong>${esc(gh.owner)}/${esc(gh.repo)}</strong></div>`:''}
+<div style="margin-top:22px;padding-top:16px;border-top:1px solid var(--bd)">
+  <div style="font-size:10px;font-weight:700;letter-spacing:.8px;color:var(--tx3);text-transform:uppercase;margin-bottom:12px">📋 Instrukcja – GitHub Pages</div>
+  <div style="font-size:12.5px;color:var(--tx2);line-height:2.1">
+    <div><b style="color:var(--tx)">1.</b> Utwórz repozytorium na GitHub (publiczne lub prywatne)</div>
+    <div><b style="color:var(--tx)">2.</b> Wgraj <code>index.html</code> i <code>admin.html</code> do katalogu głównego</div>
+    <div><b style="color:var(--tx)">3.</b> Settings → Pages → Source: <code>main</code> → <code>/ (root)</code> → Save</div>
+    <div><b style="color:var(--tx)">4.</b> Strona: <code>https://[user].github.io/[repo]/</code></div>
+    <div><b style="color:var(--tx)">5.</b> Panel: <code>https://[user].github.io/[repo]/admin.html</code></div>
+  </div>
+  <div class="alert al-y" style="margin-top:10px">⚠ Token PAT przechowuj bezpiecznie – <strong>nigdy nie commituj</strong> go do repo!</div>
+</div>`;
+}
+
+async function connectFromSettings(){
+  const msgEl=document.getElementById('st-msg');
+  await connectGH(g('st_tok'),g('st_own'),g('st_rep'),g('st_br')||'main',msgEl);
+  buildSettingsForm(); // odśwież cały formularz z nowymi danymi
+}
+
+/* ════════════════════════════════════════════════
+   CHAR COUNTERS (global)
+════════════════════════════════════════════════ */
+function initCharCounters(){
+  document.querySelectorAll('[data-max]').forEach(el=>{
+    const max=parseInt(el.dataset.max);
+    const cnt=document.getElementById(el.id+'_cnt');
+    if(!cnt)return;
+    const upd=()=>{
+      const l=el.value.length;
+      cnt.textContent=`${l}/${max}`;
+      cnt.className='char-count'+(l>max?' over':l>max*.85?' warn':'');
+    };
+    el.removeEventListener('input',el._upd||upd);
+    el._upd=upd;
+    el.addEventListener('input',upd);
+    upd();
+  });
+}
+
+/* ════════════════════════════════════════════════
+   EVENTS & UTILS
+════════════════════════════════════════════════ */
+function initEvents(){
+  // Editor panel buttons
+  document.getElementById('btn-apply').onclick=applySection;
+  document.getElementById('btn-cls').onclick=closeSection;
+  document.getElementById('btn-rst').onclick=()=>{
+    if(confirm('Przywrócić domyślne wartości tej sekcji?\nWprowadzone zmiany zostaną utracone.'))
+      {delete A.data[A.sec]; openSection(A.sec);}
+  };
+  // Topbar buttons
+  document.getElementById('btn-save').onclick=openSaveModal;
+  document.getElementById('btn-prev').onclick=()=>{
+    const blob=new Blob([A.html],{type:'text/html'});
+    const url=URL.createObjectURL(blob);
+    window.open(url,'_blank');
+    setTimeout(()=>URL.revokeObjectURL(url),10000);
+  };
+  document.getElementById('btn-reload').onclick=()=>{refreshPreview();toast('🔄','Podgląd odświeżony');};
+  // GitHub modal
+  document.getElementById('btn-gh-conn').onclick=async()=>{
+    await connectGH(g('gh-tok'),g('gh-own'),g('gh-rep'),g('gh-br')||'main',document.getElementById('gh-msg'));
+    buildSettingsForm();
+  };
+  document.getElementById('btn-gh-skip').onclick=()=>{
+    closeModal('ov-gh');
+    toast('ℹ','Tryb offline – zmiany nie są zapisywane do GitHub. Skonfiguruj połączenie w zakładce Ustawienia.',6000);
+  };
+  // Save modal
+  document.getElementById('btn-sv-ok').onclick=saveToGitHub;
+  document.getElementById('btn-sv-cl').onclick=()=>closeModal('ov-save');
+  // History
+  document.getElementById('btn-hist-ref').onclick=()=>{
+    if(A.ok) loadHistory();
+    else toast('⚠','Połącz się z GitHub w zakładce Ustawienia');
+  };
+  // Tab change – rebuild forms with fresh data
+  document.querySelectorAll('[data-tab]').forEach(btn=>{
+    btn.addEventListener('click',()=>{
+      const tab=btn.dataset.tab;
+      if(tab==='seo') setTimeout(buildSEOForm,50);
+      if(tab==='settings') setTimeout(buildSettingsForm,50);
+      if(tab==='history'&&A.ok) setTimeout(loadHistory,100);
+    });
+  });
+  // Keyboard shortcuts
+  document.addEventListener('keydown',e=>{
+    if((e.ctrlKey||e.metaKey)&&e.key==='s'){
+      e.preventDefault();
+      if(!A.html){toast('⚠','Brak załadowanej strony');return;}
+      if(!A.ok){toast('⚠','Połącz się z GitHub w zakładce Ustawienia');return;}
+      openSaveModal();
+    }
+    if(e.key==='Escape') document.querySelectorAll('.ov.on').forEach(o=>o.classList.remove('on'));
+  });
+  // Warn before close with unsaved changes
+  window.addEventListener('beforeunload',e=>{
+    if(A.dirty){e.preventDefault();e.returnValue='';}
+  });
+  // Close modals on backdrop click
+  document.querySelectorAll('.ov').forEach(ov=>{
+    ov.addEventListener('click',e=>{if(e.target===ov)ov.classList.remove('on');});
+  });
+  // Iframe bridge for highlight/scroll
+  injectIframeBridge();
+}
+
+function openSaveModal(){
+  if(!A.html){toast('⚠','Brak załadowanej strony – odśwież panel');return;}
+  if(!A.ok){toast('⚠','Połącz się z GitHub w zakładce Ustawienia');return;}
+  document.getElementById('sv-prog').style.display='none';
+  document.getElementById('sv-alert').innerHTML='';
+  document.getElementById('sv-act').style.display='flex';
+  document.getElementById('sv-done').style.display='none';
+  document.getElementById('sv-ttl').textContent='💾 Zapisz zmiany do GitHub';
+  document.getElementById('sv-msg-inp').value=`Aktualizacja strony MobiWash – ${new Date().toLocaleString('pl-PL')}`;
+  openModal('ov-save');
+}
+
+function openModal(id){document.getElementById(id).classList.add('on');}
+function closeModal(id){document.getElementById(id).classList.remove('on');}
+function setDirty(){A.dirty=true;document.getElementById('ubadge').classList.add('on');}
+function setLdr(txt){const el=document.getElementById('ldr-txt');if(el)el.textContent=txt;}
+function sleep(ms){return new Promise(r=>setTimeout(r,ms));}
+function toast(ico,txt,ms=4500){
+  const n=document.getElementById('toast');
+  document.getElementById('toast-ico').textContent=ico;
+  document.getElementById('toast-txt').textContent=txt;
+  n.classList.add('on');clearTimeout(n._t);
+  n._t=setTimeout(()=>n.classList.remove('on'),ms);
+}
+</script>
 </body>
 </html>
